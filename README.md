@@ -1,1 +1,1 @@
-# Gaminatorium
+# Gaminatorium project
