@@ -7,10 +7,6 @@ plugins {
 group = 'eu.gaminatorium'
 version = '0.0.1-SNAPSHOT'
 
-java {
-	sourceCompatibility = '21'
-}
-
 repositories {
 	mavenCentral()
 }

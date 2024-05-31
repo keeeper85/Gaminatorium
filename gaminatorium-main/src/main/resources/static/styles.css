@@ -1,0 +1,131 @@
+body {
+    background-color: black;
+    background-size: 100vw 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+#login {
+    position: absolute;
+    top: 10px;
+    right: 100px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+}
+
+#about {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+}
+
+#game-info-rate  {
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+}
+
+#game-info-play {
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+}
+
+#logo {
+    background-image: url("background.png");
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    height: 400px;
+}
+
+table {
+    border: 1px solid black;
+    width: 100%;
+}
+
+td {
+    border: 1px solid black;
+    width: 80%;
+}
+
+#games {
+    border: 1px solid black;
+    /*width: 100%;*/
+}
+
+.game {
+    height: auto;
+    height: 300px;
+    width: 300px;
+    margin: 20px;
+    display: inline-block;
+    filter: grayscale(100%);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+    transition: all 0.2s ease-out;
+}
+
+.game:hover {
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
+    filter: none;
+    opacity: 80%;
+}
+
+.container {
+    /*display:grid;*/
+    float: right;
+    margin-bottom: 50px;
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#favorites {
+    align-content: center;
+    width: 45%;
+    float:left;
+}
+
+.recent {
+    /*position: absolute;*/
+    width: 45%;
+    /*float: center;*/
+    top: 10px;
+    right: 10px;
+    margin: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+}
+
+#bottompanel {
+    width: 100%;
+    float:inline-end;
+}
+
+#bottompanel {
+    
+}
