@@ -1,0 +1,26 @@
+server:
+  port: 9000
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: loadBalancerTest
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/lb/**
+        - id: urlTest
+          uri: http://localhost:8080
+          predicates:
+            - Path=/url/**
+        - id: bingTest
+          uri: http://bing.com:80
+          predicates:
+            - Path=/bing/**
