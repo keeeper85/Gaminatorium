@@ -1,6 +1,14 @@
 plugins {
     id 'java'
-    id 'io.spring.dependency-management' version '1.1.0' apply false
+    id 'java-library'
+    id 'org.springframework.boot' version '3.2.6'
+    id 'io.spring.dependency-management' version '1.1.5'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 allprojects {
@@ -13,11 +21,13 @@ allprojects {
 }
 
 subprojects {
+
+    ext {
+        set('springCloudVersion', "2023.0.1")
+    }
+
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
-
-//    sourceCompatibility = '21'
-//    targetCompatibility = '21'
 
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
@@ -27,7 +37,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom 'org.springframework.boot:spring-boot-dependencies:3.2.6'
-            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2021.0.4'
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}'
         }
     }
 

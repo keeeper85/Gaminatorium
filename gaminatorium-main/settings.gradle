@@ -1,2 +1,2 @@
-rootProject.name = 'base'
+rootProject.name = 'MAIN-SERVICE'
 include 'domain', 'application', 'adapter', 'monolith'
