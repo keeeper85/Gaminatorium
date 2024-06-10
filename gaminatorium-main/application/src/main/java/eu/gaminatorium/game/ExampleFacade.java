@@ -5,6 +5,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
+/**
+ * Moduł /application powinien zawierać logikę programu, czyli metody przetrwarzające dane z bazy i od użytkowanika.
+ * Fasada (Facade) to wzorzec projektowy, który ukrywa logikę programu - może łączyć kilka metod z kilku różnych serwisów
+ * w jeden.
+ */
+
 @Service
 public class ExampleFacade {
 

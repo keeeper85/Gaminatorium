@@ -3,6 +3,11 @@ package eu.gaminatorium.game.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Dto to obiekt transferowy który pobiera tylko te pola encji które są niezbędne do wykonania żądania.
+ * Dobrym sposobem na implementację Dto jest użycie wzorca Budowniczy - Builder, który redukuje ilość potrzebnych konstruktorów.
+ */
+
 public class ExampleDto {
 
     static public Builder builder() {

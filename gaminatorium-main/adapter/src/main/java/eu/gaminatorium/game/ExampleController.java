@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+/**
+ * Klasyczny kontroler REST, starajmy się tworzyć krótkie metody z logiką zawartą w serwisach.
+ * Dla łapania wyjątków można stworzyć pakiet /exceptions
+ * Dla filtracji requestów można stworzyć pakiet /fiters
+ */
+
 @RestController
 @RequestMapping("/example")
 class ExampleController {

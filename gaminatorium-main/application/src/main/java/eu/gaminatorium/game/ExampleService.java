@@ -1,9 +1,13 @@
 package eu.gaminatorium.game;
 
-import eu.gaminatorium.game.dto.ExampleDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+
+/**
+ * Serwisy zawierają logikę programu, są pośrednikami pomiędzy encją i kontrolerem. Kontroler powinien odwoływać się do
+ * metod w serwisach zamiast samemu brać się za logikę.
+ */
 
 @Service
 class ExampleService {

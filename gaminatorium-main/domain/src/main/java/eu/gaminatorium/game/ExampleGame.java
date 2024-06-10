@@ -7,6 +7,10 @@ import org.springframework.data.annotation.PersistenceConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Standardowa encja, tu nie trzeba wiele kombinować, nadajemy żądane pola i ustawiamy walidacje.
+ */
+
 @Entity
 class ExampleGame {
     @Id

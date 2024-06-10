@@ -5,6 +5,11 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+/**
+ * Warmup to klasa inicjalizująca która wykonuje zadane polecenia podczas startu aplikacji.
+ * Jest to dobre miejsce na umieszczenie testowych/mockowych rekordów w bazie.
+ */
+
 @Component
 class ExampleWarmup implements ApplicationListener<ContextRefreshedEvent> {
 

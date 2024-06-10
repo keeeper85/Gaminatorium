@@ -9,6 +9,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ *Wszystkie klasy Springowe, które oddziaływują na całą aplikację (tak jak poniższy kontroler błędów)
+ *i trudno je zakwalifikować do jednego z podpakiektów domenowych: game, user, security, service_communication
+ * można wrzucać to tego pakietu.
+ */
+
 @Controller
 class CustomErrorController implements ErrorController {
 
