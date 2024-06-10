@@ -1,6 +1,6 @@
 FROM eclipse-temurin:21
 
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE=monolith/build/libs/*.jar
 
 COPY ${JAR_FILE} app.jar
 

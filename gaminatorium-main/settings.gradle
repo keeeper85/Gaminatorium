@@ -1,2 +1,6 @@
-rootProject.name = 'MAIN-SERVICE'
-include 'domain', 'application', 'adapter', 'monolith'
+rootProject.name = 'main-service'
+
+include 'monolith'
+include 'domain'
+include 'application'
+include 'adapter'
