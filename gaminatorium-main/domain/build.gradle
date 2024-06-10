@@ -4,19 +4,12 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.5'
 }
 
-ext {
-    set('springCloudVersion', "2023.0.1")
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    runtimeOnly 'com.h2database:h2'
-//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
+
+bootJar {
+    enabled = false
 }
