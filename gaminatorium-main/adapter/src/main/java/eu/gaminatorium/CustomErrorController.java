@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Controller
-public class CustomErrorController implements ErrorController {
+class CustomErrorController implements ErrorController {
 
     @RequestMapping("/error")
     @ResponseBody
@@ -19,6 +19,6 @@ public class CustomErrorController implements ErrorController {
         if (statusCode == null) {
             return new ResponseEntity<>("Unknown error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("Error with status code: " + statusCode, HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>("Example error controller. Error: " + statusCode, HttpStatus.valueOf(statusCode));
     }
 }

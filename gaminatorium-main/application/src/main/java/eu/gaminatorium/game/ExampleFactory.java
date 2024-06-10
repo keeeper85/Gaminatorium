@@ -4,7 +4,7 @@ import eu.gaminatorium.game.dto.ExampleDto;
 
 class ExampleFactory {
 
-    ExampleGame from(ExampleDto source){
+    static ExampleGame from(ExampleDto source){
         var result = new ExampleGame();
         result.setId(source.getId());
         result.setTitle(source.getTitle());

@@ -1,17 +1,22 @@
 package eu.gaminatorium.game.dto;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class ExampleDto {
 
-    private Long id;
-    private String title;
-    private LocalDate publishDate;
+    static public Builder builder() {
+        return new Builder();
+    }
 
-    public ExampleDto(Builder builder) {
-        id = builder.id;
-        title = builder.title;
-        publishDate = builder.publishDate;
+    private final Long id;
+    private final String title;
+    private final LocalDate publishDate;
+
+    public ExampleDto(Long id, String title, LocalDate publishDate) {
+        this.id = id;
+        this.title = title;
+        this.publishDate = publishDate;
     }
 
     public Long getId() {
@@ -31,10 +36,6 @@ public class ExampleDto {
         private String title;
         private LocalDate publishDate;
 
-        public ExampleDto build() {
-            return new ExampleDto(this);
-        }
-
         public Builder withId(Long id) {
             this.id = id;
             return this;
@@ -49,5 +50,22 @@ public class ExampleDto {
             this.publishDate = publishDate;
             return this;
         }
+
+        public ExampleDto build() {
+            return new ExampleDto(id, title, publishDate);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ExampleDto)) return false;
+        ExampleDto that = (ExampleDto) o;
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(publishDate, that.publishDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, publishDate);
     }
 }

@@ -9,12 +9,12 @@ import java.time.LocalDate;
 class ExampleService {
 
     ExampleGame changeTitle(ExampleGame game) {
-        game.setTitle("Very new title");
+        game.setTitle("Altered Game #" + game.getId());
         return game;
     }
 
     ExampleGame changePublishDate(ExampleGame game) {
-        game.setPublishDate(LocalDate.of(2023,11,27));
+        game.setPublishDate(LocalDate.of(2023,11, 27));
         return game;
     }
 }
