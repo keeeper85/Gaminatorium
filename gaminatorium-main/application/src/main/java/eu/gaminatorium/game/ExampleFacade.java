@@ -44,9 +44,9 @@ public class ExampleFacade {
 
     private ExampleDto toDto(ExampleGame game){
         return ExampleDto.builder()
-                .withId(game.getId())
-                .withTitle(game.getTitle())
-                .withPublishDate(game.getPublishDate())
+                .id(game.getId())
+                .title(game.getTitle())
+                .publishDate(game.getPublishDate())
                 .build();
     }
 

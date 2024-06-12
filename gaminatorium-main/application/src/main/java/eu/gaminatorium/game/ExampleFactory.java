@@ -10,9 +10,9 @@ class ExampleFactory {
 
     static ExampleGame from(ExampleDto source){
         var result = new ExampleGame();
-        result.setId(source.getId());
-        result.setTitle(source.getTitle());
-        result.setPublishDate(source.getPublishDate());
+        result.setId(source.id());
+        result.setTitle(source.title());
+        result.setPublishDate(source.publishDate());
         return result;
     }
 

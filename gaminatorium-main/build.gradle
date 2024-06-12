@@ -28,9 +28,6 @@ subprojects {
         }
     }
 
-//    sourceCompatibility = '21'
-//    targetCompatibility = '21'
-
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -48,14 +45,4 @@ subprojects {
         enabled = false
     }
 
-//    dependencyManagement {
-//        imports {
-//            mavenBom 'org.springframework.boot:spring-boot-dependencies:3.2.6'
-//            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}'
-//        }
-//    }
-//
-//    test {
-//        useJUnitPlatform()
-//    }
 }

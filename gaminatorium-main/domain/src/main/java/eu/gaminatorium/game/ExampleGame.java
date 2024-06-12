@@ -3,6 +3,8 @@ package eu.gaminatorium.game;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 import java.time.LocalDate;
@@ -12,6 +14,8 @@ import java.time.LocalDate;
  */
 
 @Entity
+@Getter
+@Setter
 class ExampleGame {
     @Id
     @GeneratedValue
@@ -25,29 +29,5 @@ class ExampleGame {
     public ExampleGame() {
         title = "Example Title";
         publishDate = LocalDate.now();
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public LocalDate getPublishDate() {
-        return publishDate;
-    }
-
-    public void setPublishDate(LocalDate publishDate) {
-        this.publishDate = publishDate;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }
