@@ -3,12 +3,6 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.5'
 }
 
-//java {
-//    toolchain {
-//        languageVersion = JavaLanguageVersion.of(21)
-//    }
-//}
-
 allprojects {
     group = 'eu.gaminatorium'
     version = '0.0.1-SNAPSHOT'
@@ -28,17 +22,26 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
 //    sourceCompatibility = '21'
 //    targetCompatibility = '21'
 
     dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+        implementation 'org.liquibase:liquibase-core'
+        compileOnly 'org.projectlombok:lombok'
         runtimeOnly 'com.h2database:h2'
-        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-//        implementation 'org.springframework.boot:spring-boot-starter'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        annotationProcessor 'org.projectlombok:lombok'
     }
 
     bootJar {

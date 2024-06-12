@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,9 +37,14 @@ class ExampleController {
         return "To jest test";
     }
 
-    @GetMapping("/get")
+    @GetMapping("/getfirst")
     public ResponseEntity<ExampleGame> getExampleGame(){
         return ResponseEntity.of(Optional.of(exampleRepository.findById(1l).get()));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<ExampleGame>> getAllGames(){
+        return ResponseEntity.ok(exampleRepository.getAllBy());
     }
 
     @GetMapping("/alter/{id}")
@@ -46,11 +52,11 @@ class ExampleController {
         return ResponseEntity.ok(exampleFacade.alter(id));
     }
 
-    @GetMapping("/new")
-    public String create(){
-        exampleFacade.create();
-        return "New example game";
-    }
+//    @GetMapping("/new")
+//    public String create(){
+//        exampleFacade.create();
+//        return "New example game";
+//    }
 
     @GetMapping("/encode/{text}")
     public String encode(@PathVariable String text){
