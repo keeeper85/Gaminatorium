@@ -1,0 +1,32 @@
+name: keeeper85
+
+services:
+  eureka:
+#    build: ./eureka-discovery
+    image: keeeper85/eureka
+    ports:
+      - '8761:8761'
+    networks:
+      - backend
+  gaminatorium:
+#    build: ./gaminatorium-main
+    image: keeeper85/gaminatorium
+    ports:
+      - '8080:8080'
+      - '[::]:80:8080'
+    networks:
+      - backend
+    depends_on:
+      - eureka
+  gateway:
+#    build: ./gateway-balancer
+    image: keeeper85/gateway
+    ports:
+      - '9000:9000'
+    networks:
+      - backend
+    depends_on:
+      - gaminatorium
+      - eureka
+networks:
+  backend:

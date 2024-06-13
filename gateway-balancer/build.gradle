@@ -33,3 +33,11 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	enabled = true
+}
+
+tasks.jar {
+	enabled = false
+}

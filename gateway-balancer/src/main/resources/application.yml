@@ -4,7 +4,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka:8761/eureka/
 
 spring:
   application:
@@ -17,7 +17,7 @@ spring:
           predicates:
             - Path=/lb/**
         - id: urlTest
-          uri: http://localhost:8080
+          uri: http://MAIN-SERVICE:8080
           predicates:
             - Path=/url/**
         - id: bingTest
