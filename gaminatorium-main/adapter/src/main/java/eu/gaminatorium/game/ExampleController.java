@@ -2,6 +2,7 @@ package eu.gaminatorium.game;
 
 
 import eu.gaminatorium.game.dto.ExampleDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,17 +20,16 @@ import java.util.Optional;
  */
 
 @RestController
+@Tag(name = "Test Controller", description = "A few random methods for testing")
 @RequestMapping("/example")
 class ExampleController {
 
     private final ExampleFacade exampleFacade;
     private final ExampleRepository exampleRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public ExampleController(ExampleFacade exampleFacade, ExampleRepository exampleRepository, PasswordEncoder passwordEncoder) {
+    public ExampleController(ExampleFacade exampleFacade, ExampleRepository exampleRepository) {
         this.exampleFacade = exampleFacade;
         this.exampleRepository = exampleRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/test")
@@ -52,15 +52,5 @@ class ExampleController {
         return ResponseEntity.ok(exampleFacade.alter(id));
     }
 
-//    @GetMapping("/new")
-//    public String create(){
-//        exampleFacade.create();
-//        return "New example game";
-//    }
-
-    @GetMapping("/encode/{text}")
-    public String encode(@PathVariable String text){
-        return passwordEncoder.encode(text);
-    }
 
 }

@@ -14,11 +14,9 @@ import org.springframework.stereotype.Component;
 class ExampleWarmup implements ApplicationListener<ContextRefreshedEvent> {
 
     private final ExampleRepository exampleRepository;
-    private final ExampleConfiguration exampleConfiguration;
 
-    public ExampleWarmup(ExampleRepository exampleRepository, ExampleConfiguration exampleConfiguration) {
+    public ExampleWarmup(ExampleRepository exampleRepository) {
         this.exampleRepository = exampleRepository;
-        this.exampleConfiguration = exampleConfiguration;
     }
 
     @Override
@@ -29,6 +27,5 @@ class ExampleWarmup implements ApplicationListener<ContextRefreshedEvent> {
             exampleGame.setTitle("Game #" + i);
             exampleRepository.save(exampleGame);
         }
-        exampleConfiguration.print();
     }
 }

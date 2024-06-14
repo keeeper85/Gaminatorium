@@ -1,2 +1,4 @@
-package eu.gaminatorium.game;public class Game {
+package eu.gaminatorium.game;
+
+public class Game {
 }
