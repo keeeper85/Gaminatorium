@@ -1,5 +1,6 @@
 package eu.gaminatorium.game;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Optional;
  * Pamiętaj, że tu muszą być DOKŁADNIE TE SAME METODY CO W REPOZYTORIUM DOMENOWYM!
  */
 
-interface SqlExampleRepository extends ExampleRepository, Repository<ExampleGame, Integer> {
+interface SqlExampleRepository extends ExampleRepository, JpaRepository<ExampleGame, Integer> {
 
     Optional<ExampleGame> findById(Long id);
     ExampleGame save(ExampleGame game);
