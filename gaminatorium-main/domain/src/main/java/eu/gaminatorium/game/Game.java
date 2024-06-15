@@ -53,7 +53,8 @@ import java.util.Set;
     @Getter
     @Setter
     @NoArgsConstructor
-    public class Rating {
+    @AllArgsConstructor
+    public static class Rating {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
