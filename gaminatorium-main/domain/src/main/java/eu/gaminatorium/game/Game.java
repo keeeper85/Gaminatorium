@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -39,21 +37,30 @@ import java.util.Set;
     private LocalDate releaseDate;
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private Set<Rating> ratings;
+    private Set<Rating> ratings = new HashSet<>();
+
+    void addRating(String comment, int score, LocalDate postingDate){
+        Rating rating = new Rating();
+        rating.setComment(comment);
+        rating.setScore(score);
+        rating.setPostingDate(postingDate);
+        rating.setGame(this);
+        ratings.add(rating);
+    }
 
     @Entity
+    @Table(name = "game_rating")
     @Getter
     @Setter
     @NoArgsConstructor
-    @AllArgsConstructor
-    class Rating {
+    public class Rating {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-        @DecimalMin(value = "0.0", inclusive = true, message = "The score must be at least 0.0")
-        @DecimalMax(value = "10.0", inclusive = true, message = "The score must be at most 10.0")
-        private double score;
+        @Min(value = 1, message = "The score must be at least 1")
+        @Max(value = 10, message = "The score must be at most 10")
+        private int score;
         @NotBlank(message = "Comment cannot be blank")
         private String comment;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
