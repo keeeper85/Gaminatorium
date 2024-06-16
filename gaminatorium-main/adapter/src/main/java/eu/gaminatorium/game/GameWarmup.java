@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 @AllArgsConstructor
-public class GameWarmup implements ApplicationListener<ContextRefreshedEvent> {
+class GameWarmup implements ApplicationListener<ContextRefreshedEvent> {
 
     private final GameRepository gameRepository;
 
@@ -26,7 +26,7 @@ public class GameWarmup implements ApplicationListener<ContextRefreshedEvent> {
         makao.setTitle("Makao");
         makao.setDescription("A fun multiplayer card game.");
         makao.setLink("https://www.gaminatorium.eu/games/makao.png");
-        makao.setType(Game.Type.MULTI);
+        makao.setMaxPlayers(4);
         makao.setReleaseDate(LocalDate.of(2024, 6, 1));
         addRatings(makao);
 
@@ -36,7 +36,7 @@ public class GameWarmup implements ApplicationListener<ContextRefreshedEvent> {
         mahjong.setTitle("Mahjong");
         mahjong.setDescription("An addictve solo puzzle game.");
         mahjong.setLink("https://www.gaminatorium.eu/games/mahjong.png");
-        mahjong.setType(Game.Type.SOLO);
+        mahjong.setMaxPlayers(1);
         mahjong.setReleaseDate(LocalDate.of(2024, 5, 31));
         addRatings(mahjong);
 
@@ -46,7 +46,7 @@ public class GameWarmup implements ApplicationListener<ContextRefreshedEvent> {
         tictactoe.setTitle("Tictactoe");
         tictactoe.setDescription("Play this classic game with a friend or against a computer.");
         tictactoe.setLink("https://www.gaminatorium.eu/games/tictactoe.png");
-        tictactoe.setType(Game.Type.MULTI_SOLO);
+        tictactoe.setMaxPlayers(2);
         tictactoe.setReleaseDate(LocalDate.of(2024, 6, 15));
         addRatings(tictactoe);
 

@@ -1,81 +1,54 @@
 package eu.gaminatorium.game;
 
-import eu.gaminatorium.game.dto.RatingDto;
+import eu.gaminatorium.game.dto.GameDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Tag(name = "Game Controller", description = "CRUD operations on Games")
 @RequestMapping("/v1/game")
 @AllArgsConstructor
-public class GameController {
+class GameController {
 
-    private final GameRepository gameRepository;
-    private final GameFacade gameFacade;
+    private final Facade facade;
 
     @GetMapping("/count")
     ResponseEntity<Integer> gamesTotalCount(){
-        return ResponseEntity.ok(gameRepository.countAllBy());
+        return ResponseEntity.ok(facade.countAllGames());
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<Game>> getAllGames(){
-        return ResponseEntity.ok(gameRepository.findAllBy());
+    ResponseEntity<List<GameDto>> getAllGames(Pageable pageable){
+        return ResponseEntity.ok(facade.getAllGamesPaged(pageable));
     }
 
-    @GetMapping("/{id}")
-    ResponseEntity<Game> getGame(@PathVariable long id){
-        return ResponseEntity.ok(gameRepository.findById(id));
+    @GetMapping("/{gameid}")
+    ResponseEntity<Optional<GameDto>> getGame(@PathVariable long gameid){
+        return ResponseEntity.ok(facade.getGameById(gameid));
     }
 
-    @PostMapping("/new")
-    ResponseEntity<Game> createGame(Game game){
-        return ResponseEntity.ok(gameRepository.save(game));
+    @PostMapping("/add")
+    ResponseEntity<Optional<GameDto>> createGame(GameDto gameDto){
+        return ResponseEntity.ok(facade.addNewGame(gameDto));
     }
 
-    @PatchMapping("/update/{id}")
-    Game updateGame(@PathVariable int id){
-        return null;
-        //todo
+    @PatchMapping("/update/{gameid}")
+    ResponseEntity<Optional<GameDto>> updateGame(@PathVariable long gameid){
+        return ResponseEntity.ok(facade.updateGame(gameid));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{gameid}")
     @Transactional
-    ResponseEntity<Void> deleteGame(@PathVariable int id){
-        if (gameRepository.existsById(id)) {
-            gameRepository.deleteById(id);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    ResponseEntity<Void> deleteGame(@PathVariable long gameid){
+        facade.deleteGame(gameid);
+        return ResponseEntity.ok().build();
     }
-
-    @GetMapping("/{id}/score")
-    Double getGameScore(@PathVariable int id){
-        return 0.0;
-        //todo
-    }
-
-    @GetMapping("/{id}/ratings")
-    ResponseEntity<List<RatingDto>> getAllRatings(@PathVariable int id){
-        return ResponseEntity.notFound().build();
-        //todo
-    }
-
-    @PostMapping("/{id}/ratings")
-    ResponseEntity<RatingDto> addRating(@PathVariable int id, @RequestBody RatingDto ratingDto){
-        return ResponseEntity.notFound().build();
-        //todo
-    }
-
-
-
-
-
 
 }

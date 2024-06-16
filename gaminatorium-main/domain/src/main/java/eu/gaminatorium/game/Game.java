@@ -12,6 +12,8 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,8 +22,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity public class Game {
-
-    public enum Type {SOLO, MULTI, MULTI_SOLO}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +32,15 @@ import java.util.Set;
     private String description;
     @URL(message = "Invalid URL format")
     private String link;
-    private Type type;
+    private int maxPlayers;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate releaseDate;
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<Rating> ratings = new HashSet<>();
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Active> activeGames = new HashSet<>();
 
     void addRating(String comment, int score, LocalDate postingDate){
         Rating rating = new Rating();
@@ -66,6 +69,27 @@ import java.util.Set;
         private String comment;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
         private LocalDate postingDate;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "game_id")
+        @JsonBackReference
+        private Game game;
+    }
+
+    @Entity
+    @Table(name = "game_active")
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Active {
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        @Min(value = 0, message = "Number of current players can not be negative.")
+        private int currentPlayers;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
+        private LocalDateTime startedAt = LocalDateTime.now();
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "game_id")
         @JsonBackReference

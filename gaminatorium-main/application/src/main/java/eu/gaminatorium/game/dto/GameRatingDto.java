@@ -5,5 +5,6 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 
-@Builder public record RatingDto(String comment, int score, LocalDate postDate, Game game) {
+@Builder
+public record GameRatingDto(String comment, int score, LocalDate postDate, Game game) {
 }
