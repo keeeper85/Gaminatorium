@@ -1,6 +1,7 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.ActiveGameDto;
+import eu.gaminatorium.game.dto.GameDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,12 @@ class ActiveGameController {
     ResponseEntity<List<ActiveGameDto>> getAllActiveGamesForThisGame(@PathVariable long gameid, Pageable pageable){
         return ResponseEntity.notFound().build();
         //todo
+    }
+
+    @GetMapping("/find/{title}")
+    @Operation(description = "You will get pageable object with ALL pending games which title matches the given string.")
+    ResponseEntity<List<GameDto>> findByTitle(Pageable pageable){
+        return ResponseEntity.ok(facade.getMatchingActiveGamesPaged(pageable));
     }
 
     @GetMapping("/start/{gameid}")

@@ -14,6 +14,8 @@ public interface GameRepository {
     Game.Active findActiveByTitle(String title);
     Game.Active save(Game.Active active);
     Game.Rating save(Game.Rating rating);
+    Game findByTitle(String title, Pageable pageable);
+    Page<Game.Active> findActiveByTitle(String title, Pageable pageable);
     void deleteById(long id);
     int countAllBy();
     boolean existsById(long id);

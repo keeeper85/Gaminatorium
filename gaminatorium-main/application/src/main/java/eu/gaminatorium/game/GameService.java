@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class GameService {
+class GameService {
 
     private final GameRepository gameRepository;
 
@@ -51,6 +51,9 @@ public class GameService {
         return Optional.empty();
     }
 
+    public List<GameDto> getMatchingGamesPaged(Pageable pageable) {
+        return null;
+    }
 
     private static GameDto toDto(Game game) {
         GameDto gameDto = GameDto.builder()

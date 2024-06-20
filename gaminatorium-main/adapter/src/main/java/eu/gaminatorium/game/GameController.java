@@ -29,6 +29,12 @@ class GameController {
         return ResponseEntity.ok(facade.getAllGamesPaged(pageable));
     }
 
+    @GetMapping("/find/{title}")
+    ResponseEntity<List<GameDto>> findByTitle(Pageable pageable){
+        return ResponseEntity.ok(facade.getMatchingGamesPaged(pageable));
+    }
+
+
     @GetMapping("/{gameid}")
     ResponseEntity<Optional<GameDto>> getGame(@PathVariable long gameid){
         return ResponseEntity.ok(facade.getGameById(gameid));

@@ -1,5 +1,6 @@
 package eu.gaminatorium.game;
 
+import eu.gaminatorium.game.dto.ActiveGameDto;
 import eu.gaminatorium.game.dto.GameDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -38,5 +39,13 @@ public class Facade {
 
     Optional<Void> deleteGame(long id){
         return gameService.deleteGame(id);
+    }
+
+    public List<GameDto> getMatchingGamesPaged(Pageable pageable) {
+        return gameService.getMatchingGamesPaged(pageable);
+    }
+
+    public List<ActiveGameDto> getMatchingActiveGamesPaged(String title, Pageable pageable) {
+        return activeGameService.getMatchingActiveGamesPaged(title, pageable);
     }
 }
