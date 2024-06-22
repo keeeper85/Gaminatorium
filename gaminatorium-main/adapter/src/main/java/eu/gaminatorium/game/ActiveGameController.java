@@ -38,8 +38,8 @@ class ActiveGameController {
 
     @GetMapping("/find/{title}")
     @Operation(description = "You will get pageable object with ALL pending games which title matches the given string.")
-    ResponseEntity<List<GameDto>> findByTitle(Pageable pageable){
-        return ResponseEntity.ok(facade.getMatchingActiveGamesPaged(pageable));
+    ResponseEntity<List<ActiveGameDto>> findByTitle(Pageable pageable, String title){
+        return ResponseEntity.ok(facade.getMatchingActiveGamesPaged(title, pageable));
     }
 
     @GetMapping("/start/{gameid}")

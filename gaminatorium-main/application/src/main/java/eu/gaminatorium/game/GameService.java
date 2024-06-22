@@ -60,7 +60,7 @@ class GameService {
                 .id(game.getId())
                 .title(game.getTitle())
                 .description(game.getDescription())
-                .link(game.getLink())
+                .link(game.getGameServiceLink())
                 .maxPlayers(game.getMaxPlayers())
                 .releaseDate(game.getReleaseDate())
                 .ratings(game.getRatings())

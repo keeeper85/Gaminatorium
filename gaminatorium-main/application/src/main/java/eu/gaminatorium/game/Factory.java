@@ -10,7 +10,7 @@ class Factory {
         var game = new Game();
         game.setTitle(source.title());
         game.setDescription(source.description());
-        game.setLink(source.link());
+        game.setGameServiceLink(source.link());
         game.setMaxPlayers(source.maxPlayers());
         game.setReleaseDate(source.releaseDate());
         game.setRatings(source.ratings());

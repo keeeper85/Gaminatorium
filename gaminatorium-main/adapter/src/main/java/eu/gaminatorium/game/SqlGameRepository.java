@@ -15,7 +15,7 @@ interface SqlGameRepository extends GameRepository, JpaRepository<Game, Integer>
     @Query("SELECT a FROM Game g JOIN g.activeGames a WHERE a.game.id = :gameId")
     Page<Game.Active> findAllActiveGamesByGameId(@Param("gameId") Long gameId, Pageable pageable);
     Game findById(long id);
-    Game findByTitle(String title, Pageable pageable);
+    Page<Game> findAllByTitle(String title, Pageable pageable);
     Page<Game.Active> findActiveByTitle(String title, Pageable pageable);
     Game.Active save(Game.Active active);
     Game.Rating save(Game.Rating rating);

@@ -13,7 +13,6 @@ import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +22,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity public class Game {
 
+    enum ModerationStatus {PENDING, ACCEPTED}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,14 +31,23 @@ import java.util.Set;
     private String title;
     @Size(min=10, max = 200, message = "Game description must be 10-200 characters long.")
     private String description;
+    private String gameTags = "";
     @URL(message = "Invalid URL format")
-    private String link;
+    private String gameServiceLink;
+    @URL(message = "Invalid URL format")
+    private String sourceCodeLink;
+    private ModerationStatus moderationStatus = ModerationStatus.PENDING;
+    @Min(value = 0, message = "Number must be a positive integer type")
     private int maxPlayers;
+    @Min(value = 0, message = "Number must be a positive long type")
+    private long timesPlayedTotal;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate releaseDate;
+
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<Rating> ratings = new HashSet<>();
+
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<Active> activeGames = new HashSet<>();
@@ -49,6 +59,22 @@ import java.util.Set;
         rating.setPostingDate(postingDate);
         rating.setGame(this);
         ratings.add(rating);
+    }
+
+    void toggleModerationStatus(){
+        if (moderationStatus == ModerationStatus.PENDING) moderationStatus = ModerationStatus.ACCEPTED;
+        else moderationStatus = ModerationStatus.PENDING;
+    }
+
+    public void addTag(String tag, String... tags) {
+        StringBuilder builder = new StringBuilder(gameTags);
+        builder.append(tag).append(" ");
+        if (tags.length > 0){
+            for (String s : tags) {
+                builder.append(s).append(" ");
+            }
+        }
+        gameTags = builder.toString().trim();
     }
 
     @Entity

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -25,8 +26,9 @@ class GameWarmup implements ApplicationListener<ContextRefreshedEvent> {
         Game makao = new Game();
         makao.setTitle("Makao");
         makao.setDescription("A fun multiplayer card game.");
-        makao.setLink("https://www.gaminatorium.eu/games/makao.png");
+        makao.setGameServiceLink("https://www.gaminatorium.eu/games/makao.png");
         makao.setMaxPlayers(4);
+        makao.addTag("card", "multi", "turn-based");
         makao.setReleaseDate(LocalDate.of(2024, 6, 1));
         addRatings(makao);
 
@@ -35,8 +37,9 @@ class GameWarmup implements ApplicationListener<ContextRefreshedEvent> {
         Game mahjong = new Game();
         mahjong.setTitle("Mahjong");
         mahjong.setDescription("An addictve solo puzzle game.");
-        mahjong.setLink("https://www.gaminatorium.eu/games/mahjong.png");
+        mahjong.setGameServiceLink("https://www.gaminatorium.eu/games/mahjong.png");
         mahjong.setMaxPlayers(1);
+        mahjong.toggleModerationStatus();
         mahjong.setReleaseDate(LocalDate.of(2024, 5, 31));
         addRatings(mahjong);
 
@@ -45,8 +48,10 @@ class GameWarmup implements ApplicationListener<ContextRefreshedEvent> {
         Game tictactoe = new Game();
         tictactoe.setTitle("Tictactoe");
         tictactoe.setDescription("Play this classic game with a friend or against a computer.");
-        tictactoe.setLink("https://www.gaminatorium.eu/games/tictactoe.png");
+        tictactoe.setGameServiceLink("https://www.gaminatorium.eu/games/tictactoe.png");
         tictactoe.setMaxPlayers(2);
+        tictactoe.toggleModerationStatus();
+        tictactoe.setTimesPlayedTotal(17);
         tictactoe.setReleaseDate(LocalDate.of(2024, 6, 15));
         addRatings(tictactoe);
 
