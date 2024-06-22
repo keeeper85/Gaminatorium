@@ -30,7 +30,7 @@ class GameController {
     }
 
     @GetMapping("/find/{title}")
-    ResponseEntity<List<GameDto>> findByTitle(Pageable pageable){
+    ResponseEntity<List<GameDto>> findByTitle(Pageable pageable, String title){
         return ResponseEntity.ok(facade.getMatchingGamesPaged(pageable));
     }
 
