@@ -27,37 +27,45 @@ class GameController {
     }
 
     @GetMapping()
-    @Operation(description = "Get pageable list of all games or one game - by its id")
-    ResponseEntity<List<GameDto>> get(@RequestParam long gameid, Pageable pageable){
-        return null;
+    @Operation(description = "Get pageable list of all AVAILABLE games")
+    ResponseEntity<List<GameDto>> getAll(Pageable pageable){
+        return ResponseEntity.ok(facade.getAllAvailableGamesPaged(pageable));
+    }
+
+    @GetMapping("/{gameid}")
+    @Operation(description = "Get a JSON game object by its id")
+    ResponseEntity<GameDto> get(@PathVariable long gameid){
+        return ResponseEntity.of(facade.getGameById(gameid));
     }
 
     @GetMapping("/find/{title}")
     @Operation(description = "Find all games (paged) which titles match the given String variable")
     ResponseEntity<List<GameDto>> findByTitle(Pageable pageable, @PathVariable String title){
+        //todo
         return null;
     }
 
     @GetMapping("/toggle-status/{gameid}")
     @Operation(description = "Admin only. Switch the game status between 'pending' (invisible, in moderation) and 'accepted' (visible, ready to play).")
     ResponseEntity<Boolean> toggleStatus(@PathVariable long gameid){
-
         return ResponseEntity.ok(facade.toggleGameStatus(gameid));
     }
 
     @PostMapping()
     @Operation(description = "Add a new game with JSON object.")
     ResponseEntity<Optional<GameDto>> createGame(GameDto gameDto){
+        //todo
         return null;
     }
 
     @PatchMapping("/{gameid}")
     @Operation(description = "Update an existing game with JSON object.")
     ResponseEntity<Optional<GameDto>> updateGame(@PathVariable long gameid){
+        //todo
         return null;
     }
 
-    @DeleteMapping("/delete/{gameid}")
+    @DeleteMapping("/{gameid}")
     @Operation(description = "Delete an existing game by its id.")
     @Transactional
     ResponseEntity<Void> deleteGame(@PathVariable long gameid){

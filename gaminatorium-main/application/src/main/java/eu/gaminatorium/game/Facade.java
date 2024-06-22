@@ -25,8 +25,8 @@ public class Facade {
         return gameService.toggleGameStatus(gameId);
     }
 
-    List<GameDto> getAllGamesPaged(Pageable pageable){
-        return gameService.getAllGamesPaged(pageable);
+    List<GameDto> getAllAvailableGamesPaged(Pageable pageable){
+        return gameService.getAllAvailableGamesPaged(pageable);
     }
 
     Optional<GameDto> getGameById(long id) {

@@ -22,7 +22,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity public class Game {
 
-    enum ModerationStatus {PENDING, ACCEPTED}
+    public enum ModerationStatus {PENDING, ACCEPTED}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

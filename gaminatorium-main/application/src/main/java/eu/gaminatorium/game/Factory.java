@@ -8,9 +8,12 @@ class Factory {
 
     static Game from(GameDto source){
         var game = new Game();
+        game.setModerationStatus(source.moderationStatus());
         game.setTitle(source.title());
         game.setDescription(source.description());
-        game.setGameServiceLink(source.link());
+        game.setGameTags(source.tags());
+        game.setGameServiceLink(source.gamelink());
+        game.setTimesPlayedTotal(source.timesPlayedTotal());
         game.setMaxPlayers(source.maxPlayers());
         game.setReleaseDate(source.releaseDate());
         game.setRatings(source.ratings());

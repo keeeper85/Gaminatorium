@@ -19,7 +19,7 @@ class GameService {
     return gameRepository.countAllByModerationStatus(Game.ModerationStatus.ACCEPTED);
     }
 
-    List<GameDto> getAllGamesPaged(Pageable pageable){
+    List<GameDto> getAllAvailableGamesPaged(Pageable pageable){
         return gameRepository.findAll(pageable).getContent().stream()
                 .map(GameService::toDto)
                 .toList();
@@ -68,12 +68,17 @@ class GameService {
     private static GameDto toDto(Game game) {
         GameDto gameDto = GameDto.builder()
                 .id(game.getId())
+                .moderationStatus(game.getModerationStatus())
                 .title(game.getTitle())
                 .description(game.getDescription())
-                .link(game.getGameServiceLink())
+                .tags(game.getGameTags())
+                .gamelink(game.getGameServiceLink())
+                .sourceCodelink(game.getSourceCodeLink())
                 .maxPlayers(game.getMaxPlayers())
+                .timesPlayedTotal(game.getTimesPlayedTotal())
                 .releaseDate(game.getReleaseDate())
                 .ratings(game.getRatings())
+                .activeGames(game.getActiveGames())
                 .build();
         return gameDto;
     }
