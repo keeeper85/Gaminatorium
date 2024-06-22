@@ -23,7 +23,7 @@ class GameController {
     @GetMapping("/count")
     @Operation(description = "Get the current number of all AVAILABLE games")
     ResponseEntity<Integer> gamesTotalCount(){
-        return null;
+        return ResponseEntity.ok(facade.countAllAvailableGames());
     }
 
     @GetMapping()
@@ -40,8 +40,9 @@ class GameController {
 
     @GetMapping("/toggle-status/{gameid}")
     @Operation(description = "Admin only. Switch the game status between 'pending' (invisible, in moderation) and 'accepted' (visible, ready to play).")
-    ResponseEntity<List<GameDto>> accept(@PathVariable long gameid){
-        return null;
+    ResponseEntity<Boolean> toggleStatus(@PathVariable long gameid){
+
+        return ResponseEntity.ok(facade.toggleGameStatus(gameid));
     }
 
     @PostMapping()

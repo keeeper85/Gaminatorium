@@ -17,8 +17,12 @@ public class Facade {
     private final ActiveGameService activeGameService;
     private final GameRatingService gameRatingService;
 
-    int countAllGames() {
-        return gameService.countAllGames();
+    int countAllAvailableGames() {
+        return gameService.countAllAvailableGames();
+    }
+
+    boolean toggleGameStatus(long gameId) {
+        return gameService.toggleGameStatus(gameId);
     }
 
     List<GameDto> getAllGamesPaged(Pageable pageable){

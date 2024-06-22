@@ -15,8 +15,8 @@ class GameService {
     private final GameRepository gameRepository;
 
 
-    int countAllGames() {
-    return gameRepository.countAllBy();
+    int countAllAvailableGames() {
+    return gameRepository.countAllByModerationStatus(Game.ModerationStatus.ACCEPTED);
     }
 
     List<GameDto> getAllGamesPaged(Pageable pageable){
@@ -53,6 +53,16 @@ class GameService {
 
     public List<GameDto> getMatchingGamesPaged(Pageable pageable) {
         return null;
+    }
+
+    public boolean toggleGameStatus(long gameId) {
+        if (gameRepository.existsById(gameId)) {
+            var game = gameRepository.findById(gameId);
+            game.toggleModerationStatus();
+            gameRepository.save(game);
+            return true;
+        }
+        return false;
     }
 
     private static GameDto toDto(Game game) {

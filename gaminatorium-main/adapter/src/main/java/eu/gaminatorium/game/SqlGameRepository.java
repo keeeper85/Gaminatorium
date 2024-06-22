@@ -20,6 +20,6 @@ interface SqlGameRepository extends GameRepository, JpaRepository<Game, Integer>
     Game.Active save(Game.Active active);
     Game.Rating save(Game.Rating rating);
     void deleteById(long id);
-    int countAllBy();
+    int countAllByModerationStatus(Game.ModerationStatus moderationStatus);
     boolean existsById(long id);
 }
