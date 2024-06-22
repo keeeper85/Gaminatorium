@@ -1,6 +1,7 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.GameDto;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -20,37 +21,43 @@ class GameController {
     private final Facade facade;
 
     @GetMapping("/count")
+    @Operation(description = "Get the current number of all AVAILABLE games")
     ResponseEntity<Integer> gamesTotalCount(){
-        return ResponseEntity.ok(facade.countAllGames());
+        return null;
     }
 
-    @GetMapping("/all")
-    ResponseEntity<List<GameDto>> getAllGames(Pageable pageable){
-        return ResponseEntity.ok(facade.getAllGamesPaged(pageable));
+    @GetMapping()
+    @Operation(description = "Get pageable list of all games or one game - by its id")
+    ResponseEntity<List<GameDto>> get(@RequestParam long gameid, Pageable pageable){
+        return null;
     }
 
     @GetMapping("/find/{title}")
-    ResponseEntity<List<GameDto>> findByTitle(Pageable pageable, String title){
-        return ResponseEntity.ok(facade.getMatchingGamesPaged(pageable));
+    @Operation(description = "Find all games (paged) which titles match the given String variable")
+    ResponseEntity<List<GameDto>> findByTitle(Pageable pageable, @PathVariable String title){
+        return null;
     }
 
-
-    @GetMapping("/{gameid}")
-    ResponseEntity<Optional<GameDto>> getGame(@PathVariable long gameid){
-        return ResponseEntity.ok(facade.getGameById(gameid));
+    @GetMapping("/toggle-status/{gameid}")
+    @Operation(description = "Admin only. Switch the game status between 'pending' (invisible, in moderation) and 'accepted' (visible, ready to play).")
+    ResponseEntity<List<GameDto>> accept(@PathVariable long gameid){
+        return null;
     }
 
-    @PostMapping("/add")
+    @PostMapping()
+    @Operation(description = "Add a new game with JSON object.")
     ResponseEntity<Optional<GameDto>> createGame(GameDto gameDto){
-        return ResponseEntity.ok(facade.addNewGame(gameDto));
+        return null;
     }
 
-    @PatchMapping("/update/{gameid}")
+    @PatchMapping("/{gameid}")
+    @Operation(description = "Update an existing game with JSON object.")
     ResponseEntity<Optional<GameDto>> updateGame(@PathVariable long gameid){
-        return ResponseEntity.ok(facade.updateGame(gameid));
+        return null;
     }
 
     @DeleteMapping("/delete/{gameid}")
+    @Operation(description = "Delete an existing game by its id.")
     @Transactional
     ResponseEntity<Void> deleteGame(@PathVariable long gameid){
         facade.deleteGame(gameid);
