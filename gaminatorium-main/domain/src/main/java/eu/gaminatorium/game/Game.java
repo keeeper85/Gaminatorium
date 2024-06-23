@@ -37,7 +37,7 @@ import java.util.Set;
     @URL(message = "Invalid URL format")
     private String sourceCodeLink;
     private ModerationStatus moderationStatus = ModerationStatus.PENDING;
-    @Min(value = 0, message = "Number must be a positive integer type")
+    @Min(value = 1, message = "Number must be a positive integer type")
     private int maxPlayers;
     @Min(value = 0, message = "Number must be a positive long type")
     private long timesPlayedTotal;
@@ -62,7 +62,10 @@ import java.util.Set;
     }
 
     void toggleModerationStatus(){
-        if (moderationStatus == ModerationStatus.PENDING) moderationStatus = ModerationStatus.ACCEPTED;
+        if (moderationStatus == ModerationStatus.PENDING) {
+            moderationStatus = ModerationStatus.ACCEPTED;
+            releaseDate = LocalDate.now();
+        }
         else moderationStatus = ModerationStatus.PENDING;
     }
 

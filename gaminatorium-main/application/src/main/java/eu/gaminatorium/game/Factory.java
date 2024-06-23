@@ -3,21 +3,22 @@ package eu.gaminatorium.game;
 import eu.gaminatorium.game.dto.ActiveGameDto;
 import eu.gaminatorium.game.dto.GameDto;
 import eu.gaminatorium.game.dto.GameRatingDto;
+import eu.gaminatorium.game.dto.NewGameDto;
+
+import java.time.LocalDate;
 
 class Factory {
 
-    static Game from(GameDto source){
+    static Game from(NewGameDto source){
         var game = new Game();
-        game.setModerationStatus(source.moderationStatus());
-        game.setTitle(source.title());
-        game.setDescription(source.description());
-        game.setGameTags(source.tags());
-        game.setGameServiceLink(source.gamelink());
-        game.setTimesPlayedTotal(source.timesPlayedTotal());
-        game.setMaxPlayers(source.maxPlayers());
-        game.setReleaseDate(source.releaseDate());
-        game.setRatings(source.ratings());
-        game.setActiveGames(source.activeGames());
+        game.setModerationStatus(Game.ModerationStatus.PENDING);
+        game.setTitle(source.getTitle());
+        game.setDescription(source.getDescription());
+        game.setGameTags(source.getTags());
+        game.setGameServiceLink(source.getGamelink());
+        game.setSourceCodeLink(source.getSourceCodelink());
+        game.setMaxPlayers(source.getMaxPlayers());
+        game.setReleaseDate(LocalDate.now());
 
         return game;
     }

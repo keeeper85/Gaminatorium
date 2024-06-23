@@ -2,6 +2,7 @@ package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.ActiveGameDto;
 import eu.gaminatorium.game.dto.GameDto;
+import eu.gaminatorium.game.dto.NewGameDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,31 +26,39 @@ public class Facade {
         return gameService.toggleGameStatus(gameId);
     }
 
-    List<GameDto> getAllAvailableGamesPaged(Pageable pageable){
-        return gameService.getAllAvailableGamesPaged(pageable);
+    List<GameDto> getAllAvailableGamesPaged(Game.ModerationStatus moderationStatus, Pageable pageable){
+        return gameService.getGamesPaged(moderationStatus, pageable);
     }
 
     Optional<GameDto> getGameById(long id) {
         return gameService.getGameById(id);
     }
 
-    Optional<GameDto> addNewGame(GameDto gameDto){
+    Optional<NewGameDto> addNewGame(NewGameDto gameDto){
         return gameService.addNewGame(gameDto);
     }
 
-    Optional<GameDto> updateGame(long id){
-        return gameService.updateGame(id);
+    Optional<GameDto> updateGame(long id, NewGameDto newGameDto){
+        return gameService.updateGame(id, newGameDto);
     }
 
     Optional<Void> deleteGame(long id){
         return gameService.deleteGame(id);
     }
 
-    public List<GameDto> getMatchingGamesPaged(Pageable pageable) {
-        return gameService.getMatchingGamesPaged(pageable);
+    List<ActiveGameDto> getMatchingActiveGamesPaged(String title, Pageable pageable) {
+        return activeGameService.getMatchingActiveGamesPaged(title, pageable);
     }
 
-    public List<ActiveGameDto> getMatchingActiveGamesPaged(String title, Pageable pageable) {
-        return activeGameService.getMatchingActiveGamesPaged(title, pageable);
+    List<GameDto> findAvailableMatchingGamesPaged(String title, Pageable pageable) {
+        return gameService.findMatchingAvailableGamesPaged(title, pageable);
+    }
+
+    String[] getGameTags(long gameid) {
+        return gameService.getGameTags(gameid);
+    }
+
+    boolean isGameTitleUsed(String title){
+        return gameService.isGameTitleUsed(title);
     }
 }
