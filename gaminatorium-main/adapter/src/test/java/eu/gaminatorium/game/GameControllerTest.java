@@ -1,7 +1,6 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.GameDto;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.is;
 
 
@@ -23,28 +24,28 @@ class GameControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private GameRepository repository;
+    private Facade facade;
 
     @Nested
     class getMethodTestes {
 
-        @BeforeAll
-        static void setUpBeforeClass() throws Exception {
-
-        }
+//        @BeforeAll
+//        static void setUpBeforeClass() throws Exception {
+//
+//        }
 
         @Test
-        void getTestShouldReturnGameById() throws Exception {
+        void returnGameById() throws Exception {
             //given
             var gameId = 1;
-            var game = new Game();
-            game.setTitle("foo");
             var gameDto = GameDto.builder()
                     .title("foo")
                     .build();
 
+            Optional<GameDto> optionalGameDto = Optional.of(gameDto);
+
             //when
-            Mockito.when(repository.findById(1)).thenReturn(new Game());
+            Mockito.when(facade.getGameById(1)).thenReturn(optionalGameDto);
 
             //then
             mvc.perform(MockMvcRequestBuilders.get("/v1/game/" + gameId))
@@ -54,4 +55,5 @@ class GameControllerTest {
         }
 
     }
+
 }
