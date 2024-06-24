@@ -69,7 +69,7 @@ import java.util.Set;
         else moderationStatus = ModerationStatus.PENDING;
     }
 
-    public void addTag(String tag, String... tags) {
+    void addTag(String tag, String... tags) {
         StringBuilder builder = new StringBuilder(gameTags);
         builder.append(tag).append(" ");
         if (tags.length > 0){
@@ -78,6 +78,30 @@ import java.util.Set;
             }
         }
         gameTags = builder.toString().trim();
+    }
+
+    String getAverageRating(){
+        if (ratings.isEmpty()) return "N/A";
+        double averageRating = 0.0;
+
+        for (Rating rating : ratings) {
+            averageRating += rating.score;
+        }
+        averageRating = averageRating / ratings.size();
+        return Math.round(averageRating * 100.0) / 100.0 + "";
+    }
+
+    Game.Rating getRandomRating(){
+        return ratings.stream().findFirst().get();
+    }
+
+    void addRating(int score, String comment){
+        Rating rating = new Rating();
+        rating.setGame(this);
+        rating.setScore(score);
+        rating.setComment(comment);
+        rating.setPostingDate(LocalDate.now());
+        ratings.add(rating);
     }
 
     @Entity

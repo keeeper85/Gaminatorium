@@ -19,14 +19,14 @@ class ActiveGameService {
         return null;
     }
 
-    private static GameRatingDto toDto(Game.Rating gameRating) {
-        GameRatingDto gameRatingDto = GameRatingDto.builder()
-                .score(gameRating.getScore())
-                .comment(gameRating.getComment())
-                .postDate(gameRating.getPostingDate())
-                .game(gameRating.getGame())
-                .build();
-
-        return gameRatingDto;
-    }
+//    private static ActiveGameDto toDto(Game.Active activeRating) {
+//        GameRatingDto gameRatingDto = GameRatingDto.builder()
+//                .score(gameRating.getScore())
+//                .comment(gameRating.getComment())
+//                .postDate(gameRating.getPostingDate())
+//                .gameid(gameRating.)
+//                .build();
+//
+//        return gameRatingDto;
+//    }
 }

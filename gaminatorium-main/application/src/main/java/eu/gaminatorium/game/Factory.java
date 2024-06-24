@@ -28,7 +28,7 @@ class Factory {
         rating.setScore(source.score());
         rating.setComment(source.comment());
         rating.setPostingDate(source.postDate());
-        rating.setGame(source.game());
+        rating.setId(source.gameid());
 
         return rating;
     }

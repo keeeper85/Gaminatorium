@@ -1,8 +1,6 @@
 package eu.gaminatorium.game;
 
-import eu.gaminatorium.game.dto.ActiveGameDto;
-import eu.gaminatorium.game.dto.GameDto;
-import eu.gaminatorium.game.dto.NewGameDto;
+import eu.gaminatorium.game.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -60,5 +58,21 @@ public class Facade {
 
     boolean isGameTitleUsed(String title){
         return gameService.isGameTitleUsed(title);
+    }
+
+    public String getCurrentGameScore(long gameid) {
+        return gameRatingService.getCurrentGameScore(gameid);
+    }
+
+    public Optional<GameRatingDto> getRandomRating(long gameid) {
+        return gameRatingService.getRandomRating(gameid);
+    }
+
+    public List<GameRatingDto> getAllRatingsPaged(long gameid, Pageable pageable) {
+        return gameRatingService.getAllRatingsPaged(gameid, pageable);
+    }
+
+    public Optional<NewGameRatingDto> addRating(NewGameRatingDto rating) {
+        return gameRatingService.addRating(rating);
     }
 }
