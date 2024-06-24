@@ -56,4 +56,19 @@ class GameControllerTest {
 
     }
 
+    @Nested
+    class deleteMethodTestes {
+
+        @Test
+        void deleteGameById() throws Exception {
+            //given
+            var gameId = 1;
+
+            //when
+
+            //then
+            mvc.perform(MockMvcRequestBuilders.delete("/v1/game/" + gameId))
+                    .andExpect(MockMvcResultMatchers.status().isOk());
+        }
+    }
 }
