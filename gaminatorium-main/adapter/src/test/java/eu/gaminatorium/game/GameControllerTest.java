@@ -1,6 +1,7 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.GameDto;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,6 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 
 
@@ -29,13 +31,22 @@ class GameControllerTest {
     @Nested
     class getMethodTestes {
 
-//        @BeforeAll
-//        static void setUpBeforeClass() throws Exception {
-//
-//        }
+        @Test
+        void getGamesTottalCount() throws Exception {
+            //given
+
+            //when
+            Mockito.when(facade.countAllAvailableGames()).thenReturn(5);
+
+            //then
+            mvc.perform(MockMvcRequestBuilders.get("/v1/game/count"))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(MockMvcResultMatchers.content().string("5"));
+        }
 
         @Test
-        void returnGameById() throws Exception {
+        void getGameByIdWhenGameExist() throws Exception {
             //given
             var gameId = 1;
             var gameDto = GameDto.builder()
@@ -54,6 +65,58 @@ class GameControllerTest {
                     .andExpect(MockMvcResultMatchers.jsonPath("$.title", is("foo")));
         }
 
+        @Test
+        void getGameByIdWhenGameNotExist() throws Exception {
+            //given
+            var gameId = 1;
+
+            //when
+            Mockito.when(facade.getGameById(gameId)).thenReturn(Optional.empty());
+
+            //then
+            mvc.perform(MockMvcRequestBuilders.get("/v1/game/" + gameId))
+                    .andExpect(MockMvcResultMatchers.status().isNotFound());
+        }
+
+        @Test
+        void getGameTagsWhenGameExistAndGameContainsTags() throws Exception {
+            //given
+            var gameId = 1;
+            var tags = new String[]{"foo", "bar"};
+
+            //when
+            Mockito.when(facade.getGameTags(gameId)).thenReturn(tags);
+
+            //then
+            mvc.perform(MockMvcRequestBuilders.get("/v1/game/tags/" + gameId))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.content()
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[0]", is("foo")))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$[1]", is("bar")));
+        }
+
+        @Test
+        void getGameTagsWhenGameExistAndGameNotContainsTags() throws Exception{
+            //given
+            var gameId = 1;
+            var tags = new String[]{};
+
+            //when
+            Mockito.when(facade.getGameTags(gameId)).thenReturn(tags);
+
+            //then
+            mvc.perform(MockMvcRequestBuilders.get("/v1/game/tags/" + gameId))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(0)));
+        }
+
+        @Test
+        void getGameByTitle(){
+            //TODO czy dopuszczamy możliwośc istnienia wielu gier o tym samym tytule
+            // jeśli nie to czy metoda nie powinna zwracać gameDto zamiast List<GameDto>
+        }
     }
 
     @Nested
