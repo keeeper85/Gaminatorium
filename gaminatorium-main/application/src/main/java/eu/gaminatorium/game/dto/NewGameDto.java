@@ -4,12 +4,14 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 public class NewGameDto {
 
