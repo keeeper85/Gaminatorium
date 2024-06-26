@@ -35,6 +35,7 @@ class GameControllerTest {
 
     @Nested
     class getMethodTestes {
+        //TODO przetestować metodę getAll oraz getPendingGames
 
         @Test
         void getGamesTotalCount() throws Exception {
@@ -199,7 +200,7 @@ class GameControllerTest {
                             .content(newGameJson))
                     .andExpect(MockMvcResultMatchers.status().is(HttpStatus.CONFLICT.value()))
                     .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                    //TODO sprawdzić jak
+                    //TODO sprawdzić jak lepiej sparsować message przekazany w response body
                     .andExpect(MockMvcResultMatchers.content().string("{\"message\":\"Game title already in use\",\"details\":\"The title 'foo' is already taken. Please choose a different title.\"}"));
         }
     }
@@ -226,9 +227,8 @@ class GameControllerTest {
 
         @Test
         void updateGameWhenTitleIsExist() throws Exception {
-            //TODO dokończyć
             //given
-            /*var gameId = 1;
+            var gameId = 1;
             var newGameDto = NewGameDto.builder()
                     .title("foo")
                     .description("Lorem ipsum dolor sit amet")
@@ -237,13 +237,57 @@ class GameControllerTest {
                     .sourceCodelink("https://newgame.gamelink.com")
                     .maxPlayers(5)
                     .build();
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String newGameDtoJson = objectMapper.writeValueAsString(newGameDto);
+
             //when
             Mockito.when(facade.isGameTitleUsed(newGameDto.getTitle())).thenReturn(true);
 
             //then
             mvc.perform(MockMvcRequestBuilders.patch("/v1/game/" + gameId)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .param()*/
+                    .content(newGameDtoJson))
+                    .andExpect(MockMvcResultMatchers.status().is(HttpStatus.CONFLICT.value()))
+                    .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                    //TODO sprawdzić jak lepiej sparsować message przekazany w response body
+                    .andExpect(MockMvcResultMatchers.content().string("{\"message\":\"Game title already in use\",\"details\":\"The title 'foo' is already taken. Please choose a different title.\"}"));
+        }
+
+        @Test
+        void updateGameWhenTitleIsNotExist() throws Exception {
+            //given
+            var gameId = 1;
+            var newGameDto = NewGameDto.builder()
+                    .title("foo")
+                    .description("Lorem ipsum dolor sit amet")
+                    .tags("bar")
+                    .gamelink("https://newgame.gamelink.com")
+                    .sourceCodelink("https://newgame.gamelink.com")
+                    .maxPlayers(5)
+                    .build();
+
+            var gameDto = GameDto.builder()
+                    .title(newGameDto.getTitle())
+                    .description(newGameDto.getDescription())
+                    .tags(newGameDto.getTags())
+                    .build();
+
+            Optional<GameDto> optionalGameDto = Optional.of(gameDto);
+            //TODO dopytać o NewGameDto
+            ObjectMapper objectMapper = new ObjectMapper();
+            String newGameDtoJson = objectMapper.writeValueAsString(newGameDto);
+
+            //when
+            Mockito.when(facade.isGameTitleUsed(newGameDto.getTitle())).thenReturn(false);
+            Mockito.when(facade.updateGame(gameId, newGameDto)).thenReturn(optionalGameDto);
+
+            //then
+            mvc.perform(MockMvcRequestBuilders.patch("/v1/game/" + gameId)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(newGameDtoJson))
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
         }
     }
 
