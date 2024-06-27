@@ -30,6 +30,9 @@ class GameControllerTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private Facade facade;
 
@@ -161,7 +164,6 @@ class GameControllerTest {
                     .maxPlayers(5)
                     .build();
 
-            ObjectMapper objectMapper = new ObjectMapper();
             String newGameJson = objectMapper.writeValueAsString(newGame);
 
             //when
@@ -172,8 +174,9 @@ class GameControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(newGameJson))
                     .andExpect(MockMvcResultMatchers.status().isOk())   // TODO metoda może zwracać status 201 created
+//                    .andExpect(MockMvcResultMatchers.jsonPath("$.title", is("foo"))) //TODO propozycja zmiany aby responseEntity zwracał obiekt GameDto zamiast Optionala
+//                    .andExpect(MockMvcResultMatchers.header().exists("Location")) //TODO metod post powinna zwracać adres nowo utworzonego zasobu
                     .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$.title", is("foo"))); //TODO propozycja zmiany aby responseEntity zwracał obiekt GameDto zamiast Optionala
         }
 
         @Test
@@ -188,7 +191,6 @@ class GameControllerTest {
                     .maxPlayers(5)
                     .build();
 
-            ObjectMapper objectMapper = new ObjectMapper();
             String newGameJson = objectMapper.writeValueAsString(newGame);
 
             //when
@@ -238,7 +240,6 @@ class GameControllerTest {
                     .maxPlayers(5)
                     .build();
 
-            ObjectMapper objectMapper = new ObjectMapper();
             String newGameDtoJson = objectMapper.writeValueAsString(newGameDto);
 
             //when
@@ -275,7 +276,7 @@ class GameControllerTest {
 
             Optional<GameDto> optionalGameDto = Optional.of(gameDto);
             //TODO dopytać o NewGameDto
-            ObjectMapper objectMapper = new ObjectMapper();
+
             String newGameDtoJson = objectMapper.writeValueAsString(newGameDto);
 
             //when
@@ -303,6 +304,7 @@ class GameControllerTest {
 
             //then
             mvc.perform(MockMvcRequestBuilders.delete("/v1/game/" + gameId))
+//                    .andExpect(MockMvcResultMatchers.status().isNoContent()) TODO metoda może zwracać status NoContent
                     .andExpect(MockMvcResultMatchers.status().isOk());
 
             Mockito.verify(facade, Mockito.times(1)).deleteGame(gameId);
