@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Tag(name = "Active Game Controller", description = "Start a new game or join the existing one")
@@ -22,18 +23,17 @@ class ActiveGameController {
 
     private final Facade facade;
 
-    @GetMapping("/all")
+    @GetMapping()
     @Operation(description = "You will get pageable object with ALL pending games for ALL offered games.")
     ResponseEntity<List<ActiveGameDto>> getAllActiveGames(Pageable pageable){
         return ResponseEntity.notFound().build();
         //todo
     }
 
-    @GetMapping("/allforthis/{gameid}")
+    @GetMapping("/{gameid}")
     @Operation(description = "You will get pageable object with ALL pending games only for THIS game.")
     ResponseEntity<List<ActiveGameDto>> getAllActiveGamesForThisGame(@PathVariable long gameid, Pageable pageable){
-        return ResponseEntity.notFound().build();
-        //todo
+        return ResponseEntity.ok(facade.getAllActiveGamesForThisGame(gameid, pageable));
     }
 
     @GetMapping("/find/{title}")
@@ -44,9 +44,8 @@ class ActiveGameController {
 
     @GetMapping("/start/{gameid}")
     @Operation(description = "Use this endpoint to launch a new instance of the chosen game.")
-    ResponseEntity<ActiveGameDto> startNewGame(@PathVariable long gameid){
-        return ResponseEntity.notFound().build();
-        //todo
+    ResponseEntity<Optional<ActiveGameDto>> startNewGame(@PathVariable long gameid){
+        return ResponseEntity.ok(facade.startNewGame(gameid));
     }
 
     @GetMapping("/join/{activegameid}")

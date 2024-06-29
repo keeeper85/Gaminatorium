@@ -104,6 +104,19 @@ import java.util.Set;
         ratings.add(rating);
     }
 
+    Game.Active startNewGame(){
+        var activeGame = new Game.Active();
+        activeGame.setGame(this);
+        activeGames.add(activeGame);
+        return activeGame;
+    }
+
+    boolean joinExistingActiveGame(Game.Active activeGame){
+        if (!activeGame.isFull) activeGame.currentPlayers += activeGame.currentPlayers;
+        if (activeGame.currentPlayers == activeGame.getGame().maxPlayers) activeGame.isFull = true;
+        return activeGame.isFull;
+    }
+
     @Entity
     @Table(name = "game_rating")
     @Getter
@@ -139,13 +152,15 @@ import java.util.Set;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
-        @Min(value = 0, message = "Number of current players can not be negative.")
-        private int currentPlayers;
+        @Min(value = 1, message = "Number of current players must be positive.")
+        private int currentPlayers = 1;
+        private boolean isFull;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
         private LocalDateTime startedAt = LocalDateTime.now();
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "game_id")
         @JsonBackReference
         private Game game;
+
     }
 }

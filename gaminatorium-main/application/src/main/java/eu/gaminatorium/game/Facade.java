@@ -3,6 +3,7 @@ package eu.gaminatorium.game;
 import eu.gaminatorium.game.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -74,5 +75,13 @@ public class Facade {
 
     public Optional<NewGameRatingDto> addRating(NewGameRatingDto rating) {
         return gameRatingService.addRating(rating);
+    }
+
+    public Optional<ActiveGameDto> startNewGame(long gameid) {
+        return activeGameService.startNewGame(gameid);
+    }
+
+    public List<ActiveGameDto> getAllActiveGamesForThisGame(long gameid, Pageable pageable) {
+        return activeGameService.getAllActiveGamesForThisGame(gameid, pageable);
     }
 }

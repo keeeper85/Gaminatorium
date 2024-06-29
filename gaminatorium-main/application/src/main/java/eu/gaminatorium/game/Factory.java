@@ -37,7 +37,7 @@ class Factory {
         var activeGame = new Game.Active();
         activeGame.setCurrentPlayers(source.getCurrentPlayers());
         activeGame.setStartedAt(activeGame.getStartedAt());
-        activeGame.setGame(source.getGame());
+
 
         return activeGame;
     }

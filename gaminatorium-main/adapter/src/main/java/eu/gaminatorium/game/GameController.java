@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @Tag(name = "Game Controller", description = "CRUD operations on Games")
-@RequestMapping("/v1/game")
+@RequestMapping("/v1/games")
 @AllArgsConstructor
 class GameController {
 
