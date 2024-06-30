@@ -55,6 +55,50 @@ class GameControllerTest {
         }
 
         @Test
+        void getAllAvailableGamesWhenAcceptedGamesExist () throws Exception {    //TODO napisać test WhenAcceptedGamesNotExist
+            //given
+            var gameStatus = Game.ModerationStatus.ACCEPTED;
+            var gameDto = GameDto.builder()
+                    .title("foo")
+                    .build();
+
+            List<GameDto> gameDtoList = List.of(gameDto);
+
+            //when
+            Mockito.when(facade.getAllAvailableGamesPaged(gameStatus, PageRequest.of(0, 5))).thenReturn(gameDtoList);
+
+            //then
+            mvc.perform(MockMvcRequestBuilders.get("/v1/game")
+                    .param("page", "0")
+                    .param("size", "5"))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].title", is("foo")));
+        }
+
+        @Test
+        void getPendingGamesWhenPendingGamesExist () throws Exception {  //TODO napisać test WhenPendingGamesNotExist
+            //given
+            var gameStatus = Game.ModerationStatus.PENDING;
+            var gameDto = GameDto.builder()
+                    .title("foo")
+                    .build();
+
+            List<GameDto> gameDtoList = List.of(gameDto);
+
+            //when
+            Mockito.when(facade.getAllAvailableGamesPaged(gameStatus, PageRequest.of(0, 5))).thenReturn(gameDtoList);
+
+            //then
+            mvc.perform(MockMvcRequestBuilders.get("/v1/game/pending")
+                    .param("page", "0")
+                    .param("size", "5"))
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].title", is("foo")));
+        }
+
+        @Test
         void getGameByIdWhenGameExist() throws Exception {
             //given
             var gameId = 1;
@@ -88,7 +132,7 @@ class GameControllerTest {
         }
 
         @Test
-        void getGameTagsWhenGameExistAndGameContainsTags() throws Exception {
+        void getGameTagsWhenGameExistAndGameContainsTags() throws Exception {   //TODO napisać WhenGameNotExist
             //given
             var gameId = 1;
             var tags = new String[]{"foo", "bar"};
