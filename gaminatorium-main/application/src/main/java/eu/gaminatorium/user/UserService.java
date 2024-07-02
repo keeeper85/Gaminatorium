@@ -22,7 +22,6 @@ public class UserService {
     public Optional<UserDto> getUserById(long userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()){
-            //TODO Exception
             return Optional.empty();
         }
         return user.map(this::mapToDto);
@@ -33,12 +32,13 @@ public class UserService {
     }
 
     public Optional<UserDto> updateUser(long userId, UserDto userDto) {
-        Optional<UserDto> existingUser = getUserById(userId);
-        if (existingUser.isEmpty()) {
-            //TODO Exception
-            return Optional.empty();
+        Optional<User> existingUserOptional = userRepository.findById(userId);
+        if (existingUserOptional.isPresent()) {
+            User user = existingUserOptional.get();
+            if (userDto.getUserName() != null) user.setUserName(userDto.getUserName());
+            if (userDto.getEmail() != null) user.setEmail(userDto.getEmail());
+            if (userDto.getPassword() != null) user.setPassword(userDto.getPassword());
         }
-        //TODO finish update
         return Optional.empty();
     }
 

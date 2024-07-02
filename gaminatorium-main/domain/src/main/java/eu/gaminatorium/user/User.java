@@ -2,9 +2,8 @@ package eu.gaminatorium.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Getter
@@ -21,6 +20,7 @@ public class User {
     private int id;
 
     @Column(name = "user_name", unique = true)
+    @Size(min = 4, message = "Username must be at least 4 characters long")
     private String userName;
 
     @Column(name = "email")
@@ -28,7 +28,7 @@ public class User {
     private String email;
 
     @Column(name = "password")
-    @Min(value = 8)
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
 }
