@@ -84,4 +84,12 @@ public class Facade {
     public List<ActiveGameDto> getAllActiveGamesForThisGame(long gameid, Pageable pageable) {
         return activeGameService.getAllActiveGamesForThisGame(gameid, pageable);
     }
+
+    public List<ActiveGameDto> getAllActiveGamesForAllGames(Pageable pageable) {
+        return activeGameService.getAllActiveGamesForAllGames(pageable);
+    }
+
+    public Optional<ActiveGameDto> joinGame(long activegameid) {
+        return activeGameService.joinGame(activegameid);
+    }
 }

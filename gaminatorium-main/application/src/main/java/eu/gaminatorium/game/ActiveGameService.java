@@ -38,11 +38,25 @@ class ActiveGameService {
         return List.of();
     }
 
+    public List<ActiveGameDto> getAllActiveGamesForAllGames(Pageable pageable) {
+        return gameRepository.findAllActiveGamesBy(pageable).map(ActiveGameService::toDto).toList();
+    }
+
+    public Optional<ActiveGameDto> joinGame(long activegameid) {
+        if (gameRepository.existsActiveGameById(activegameid)){
+            Game.Active activeGame = gameRepository.findActiveById(activegameid);
+            Game game = activeGame.getGame();
+            game.joinExistingActiveGame(activeGame);
+            gameRepository.save(game);
+            return Optional.of(toDto(activeGame));
+        }
+        return Optional.empty();
+    }
+
     private static ActiveGameDto toDto(Game.Active activeGame) {
         ActiveGameDto activeGameDto = new ActiveGameDto(activeGame.getGame());
-        activeGameDto.setCurrentPlayers(activeGame.getCurrentPlayers());
-        activeGameDto.setFull(activeGame.isFull());
         activeGameDto.setId(activeGame.getId());
+        activeGameDto.setCurrentPlayers(activeGame.getCurrentPlayers());
         activeGameDto.setMaxPlayers(activeGameDto.getMaxPlayers());
         activeGameDto.setStartedAt(activeGame.getStartedAt());
 

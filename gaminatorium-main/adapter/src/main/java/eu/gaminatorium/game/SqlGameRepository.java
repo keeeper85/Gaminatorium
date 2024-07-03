@@ -21,10 +21,15 @@ interface SqlGameRepository extends GameRepository, JpaRepository<Game, Integer>
     Page<Game> findAllByTitle(String title, Pageable pageable);
     Page<Game> findAllByTitleIsContainingIgnoreCase(String title, Pageable pageable);
     Page<Game.Active> findActiveByTitle(String title, Pageable pageable);
+    @Query("SELECT a FROM Game g JOIN g.activeGames a")
+    Page<Game.Active> findAllActiveGamesBy(Pageable pageable);
+    @Query("SELECT a FROM Game g JOIN g.activeGames a WHERE a.id = :id")
+    Game.Active findActiveById(@Param("id") Long id);
     Game.Active save(Game.Active active);
     Game.Rating save(Game.Rating rating);
     void deleteById(long id);
     int countAllByModerationStatus(Game.ModerationStatus moderationStatus);
     boolean existsById(long id);
     boolean existsByTitle(String title);
+    boolean existsActiveGameById(long id);
 }

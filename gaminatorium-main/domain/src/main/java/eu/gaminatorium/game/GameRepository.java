@@ -16,9 +16,12 @@ public interface GameRepository {
     Page<Game> findAllByTitle(String title, Pageable pageable);
     Page<Game> findAllByTitleIsContainingIgnoreCase(String title, Pageable pageable);
     Page<Game> findAllByModerationStatusIs(Game.ModerationStatus moderationStatus, Pageable pageable);
+    Page<Game.Active> findAllActiveGamesBy(Pageable pageable);
     Page<Game.Active> findActiveByTitle(String title, Pageable pageable);
+    Game.Active findActiveById(Long id);
     void deleteById(long id);
     int countAllByModerationStatus(Game.ModerationStatus moderationStatus);
     boolean existsById(long id);
     boolean existsByTitle(String title);
+    boolean existsActiveGameById(long id);
 }

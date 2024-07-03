@@ -111,10 +111,9 @@ import java.util.Set;
         return activeGame;
     }
 
-    boolean joinExistingActiveGame(Game.Active activeGame){
-        if (!activeGame.isFull) activeGame.currentPlayers += activeGame.currentPlayers;
-        if (activeGame.currentPlayers == activeGame.getGame().maxPlayers) activeGame.isFull = true;
-        return activeGame.isFull;
+    void joinExistingActiveGame(Game.Active activeGame){
+        if (activeGame.currentPlayers < activeGame.getGame().maxPlayers) activeGame.currentPlayers++;
+        if (activeGame.currentPlayers >= activeGame.getGame().maxPlayers) activeGames.remove(activeGame);
     }
 
     @Entity
@@ -154,7 +153,6 @@ import java.util.Set;
         private Long id;
         @Min(value = 1, message = "Number of current players must be positive.")
         private int currentPlayers = 1;
-        private boolean isFull;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
         private LocalDateTime startedAt = LocalDateTime.now();
         @ManyToOne(fetch = FetchType.LAZY)

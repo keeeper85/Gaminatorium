@@ -1,7 +1,6 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.ActiveGameDto;
-import eu.gaminatorium.game.dto.GameDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -26,8 +25,7 @@ class ActiveGameController {
     @GetMapping()
     @Operation(description = "You will get pageable object with ALL pending games for ALL offered games.")
     ResponseEntity<List<ActiveGameDto>> getAllActiveGames(Pageable pageable){
-        return ResponseEntity.notFound().build();
-        //todo
+        return ResponseEntity.ok(facade.getAllActiveGamesForAllGames(pageable));
     }
 
     @GetMapping("/{gameid}")
@@ -50,9 +48,8 @@ class ActiveGameController {
 
     @GetMapping("/join/{activegameid}")
     @Operation(description = "Use this endpoint to join the instance of the chosen game.")
-    ResponseEntity<ActiveGameDto> joinGame(@PathVariable long activegameid){
-        return ResponseEntity.notFound().build();
-        //todo
+    ResponseEntity<Optional<ActiveGameDto>> joinGame(@PathVariable long activegameid){
+        return ResponseEntity.ok(facade.joinGame(activegameid));
     }
 
 }

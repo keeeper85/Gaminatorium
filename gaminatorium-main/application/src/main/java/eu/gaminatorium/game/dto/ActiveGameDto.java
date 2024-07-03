@@ -18,7 +18,6 @@ public class ActiveGameDto {
     @Min(value = 1, message = "Number of current players must be positive.")
     private int currentPlayers;
     private int maxPlayers;
-    private boolean isFull;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime startedAt;
     private int timerStartedMinutesAgo;
