@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,4 +46,14 @@ class RatingController {
     ResponseEntity<Optional<NewGameRatingDto>> addRatingForThisGame(@RequestBody NewGameRatingDto rating){
         return ResponseEntity.ok(facade.addRating(rating));
     }
+
+    @DeleteMapping("/{ratingId}")
+    @Operation(description = "Delete an existing rating by its id.")
+    @Transactional
+    ResponseEntity<Void> deleteRating(@PathVariable long ratingId){
+        facade.deleteRating(ratingId);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

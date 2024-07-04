@@ -43,6 +43,8 @@ import java.util.Set;
     private long timesPlayedTotal;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate releaseDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
+    private LocalDateTime lastTimePlayed;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -104,10 +106,15 @@ import java.util.Set;
         ratings.add(rating);
     }
 
+    boolean deleteGameRating(Rating rating){
+        return ratings.remove(rating);
+    }
+
     Game.Active startNewGame(){
         var activeGame = new Game.Active();
         activeGame.setGame(this);
         activeGames.add(activeGame);
+        lastTimePlayed = LocalDateTime.now();
         return activeGame;
     }
 

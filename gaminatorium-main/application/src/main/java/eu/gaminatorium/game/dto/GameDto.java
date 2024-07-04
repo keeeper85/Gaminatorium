@@ -4,6 +4,7 @@ import eu.gaminatorium.game.Game;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Builder
@@ -18,6 +19,7 @@ public record GameDto(
         int maxPlayers,
         long timesPlayedTotal,
         LocalDate releaseDate,
+        LocalDateTime lastTimePlayed,
         Set<Game.Rating> ratings,
         Set<Game.Active> activeGames) {
 }

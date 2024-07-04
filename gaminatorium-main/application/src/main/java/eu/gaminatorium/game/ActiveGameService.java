@@ -1,11 +1,8 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.ActiveGameDto;
-import eu.gaminatorium.game.dto.GameDto;
-import eu.gaminatorium.game.dto.GameRatingDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,7 +41,7 @@ class ActiveGameService {
 
     public Optional<ActiveGameDto> joinGame(long activegameid) {
         if (gameRepository.existsActiveGameById(activegameid)){
-            Game.Active activeGame = gameRepository.findActiveById(activegameid);
+            Game.Active activeGame = gameRepository.findActiveGameById(activegameid);
             Game game = activeGame.getGame();
             game.joinExistingActiveGame(activeGame);
             gameRepository.save(game);

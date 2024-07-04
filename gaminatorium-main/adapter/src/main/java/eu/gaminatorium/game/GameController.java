@@ -36,6 +36,12 @@ class GameController {
         return ResponseEntity.ok(facade.getAllAvailableGamesPaged(Game.ModerationStatus.ACCEPTED, pageable));
     }
 
+    @GetMapping("/recent")
+    @Operation(description = "Get pageable list of games which were played most recently, sorted date-descending.")
+    ResponseEntity<List<GameDto>> getMostRecent(Pageable pageable){
+        return ResponseEntity.ok(facade.getRecentlyPlayedGames(pageable));
+    }
+
     @GetMapping("/pending")
     @Operation(description = "Get pageable list of all UNAVAILABLE (waiting for moderation) games")
     ResponseEntity<List<GameDto>> getPendingGames(Pageable pageable){

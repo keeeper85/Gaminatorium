@@ -92,4 +92,12 @@ public class Facade {
     public Optional<ActiveGameDto> joinGame(long activegameid) {
         return activeGameService.joinGame(activegameid);
     }
+
+    public void deleteRating(long ratingId) {
+        gameRatingService.deleteRating(ratingId);
+    }
+
+    public List<GameDto> getRecentlyPlayedGames(Pageable pageable) {
+        return gameService.getRecentlyPlayedGames(pageable);
+    }
 }

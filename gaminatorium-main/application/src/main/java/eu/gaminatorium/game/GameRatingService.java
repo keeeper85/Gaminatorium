@@ -48,8 +48,21 @@ class GameRatingService {
         return Optional.empty();
     }
 
+    public boolean deleteRating(long ratingId) {
+        if (gameRepository.existsGameRatingById(ratingId)){
+            Game.Rating gameRating = gameRepository.findGameRatingById(ratingId);
+            Game game = gameRating.getGame();
+            if (game.deleteGameRating(gameRating)) {
+                gameRepository.save(game);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static GameRatingDto toDto(Game.Rating gameRating) {
         GameRatingDto gameRatingDto = GameRatingDto.builder()
+                .ratingId(gameRating.getId())
                 .score(gameRating.getScore())
                 .comment(gameRating.getComment())
                 .postDate(gameRating.getPostingDate())
