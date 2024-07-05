@@ -3,6 +3,7 @@ package eu.gaminatorium.user;
 import eu.gaminatorium.user.dto.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,22 +11,22 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/user")
+@RequestMapping("/v1/users")
 @AllArgsConstructor
 public class UserController {
 
     private final UserFacade userFacade;
 
-    @GetMapping("/list")
+    @GetMapping
     @Operation(description = "Get list of all users")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        return ResponseEntity.ok(userFacade.findAll());
+    public ResponseEntity<List<UserDto>> getAllUsers(Pageable pageable) {
+        return ResponseEntity.ok(userFacade.findAll(pageable));
     }
 
     @GetMapping("/amount")
     @Operation(description = "Get number of all users")
     public ResponseEntity<Integer> getUsersAmount() {
-        return ResponseEntity.ok(userFacade.findAll().size());
+        return ResponseEntity.ok(userFacade.countAllUsers());
     }
 
     @GetMapping("/{id}")

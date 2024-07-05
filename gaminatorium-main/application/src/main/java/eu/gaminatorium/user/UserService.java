@@ -2,6 +2,7 @@ package eu.gaminatorium.user;
 
 import eu.gaminatorium.user.dto.UserDto;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,13 +16,18 @@ public class UserService {
     private final UserRepository userRepository;
 
 
-    public List<UserDto> findAll() {
-        return userRepository.findAll().stream().map(this::mapToDto).toList();
+    public List<UserDto> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable).getContent()
+                .stream().map(this::mapToDto).toList();
+    }
+
+    public Integer countAllUsers() {
+        return userRepository.countAll();
     }
 
     public Optional<UserDto> getUserById(long userId) {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()){
+        if (user.isEmpty()) {
             return Optional.empty();
         }
         return user.map(this::mapToDto);
@@ -62,5 +68,4 @@ public class UserService {
                 .password(userDto.getPassword())
                 .build();
     }
-
 }

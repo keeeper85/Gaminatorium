@@ -2,6 +2,7 @@ package eu.gaminatorium.user;
 
 import eu.gaminatorium.user.dto.UserDto;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +15,8 @@ public class UserFacade {
     private final UserService userService;
 
 
-    public List<UserDto> findAll() {
-        return userService.findAll();
+    public List<UserDto> findAll(Pageable pageable) {
+        return userService.findAll(pageable);
     }
 
     public Optional<UserDto> getUserById(long userId) {
@@ -33,5 +34,9 @@ public class UserFacade {
 
     public UserDto addUser(UserDto userDto) {
         return userService.addUser(userDto);
+    }
+
+    public Integer countAllUsers() {
+        return userService.countAllUsers();
     }
 }
