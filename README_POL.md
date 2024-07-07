@@ -69,4 +69,3 @@ Warunkiem jest posiadanie zainstalowanego Dockera z pluginem Docker Compose.
 
 ## Licencja
 
-Gaminatorium jest projektem open-source na licencji [GPL v3.0](https://choosealicense.com/licenses/gpl-3.0/). 
