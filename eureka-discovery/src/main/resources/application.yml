@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: EUREKA-SERVICE
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+
+server:
+
+  port: 8761
+

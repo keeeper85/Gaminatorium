@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ import java.util.Optional;
 
 @RestController
 @Tag(name = "Game Controller", description = "CRUD operations on Games")
-@RequestMapping("/v1/game")
-@AllArgsConstructor
+@RequestMapping("/v1/games")
+@RequiredArgsConstructor
 class GameController {
 
     private final Facade facade;
@@ -36,6 +37,12 @@ class GameController {
         return ResponseEntity.ok(facade.getAllAvailableGamesPaged(Game.ModerationStatus.ACCEPTED, pageable));
     }
 
+    @GetMapping("/recent")
+    @Operation(description = "Get pageable list of games which were played most recently, sorted date-descending.")
+    ResponseEntity<List<GameDto>> getMostRecent(Pageable pageable){
+        return ResponseEntity.ok(facade.getRecentlyPlayedGames(pageable));
+    }
+
     @GetMapping("/pending")
     @Operation(description = "Get pageable list of all UNAVAILABLE (waiting for moderation) games")
     ResponseEntity<List<GameDto>> getPendingGames(Pageable pageable){
@@ -45,7 +52,9 @@ class GameController {
     @GetMapping("/{gameid}")
     @Operation(description = "Get a JSON game object using game id")
     ResponseEntity<GameDto> get(@PathVariable long gameid){
-        return ResponseEntity.of(facade.getGameById(gameid));
+        return facade.getGameById(gameid)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/tags/{gameid}")
@@ -62,8 +71,13 @@ class GameController {
 
     @PatchMapping("/toggle-status/{gameid}")
     @Operation(description = "Admin only. Switch the game status between 'pending' (invisible, in moderation) and 'accepted' (visible, ready to play).")
-    ResponseEntity<Boolean> toggleStatus(@PathVariable long gameid){
-        return ResponseEntity.ok(facade.toggleGameStatus(gameid));
+    ResponseEntity<Void> toggleStatus(@PathVariable long gameid){
+        boolean result = facade.toggleGameStatus(gameid);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping()
@@ -82,7 +96,7 @@ class GameController {
             );
             return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
         }
-        return ResponseEntity.of(Optional.of(facade.addNewGame(newGameDto)));
+        return new ResponseEntity<>(facade.addNewGame(newGameDto), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{gameid}")
@@ -95,7 +109,7 @@ class GameController {
             );
             return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
         }
-        return ResponseEntity.of(Optional.of(facade.updateGame(gameid, newGameDto)));
+        return facade.updateGame(gameid, newGameDto).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{gameid}")
@@ -103,7 +117,7 @@ class GameController {
     @Transactional
     ResponseEntity<Void> deleteGame(@PathVariable long gameid){
         facade.deleteGame(gameid);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
