@@ -51,7 +51,9 @@ class GameController {
     @GetMapping("/{gameid}")
     @Operation(description = "Get a JSON game object using game id")
     ResponseEntity<GameDto> get(@PathVariable long gameid){
-        return ResponseEntity.of(facade.getGameById(gameid));
+        return facade.getGameById(gameid)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/tags/{gameid}")
@@ -68,8 +70,13 @@ class GameController {
 
     @PatchMapping("/toggle-status/{gameid}")
     @Operation(description = "Admin only. Switch the game status between 'pending' (invisible, in moderation) and 'accepted' (visible, ready to play).")
-    ResponseEntity<Boolean> toggleStatus(@PathVariable long gameid){
-        return ResponseEntity.ok(facade.toggleGameStatus(gameid));
+    ResponseEntity<Void> toggleStatus(@PathVariable long gameid){
+        boolean result = facade.toggleGameStatus(gameid);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping()

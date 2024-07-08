@@ -15,11 +15,11 @@ class GameRatingService {
 
     GameRepository gameRepository;
 
-    public String getCurrentGameScore(long gameid) {
+    public Optional<String> getCurrentGameScore(long gameid) {
         if (gameRepository.existsById(gameid)) {
-            return gameRepository.findById(gameid).getAverageRating();
+            return Optional.of(gameRepository.findById(gameid).getAverageRating());
         }
-        return "No game with the given id.";
+        return Optional.empty();
     }
 
     public Optional<GameRatingDto> getRandomRating(long gameid) {

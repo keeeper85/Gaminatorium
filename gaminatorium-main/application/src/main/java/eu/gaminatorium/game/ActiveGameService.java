@@ -28,11 +28,11 @@ class ActiveGameService {
         return Optional.empty();
     }
 
-    public List<ActiveGameDto> getAllActiveGamesForThisGame(long gameid, Pageable pageable) {
+    public Optional<List<ActiveGameDto>> getAllActiveGamesForThisGame(long gameid, Pageable pageable) {
         if (gameRepository.existsById(gameid)) {
-            return gameRepository.findAllActiveGamesByGameId(gameid, pageable).map(ActiveGameService::toDto).toList();
+            return Optional.of(gameRepository.findAllActiveGamesByGameId(gameid, pageable).map(ActiveGameService::toDto).toList());
         }
-        return List.of();
+        return Optional.empty();
     }
 
     public List<ActiveGameDto> getAllActiveGamesForAllGames(Pageable pageable) {

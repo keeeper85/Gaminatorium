@@ -61,7 +61,7 @@ public class Facade {
         return gameService.isGameTitleUsed(title);
     }
 
-    public String getCurrentGameScore(long gameid) {
+    public Optional<String> getCurrentGameScore(long gameid) {
         return gameRatingService.getCurrentGameScore(gameid);
     }
 
@@ -81,7 +81,7 @@ public class Facade {
         return activeGameService.startNewGame(gameid);
     }
 
-    public List<ActiveGameDto> getAllActiveGamesForThisGame(long gameid, Pageable pageable) {
+    public Optional<List<ActiveGameDto>> getAllActiveGamesForThisGame(long gameid, Pageable pageable) {
         return activeGameService.getAllActiveGamesForThisGame(gameid, pageable);
     }
 
