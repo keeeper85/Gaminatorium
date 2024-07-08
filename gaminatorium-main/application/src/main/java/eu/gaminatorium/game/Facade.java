@@ -1,16 +1,15 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Facade {
 
     private final GameService gameService;

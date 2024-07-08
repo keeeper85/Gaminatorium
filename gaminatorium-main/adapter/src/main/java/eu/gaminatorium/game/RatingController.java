@@ -5,8 +5,9 @@ import eu.gaminatorium.game.dto.NewGameRatingDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Tag(name = "Game Rating Controller", description = "Check game comments and score, add new ratings. " +
         "'Rating' object is a combination of it's string content, user-author, score (int), postingDate and the Game it belongs to.")
 @RequestMapping("/v1/ratings")
-@AllArgsConstructor
+@RequiredArgsConstructor
 class RatingController {
 
     private final Facade facade;
@@ -45,7 +46,7 @@ class RatingController {
     @Operation(description = "Post method for creating new ratings. Content and score are mandatory, date, game and user are added" +
             "automatically. Ratings can not be edited or deleted (by regular users) so add a popup 'Are you sure?' while posting them.")
     ResponseEntity<Optional<NewGameRatingDto>> addRatingForThisGame(@RequestBody @Valid NewGameRatingDto rating){
-        return ResponseEntity.ok(facade.addRating(rating));
+        return new ResponseEntity(facade.addRating(rating), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{ratingId}")

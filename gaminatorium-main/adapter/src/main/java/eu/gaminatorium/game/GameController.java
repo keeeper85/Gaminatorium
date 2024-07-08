@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ import java.util.Optional;
 @RestController
 @Tag(name = "Game Controller", description = "CRUD operations on Games")
 @RequestMapping("/v1/games")
-@AllArgsConstructor
+@RequiredArgsConstructor
 class GameController {
 
     private final Facade facade;
@@ -95,7 +96,7 @@ class GameController {
             );
             return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
         }
-        return ResponseEntity.of(Optional.of(facade.addNewGame(newGameDto)));
+        return new ResponseEntity<>(facade.addNewGame(newGameDto), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{gameid}")
@@ -108,7 +109,7 @@ class GameController {
             );
             return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
         }
-        return ResponseEntity.of(Optional.of(facade.updateGame(gameid, newGameDto)));
+        return facade.updateGame(gameid, newGameDto).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{gameid}")
@@ -116,7 +117,7 @@ class GameController {
     @Transactional
     ResponseEntity<Void> deleteGame(@PathVariable long gameid){
         facade.deleteGame(gameid);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

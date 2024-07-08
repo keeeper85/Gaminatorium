@@ -4,6 +4,7 @@ import eu.gaminatorium.game.dto.ActiveGameDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @Tag(name = "Active Game Controller", description = "Start a new game or join the existing one")
 @RequestMapping("/v1/activegames")
-@AllArgsConstructor
+@RequiredArgsConstructor
 class ActiveGameController {
 
     private final Facade facade;
