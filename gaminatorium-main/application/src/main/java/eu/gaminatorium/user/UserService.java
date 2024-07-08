@@ -17,12 +17,12 @@ public class UserService {
 
 
     public List<UserDto> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable).getContent()
+        return userRepository.findAllBy(pageable).getContent()
                 .stream().map(this::mapToDto).toList();
     }
 
     public Integer countAllUsers() {
-        return userRepository.countAll();
+        return userRepository.countAllBy();
     }
 
     public Optional<UserDto> getUserById(long userId) {

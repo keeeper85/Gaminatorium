@@ -11,9 +11,9 @@ import java.util.Optional;
 @Repository
 public interface SqlUserRepository extends UserRepository, JpaRepository<User, Integer> {
 
-    Page<User> findAll(Pageable pageable);
+    Page<User> findAllBy(Pageable pageable);
 
-    Integer countAll();
+    Integer countAllBy();
 
     Optional<User> findById(long userId);
 

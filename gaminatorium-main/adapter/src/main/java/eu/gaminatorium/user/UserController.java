@@ -23,7 +23,7 @@ public class UserController {
         return ResponseEntity.ok(userFacade.findAll(pageable));
     }
 
-    @GetMapping("/amount")
+    @GetMapping("/count")
     @Operation(description = "Get number of all users")
     public ResponseEntity<Integer> getUsersAmount() {
         return ResponseEntity.ok(userFacade.countAllUsers());
@@ -39,7 +39,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     @Operation(description = "Add new user providing user details")
     public ResponseEntity<UserDto> addUser(UserDto userDto) {
         return ResponseEntity.ok(userFacade.addUser(userDto));
