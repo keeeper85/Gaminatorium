@@ -1,7 +1,6 @@
 package eu.gaminatorium.user;
 
 import eu.gaminatorium.user.dto.UserDto;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

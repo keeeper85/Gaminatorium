@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(RatingController.class)
 class RatingControllerTest {
+
+    private final String BASE_URL = "/v1/ratings";
 
     @Autowired
     private MockMvc mvc;
@@ -38,7 +41,6 @@ class RatingControllerTest {
         @Test
         void getGameAverageScoreIfGameExist() throws Exception {
             //TODO score gry będzie opisowe czy liczbowe? Teraz wartość score jest typu String
-            // metoda GameAverageScore nie zwraca Jsona
             //given
             var gameId = 1;
             var score = "4.0";
@@ -47,14 +49,14 @@ class RatingControllerTest {
             when(facade.getCurrentGameScore(gameId)).thenReturn(score);
 
             //then
-            mvc.perform(get("/v1/ratings/score/" + gameId).contentType(MediaType.APPLICATION_JSON))
+            mvc.perform(get(BASE_URL + "/score/" + gameId).contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
 //                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(content().string(score));
         }
 
         @Test
-        void getGameRandomRating() throws Exception {
+        void getGameRandomRatingIfAnyRateExist() throws Exception {
             //given
             var gameId = 1;
 
@@ -62,16 +64,27 @@ class RatingControllerTest {
                     .comment("foo")
                     .build();
 
-            Optional<GameRatingDto> optionalGameRatingDto = Optional.of(gameRatingDto);
-
             //when
-            when(facade.getRandomRating(gameId)).thenReturn(optionalGameRatingDto); //TODO metoda powinna zwracac obiekt lub rzucic wyjątek zamiast optional
+            when(facade.getRandomRating(gameId)).thenReturn(Optional.of(gameRatingDto));
 
             //then
-            mvc.perform(get("/v1/ratings/random/" + gameId).contentType(MediaType.APPLICATION_JSON))
+            mvc.perform(get(BASE_URL + "/random/" + gameId).contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.comment").value("foo"));
+        }
 
+        @Test
+        void getGameRandomRatingIfAnyRateNotExist() throws Exception {
+            //given
+            var gameId = 1;
+
+            //when
+            when(facade.getRandomRating(gameId)).thenReturn(Optional.empty());
+
+            //then
+            mvc.perform(get(BASE_URL + "/random/" + gameId).contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$").doesNotExist());
         }
     }
 

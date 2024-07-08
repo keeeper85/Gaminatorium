@@ -3,6 +3,7 @@ package eu.gaminatorium.game;
 import eu.gaminatorium.game.dto.GameRatingDto;
 import eu.gaminatorium.game.dto.NewGameRatingDto;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +11,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 class GameRatingService {
 
     GameRepository gameRepository;
 
-    public String getCurrentGameScore(long gameid) {
+    public Optional<String> getCurrentGameScore(long gameid) {
         if (gameRepository.existsById(gameid)) {
-            return gameRepository.findById(gameid).getAverageRating();
+            return Optional.of(gameRepository.findById(gameid).getAverageRating());
         }
-        return "No game with the given id.";
+        return Optional.empty();
     }
 
     public Optional<GameRatingDto> getRandomRating(long gameid) {
@@ -48,8 +49,21 @@ class GameRatingService {
         return Optional.empty();
     }
 
+    public boolean deleteRating(long ratingId) {
+        if (gameRepository.existsGameRatingById(ratingId)){
+            Game.Rating gameRating = gameRepository.findGameRatingById(ratingId);
+            Game game = gameRating.getGame();
+            if (game.deleteGameRating(gameRating)) {
+                gameRepository.save(game);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static GameRatingDto toDto(Game.Rating gameRating) {
         GameRatingDto gameRatingDto = GameRatingDto.builder()
+                .ratingId(gameRating.getId())
                 .score(gameRating.getScore())
                 .comment(gameRating.getComment())
                 .postDate(gameRating.getPostingDate())

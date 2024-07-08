@@ -1,7 +1,7 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Facade {
 
     private final GameService gameService;
@@ -60,7 +60,7 @@ public class Facade {
         return gameService.isGameTitleUsed(title);
     }
 
-    public String getCurrentGameScore(long gameid) {
+    public Optional<String> getCurrentGameScore(long gameid) {
         return gameRatingService.getCurrentGameScore(gameid);
     }
 
@@ -74,5 +74,29 @@ public class Facade {
 
     public Optional<NewGameRatingDto> addRating(NewGameRatingDto rating) {
         return gameRatingService.addRating(rating);
+    }
+
+    public Optional<ActiveGameDto> startNewGame(long gameid) {
+        return activeGameService.startNewGame(gameid);
+    }
+
+    public Optional<List<ActiveGameDto>> getAllActiveGamesForThisGame(long gameid, Pageable pageable) {
+        return activeGameService.getAllActiveGamesForThisGame(gameid, pageable);
+    }
+
+    public List<ActiveGameDto> getAllActiveGamesForAllGames(Pageable pageable) {
+        return activeGameService.getAllActiveGamesForAllGames(pageable);
+    }
+
+    public Optional<ActiveGameDto> joinGame(long activegameid) {
+        return activeGameService.joinGame(activegameid);
+    }
+
+    public void deleteRating(long ratingId) {
+        gameRatingService.deleteRating(ratingId);
+    }
+
+    public List<GameDto> getRecentlyPlayedGames(Pageable pageable) {
+        return gameService.getRecentlyPlayedGames(pageable);
     }
 }
