@@ -105,8 +105,12 @@ class UserControllerTest {
     void shouldAddNewUser() throws Exception {
         when(facade.addUser(any(UserDto.class))).thenReturn(userDto);
 
-        mvc.perform(post(BASE_URL + "/add"))
-                .andExpect(status().isOk())
+        String jsonDto = objectMapper.writeValueAsString(userDto);
+
+        mvc.perform(post(BASE_URL + "/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonDto))
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.userName").value(userDto.getUserName()));
     }
@@ -114,7 +118,7 @@ class UserControllerTest {
     @Test
     void shouldDeleteUser() throws Exception {
         mvc.perform(delete(BASE_URL + "/1"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
