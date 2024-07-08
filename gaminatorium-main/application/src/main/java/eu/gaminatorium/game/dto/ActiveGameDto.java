@@ -14,22 +14,25 @@ import java.time.LocalDateTime;
 public class ActiveGameDto {
 
     private Long id;
-    private Game game;
-    @Min(value = 0, message = "Number of current players can not be negative.")
+    private Long gameid;
+    @Min(value = 1, message = "Number of current players must be positive.")
     private int currentPlayers;
     private int maxPlayers;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
-    private LocalDateTime startedAt = LocalDateTime.now();
+    private LocalDateTime startedAt;
     private int timerStartedMinutesAgo;
 
     public ActiveGameDto(Game game) {
-        this.game = game;
-        this.currentPlayers = 1;
+        this.gameid = game.getId();
         this.maxPlayers = game.getMaxPlayers();
-        this.timerStartedMinutesAgo = Duration.between(startedAt, LocalDateTime.now()).toMinutesPart();
     }
 
-    void updateTimer(){
+    public void setStartedAt(LocalDateTime startedAt) {
+        this.startedAt = startedAt;
+        updateTimer();
+    }
+
+    private void updateTimer(){
         this.timerStartedMinutesAgo = Duration.between(startedAt, LocalDateTime.now()).toMinutesPart();
     }
 }

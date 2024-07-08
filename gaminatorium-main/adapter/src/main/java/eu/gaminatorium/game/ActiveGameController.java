@@ -1,10 +1,10 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.ActiveGameDto;
-import eu.gaminatorium.game.dto.GameDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,23 +17,21 @@ import java.util.List;
 @RestController
 @Tag(name = "Active Game Controller", description = "Start a new game or join the existing one")
 @RequestMapping("/v1/activegames")
-@AllArgsConstructor
+@RequiredArgsConstructor
 class ActiveGameController {
 
     private final Facade facade;
 
-    @GetMapping("/all")
-    @Operation(description = "You will get pageable object with ALL pending games for ALL offered games.")
+    @GetMapping()
+    @Operation(description = "You will get pageable list with ALL pending games for ALL offered games.")
     ResponseEntity<List<ActiveGameDto>> getAllActiveGames(Pageable pageable){
-        return ResponseEntity.notFound().build();
-        //todo
+        return ResponseEntity.ok(facade.getAllActiveGamesForAllGames(pageable));
     }
 
-    @GetMapping("/allforthis/{gameid}")
+    @GetMapping("/{gameid}")
     @Operation(description = "You will get pageable object with ALL pending games only for THIS game.")
     ResponseEntity<List<ActiveGameDto>> getAllActiveGamesForThisGame(@PathVariable long gameid, Pageable pageable){
-        return ResponseEntity.notFound().build();
-        //todo
+        return facade.getAllActiveGamesForThisGame(gameid, pageable).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/find/{title}")
@@ -45,15 +43,13 @@ class ActiveGameController {
     @GetMapping("/start/{gameid}")
     @Operation(description = "Use this endpoint to launch a new instance of the chosen game.")
     ResponseEntity<ActiveGameDto> startNewGame(@PathVariable long gameid){
-        return ResponseEntity.notFound().build();
-        //todo
+        return facade.startNewGame(gameid).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/join/{activegameid}")
     @Operation(description = "Use this endpoint to join the instance of the chosen game.")
     ResponseEntity<ActiveGameDto> joinGame(@PathVariable long activegameid){
-        return ResponseEntity.notFound().build();
-        //todo
+        return facade.joinGame(activegameid).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

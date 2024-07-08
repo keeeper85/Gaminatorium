@@ -2,16 +2,15 @@ package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.GameDto;
 import eu.gaminatorium.game.dto.NewGameDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 class GameService {
 
     private final GameRepository gameRepository;
@@ -98,6 +97,10 @@ class GameService {
         return gameRepository.existsByTitle(title);
     }
 
+    public List<GameDto> getRecentlyPlayedGames(Pageable pageable) {
+        return gameRepository.findGamesOrderedByLastTimePlayedDesc(pageable).stream().map(GameService::toDto).toList();
+    }
+
     private static GameDto toDto(Game game) {
         GameDto gameDto = GameDto.builder()
                 .id(game.getId())
@@ -110,6 +113,7 @@ class GameService {
                 .maxPlayers(game.getMaxPlayers())
                 .timesPlayedTotal(game.getTimesPlayedTotal())
                 .releaseDate(game.getReleaseDate())
+                .lastTimePlayed(game.getLastTimePlayed())
                 .ratings(game.getRatings())
                 .activeGames(game.getActiveGames())
                 .build();
