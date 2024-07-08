@@ -30,3 +30,5 @@ gaminatorium:
   openapi:
     local-url: http://localhost:8080
     prod-url: https://gaminatorium.eu
+
+
