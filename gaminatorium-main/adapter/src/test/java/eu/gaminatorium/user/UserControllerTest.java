@@ -75,7 +75,7 @@ class UserControllerTest {
         int USERS_AMOUNT = 10;
         when(facade.countAllUsers()).thenReturn(USERS_AMOUNT);
 
-        mvc.perform(get(BASE_URL + "/amount"))
+        mvc.perform(get(BASE_URL + "/count"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(USERS_AMOUNT)));
