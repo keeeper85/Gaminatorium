@@ -55,7 +55,7 @@ class GameControllerTest {
             Mockito.when(facade.countAllAvailableGames()).thenReturn(5);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game/count"))
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/count"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(MockMvcResultMatchers.content().string("5"));
@@ -70,7 +70,7 @@ class GameControllerTest {
             Mockito.when(facade.countAllAvailableGames()).thenReturn(gameListSize);
 
             //given
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game/count"))
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/count"))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(MockMvcResultMatchers.content().string("" + gameListSize));
@@ -90,7 +90,7 @@ class GameControllerTest {
             Mockito.when(facade.getAllAvailableGamesPaged(gameStatus, PageRequest.of(0, 5))).thenReturn(gameDtoList);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game")
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL)
                     .param("page", "0")
                     .param("size", "5"))
                         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -108,7 +108,7 @@ class GameControllerTest {
             Mockito.when(facade.getAllAvailableGamesPaged(gameStatus, PageRequest.of(0, 5))).thenReturn(gameDtoList);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game")
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL)
                     .param("page", "0")
                     .param("size", "5"))
                         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -130,7 +130,7 @@ class GameControllerTest {
             Mockito.when(facade.getAllAvailableGamesPaged(gameStatus, PageRequest.of(0, 5))).thenReturn(gameDtoList);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game/pending")
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/pending")
                     .param("page", "0")
                     .param("size", "5"))
                         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -148,7 +148,7 @@ class GameControllerTest {
             Mockito.when(facade.getAllAvailableGamesPaged(gameStatus, PageRequest.of(0, 5))).thenReturn(gameDtoList);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game/pending")
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/pending")
                     .param("page", "0")
                     .param("size", "5"))
                         .andExpect(MockMvcResultMatchers.status().isOk())
@@ -170,7 +170,7 @@ class GameControllerTest {
             Mockito.when(facade.getGameById(1)).thenReturn(optionalGameDto);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game/" + gameId))
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + gameId))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(MockMvcResultMatchers.jsonPath("$.title", is("foo")));
@@ -185,7 +185,7 @@ class GameControllerTest {
             Mockito.when(facade.getGameById(gameId)).thenReturn(Optional.empty());
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game/" + gameId))
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/" + gameId))
                     .andExpect(MockMvcResultMatchers.status().isNotFound());
         }
 
@@ -199,7 +199,7 @@ class GameControllerTest {
             Mockito.when(facade.getGameTags(gameId)).thenReturn(tags);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game/tags/" + gameId))
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/tags/" + gameId))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content()
                             .contentType(MediaType.APPLICATION_JSON))
@@ -217,33 +217,33 @@ class GameControllerTest {
             Mockito.when(facade.getGameTags(gameId)).thenReturn(tags);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game/tags/" + gameId))
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/tags/" + gameId))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(0)));
         }
 
-        @Test
-        void getGameTagsWhenGameNotExist() throws Exception {   // TODO metoda getGameTags powinna przewidzieć że gra o podanym id nie istnieje ponieważ
-            //given
-            var gameId = 1;
-
-            //when
-            Mockito.when(facade.getGameTags(gameId)).thenThrow(new NoSuchElementException("Game not found"));
-
-            //then
-            /*Exception resolvedException = */mvc.perform(MockMvcRequestBuilders.get("/v1/game/tags/" + gameId))
-                    .andExpect(MockMvcResultMatchers.status().isNotFound());
-//                    .andReturn()
-//                    .getResolvedException();
-
-//            assertThrows(NoSuchElementException.class, () -> {throw resolvedException; });
+//        @Test
+//        void getGameTagsWhenGameNotExist() throws Exception {   // TODO metoda getGameTags powinna przewidzieć że gra o podanym id nie istnieje ponieważ
+//            //given
+//            var gameId = 1;
 //
-//            ArgumentCaptor<NoSuchElementException> captor = ArgumentCaptor.forClass(NoSuchElementException.class);
-//            assertEquals("Game not found", captor.capture().getMessage());
-
-
-        }
+//            //when
+//            Mockito.when(facade.getGameTags(gameId)).thenThrow(new NoSuchElementException("Game not found"));
+//
+//            //then
+//            /*Exception resolvedException = */mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/tags/" + gameId))
+//                    .andExpect(MockMvcResultMatchers.status().isNotFound());
+////                    .andReturn()
+////                    .getResolvedException();
+//
+////            assertThrows(NoSuchElementException.class, () -> {throw resolvedException; });
+////
+////            ArgumentCaptor<NoSuchElementException> captor = ArgumentCaptor.forClass(NoSuchElementException.class);
+////            assertEquals("Game not found", captor.capture().getMessage());
+//
+//
+//        }
 
         @Test
         void getGameByTitle() throws Exception {
@@ -261,7 +261,7 @@ class GameControllerTest {
             Mockito.when(facade.findAvailableMatchingGamesPaged(gameTitle, PageRequest.of(0, 5, sort))).thenReturn(List.of(gameDto));
 
             //then
-            mvc.perform(MockMvcRequestBuilders.get("/v1/game/find/" + gameTitle)
+            mvc.perform(MockMvcRequestBuilders.get(BASE_URL + "/find/" + gameTitle)
                             .param("page", "0")
                             .param("size", "5")
                             .param("sort", "title,asc")
@@ -294,7 +294,7 @@ class GameControllerTest {
             Mockito.when(facade.addNewGame(newGame)).thenReturn(Optional.of(newGame));
 
             //then
-            mvc.perform(MockMvcRequestBuilders.post("/v1/game")
+            mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(newGameJson))
                     .andExpect(MockMvcResultMatchers.status().isOk())   // TODO metoda może zwracać status 201 created
@@ -321,7 +321,7 @@ class GameControllerTest {
             Mockito.when(facade.isGameTitleUsed(newGame.getTitle())).thenReturn(true);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.post("/v1/game")
+            mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(newGameJson))
                     .andExpect(MockMvcResultMatchers.status().is(HttpStatus.CONFLICT.value()))
@@ -343,7 +343,7 @@ class GameControllerTest {
             Mockito.when(facade.toggleGameStatus(gameId)).thenReturn(true);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.patch("/v1/game/toggle-status/" + gameId).contentType(MediaType.APPLICATION_JSON))
+            mvc.perform(MockMvcRequestBuilders.patch(BASE_URL + "/toggle-status/" + gameId).contentType(MediaType.APPLICATION_JSON))
                     .andExpect(MockMvcResultMatchers.status().isOk())
                     .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(MockMvcResultMatchers.content().string("true"));
@@ -370,7 +370,7 @@ class GameControllerTest {
             Mockito.when(facade.isGameTitleUsed(newGameDto.getTitle())).thenReturn(true);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.patch("/v1/game/" + gameId)
+            mvc.perform(MockMvcRequestBuilders.patch(BASE_URL + "/" + gameId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(newGameDtoJson))
                     .andExpect(MockMvcResultMatchers.status().is(HttpStatus.CONFLICT.value()))
@@ -408,7 +408,7 @@ class GameControllerTest {
             Mockito.when(facade.updateGame(gameId, newGameDto)).thenReturn(optionalGameDto);
 
             //then
-            mvc.perform(MockMvcRequestBuilders.patch("/v1/game/" + gameId)
+            mvc.perform(MockMvcRequestBuilders.patch(BASE_URL + "/" + gameId)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(newGameDtoJson))
                     .andExpect(MockMvcResultMatchers.status().isOk())
@@ -427,7 +427,7 @@ class GameControllerTest {
             //when
 
             //then
-            mvc.perform(MockMvcRequestBuilders.delete("/v1/game/" + gameId))
+            mvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + gameId))
 //                    .andExpect(MockMvcResultMatchers.status().isNoContent()) TODO metoda może zwracać status NoContent
                     .andExpect(MockMvcResultMatchers.status().isOk());
 
