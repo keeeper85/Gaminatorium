@@ -57,7 +57,7 @@ class UserServiceTest {
     void shouldReturnUserDtoList() {
         Page<User> userPage = new PageImpl<>(List.of(user, user2));
 
-        when(userRepository.findAll(any())).thenReturn(userPage);
+        when(userRepository.findAllBy(any())).thenReturn(userPage);
 
         List<UserDto> result = userService.findAll(any());
 
@@ -69,7 +69,7 @@ class UserServiceTest {
     @Test
     void shouldCountAllUsers() {
         List<User> users = List.of(user, user2);
-        when(userRepository.countAll()).thenReturn(users.size());
+        when(userRepository.countAllBy()).thenReturn(users.size());
 
         long result = userService.countAllUsers();
 

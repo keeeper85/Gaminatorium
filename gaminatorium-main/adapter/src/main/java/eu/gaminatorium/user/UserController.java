@@ -24,9 +24,9 @@ public class UserController {
         return ResponseEntity.ok(userFacade.findAll(pageable));
     }
 
-    @GetMapping("/amount")
+    @GetMapping("/count")
     @Operation(description = "Get number of all users")
-    public ResponseEntity<Integer> getUsersAmount() {
+    public ResponseEntity<Integer> countAllUsers() {
         return ResponseEntity.ok(userFacade.countAllUsers());
     }
 

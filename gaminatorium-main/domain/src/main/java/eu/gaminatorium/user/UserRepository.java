@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    Page<User> findAll(Pageable pageable);
+    Page<User> findAllBy(Pageable pageable);
 
-    Integer countAll();
+    Integer countAllBy();
 
     Optional<User> findById(long userId);
 
