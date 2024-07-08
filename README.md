@@ -68,5 +68,3 @@ The prerequisite is to have Docker installed with the Docker Compose plugin.
 ---
 
 ## License
-
-Gaminatorium is an open-source project licensed under the [GPL v3.0](https://choosealicense.com/licenses/gpl-3.0/).
