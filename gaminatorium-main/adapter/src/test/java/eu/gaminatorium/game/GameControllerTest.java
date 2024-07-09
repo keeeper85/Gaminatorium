@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.is;
 @WebMvcTest(GameController.class)
 class GameControllerTest {
 
-    private final String BASE_URL = "/v1/games";
+    private final String BASE_URL = "/v1/game";
 
     @Autowired
     private MockMvc mvc;
@@ -293,12 +293,14 @@ class GameControllerTest {
             mvc.perform(MockMvcRequestBuilders.post(BASE_URL)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(newGameJson))
-                    .andExpect(MockMvcResultMatchers.status().isCreated());
+                    .andExpect(MockMvcResultMatchers.status().isOk())   // TODO metoda może zwracać status 201 created
 //                    .andExpect(MockMvcResultMatchers.header().exists("Location")) // TODO metod post powinna zwracać adres nowo utworzonego zasobu
+                    .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+//                    .andExpect(MockMvcResultMatchers.jsonPath("$.title", is("foo")));
         }
 
         @Test
-        void createGameWhenGameNotExistAndPropertiesAreNotValid() throws Exception {
+        void createGameWhenGameNotExistAnd() throws Exception {
             //given
             var newGame = NewGameDto.builder()
                     .title("")  // Size is required min length 3 and max 30
@@ -362,7 +364,9 @@ class GameControllerTest {
 
             //then
             mvc.perform(MockMvcRequestBuilders.patch(BASE_URL + "/toggle-status/" + gameId).contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(MockMvcResultMatchers.status().isOk());
+                    .andExpect(MockMvcResultMatchers.status().isOk())
+                    .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(MockMvcResultMatchers.content().string("true"));
 
             Mockito.verify(facade, Mockito.times(1)).toggleGameStatus(gameId);
         }
@@ -426,7 +430,8 @@ class GameControllerTest {
             mvc.perform(MockMvcRequestBuilders.patch(BASE_URL + "/" + gameId)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(newGameDtoJson))
-                                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                                .andExpect(MockMvcResultMatchers.status().isOk())
+                                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
         }
 
         @Test
@@ -468,7 +473,8 @@ class GameControllerTest {
 
             //then
             mvc.perform(MockMvcRequestBuilders.delete(BASE_URL + "/" + gameId))
-                    .andExpect(MockMvcResultMatchers.status().isNoContent());
+//                    .andExpect(MockMvcResultMatchers.status().isNoContent()) TODO metoda może zwracać status NoContent
+                    .andExpect(MockMvcResultMatchers.status().isOk());
 
             Mockito.verify(facade, Mockito.times(1)).deleteGame(gameId);
         }

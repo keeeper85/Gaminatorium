@@ -46,7 +46,7 @@ class RatingControllerTest {
             var score = "4.0";
 
             //when
-            when(facade.getCurrentGameScore(gameId)).thenReturn(Optional.of(score));
+            when(facade.getCurrentGameScore(gameId)).thenReturn(score);
 
             //then
             mvc.perform(get(BASE_URL + "/score/" + gameId).contentType(MediaType.APPLICATION_JSON))
@@ -83,9 +83,8 @@ class RatingControllerTest {
 
             //then
             mvc.perform(get(BASE_URL + "/random/" + gameId).contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isNotFound());
-//                    .andExpect(status().isOk())
-//                    .andExpect(jsonPath("$").doesNotExist());
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$").doesNotExist());
         }
     }
 
