@@ -148,7 +148,7 @@ class GameServiceTest {
     }
 
     @Test
-    void deleteGameWhenGameExists() {   //TODO metoda deleteGame może być typu zamiast zwracąć Optional<Void>
+    void deleteGameWhenGameExists() {   //TODO metoda deleteGame może być typu void zamiast zwracąć Optional<Void>
         //given
         var gameId = 1;
 
