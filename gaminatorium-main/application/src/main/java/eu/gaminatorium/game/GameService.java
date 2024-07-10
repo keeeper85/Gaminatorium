@@ -61,11 +61,10 @@ class GameService {
         return Optional.empty();
     }
 
-    Optional<Void> deleteGame(long id){
+    void deleteGame(long id){
         if (gameRepository.existsById(id)) {
             gameRepository.deleteById(id);
         }
-        return Optional.empty();
     }
 
     boolean toggleGameStatus(long gameId) {

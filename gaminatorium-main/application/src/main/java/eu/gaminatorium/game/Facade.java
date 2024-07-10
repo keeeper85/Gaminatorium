@@ -40,8 +40,8 @@ public class Facade {
         return gameService.updateGame(id, newGameDto);
     }
 
-    Optional<Void> deleteGame(long id){
-        return gameService.deleteGame(id);
+    void deleteGame(long id){
+        gameService.deleteGame(id);
     }
 
     List<ActiveGameDto> getMatchingActiveGamesPaged(String title, Pageable pageable) {

@@ -87,6 +87,7 @@ class GameServiceTest {
         //then
         Optional<NewGameDto> result = gameService.addNewGame(newGameDto);
 
+        verify(gameRepository, times(0)).save(any(Game.class));
         assertEquals(result.orElse(null).getTitle(), "Error! Chosen title already exists!");
     }
 
@@ -103,6 +104,7 @@ class GameServiceTest {
         //then
         Optional<NewGameDto> result = gameService.addNewGame(newGameDto);
 
+        verify(gameRepository, times(1)).save(any(Game.class));
         assertEquals(result.orElse(null).getTitle(), "foo");
     }
 
@@ -124,6 +126,7 @@ class GameServiceTest {
         //then
         Optional<GameDto> result = gameService.updateGame(gameId, newGameDto);
 
+        verify(gameRepository, times(1)).save(game);
         assertEquals(result.orElse(null).title(), "foo");
     }
 
@@ -144,11 +147,12 @@ class GameServiceTest {
         //then
         Optional<GameDto> result = gameService.updateGame(gameId, newGameDto);
 
+        verify(gameRepository, times(0)).save(any(Game.class));
         assertTrue(result.isEmpty());
     }
 
     @Test
-    void deleteGameWhenGameExists() {   //TODO metoda deleteGame może być typu void zamiast zwracąć Optional<Void>
+    void deleteGameWhenGameExists() {
         //given
         var gameId = 1;
 
@@ -156,9 +160,8 @@ class GameServiceTest {
         when(gameRepository.existsById(gameId)).thenReturn(true);
 
         //then
-        Optional<Void> result = gameService.deleteGame(gameId);
+        gameService.deleteGame(gameId);
 
-        assertTrue(result.isEmpty());
         verify(gameRepository, times(1)).deleteById(gameId);
     }
 }
