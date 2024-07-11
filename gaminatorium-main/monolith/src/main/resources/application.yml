@@ -13,6 +13,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    url: jdbc:postgresql://localhost:5432/gaminatoriumdb
+    driver-class-name: org.postgresql.Driver
+    username: gaminatorium
+    password: gaminatoriumpass
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
 
 eureka:
   client:
