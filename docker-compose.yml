@@ -2,16 +2,16 @@ name: keeeper85
 
 services:
   eureka:
-#    build: ./eureka-discovery
-    image: keeeper85/eureka
+    build: ./eureka-discovery
+#    image: keeeper85/eureka
     ports:
       - "8761:8761"
     networks:
       - backend
 
   gaminatorium:
-#    build: ./gaminatorium-main
-    image: keeeper85/gaminatorium
+    build: ./gaminatorium-main
+#    image: keeeper85/gaminatorium
     ports:
       - "8080:8080"
       - "[::]:80:8080"
@@ -21,6 +21,7 @@ services:
       - eureka
       - gaminatorium-postgres
     environment:
+      EUREKA_URI: http://eureka:8761/eureka
       SPRING_DATASOURCE_URL: jdbc:postgresql://gaminatorium-postgres:5432/gaminatoriumdb
       SPRING_DATASOURCE_USERNAME: gaminatorium
       SPRING_DATASOURCE_PASSWORD: gaminatoriumpass
@@ -39,8 +40,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   gateway:
-#    build: ./gateway-balancer
-    image: keeeper85/gateway
+    build: ./gateway-balancer
+#    image: keeeper85/gateway
     ports:
       - "9000:9000"
     networks:
@@ -48,6 +49,8 @@ services:
     depends_on:
       - gaminatorium
       - eureka
+    environment:
+      EUREKA_URI: http://eureka:8761/eureka
 
 networks:
   backend:
