@@ -5,28 +5,52 @@ services:
 #    build: ./eureka-discovery
     image: keeeper85/eureka
     ports:
-      - '8761:8761'
+      - "8761:8761"
     networks:
       - backend
+
   gaminatorium:
 #    build: ./gaminatorium-main
     image: keeeper85/gaminatorium
     ports:
-      - '8080:8080'
-      - '[::]:80:8080'
+      - "8080:8080"
+      - "[::]:80:8080"
     networks:
       - backend
     depends_on:
       - eureka
+      - gaminatorium-postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://gaminatorium-postgres:5432/gaminatoriumdb
+      SPRING_DATASOURCE_USERNAME: gaminatorium
+      SPRING_DATASOURCE_PASSWORD: gaminatoriumpass
+
+  gaminatorium-postgres:
+    image: postgres:16.3
+    environment:
+      POSTGRES_DB: gaminatoriumdb
+      POSTGRES_USER: gaminatorium
+      POSTGRES_PASSWORD: gaminatoriumpass
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   gateway:
 #    build: ./gateway-balancer
     image: keeeper85/gateway
     ports:
-      - '9000:9000'
+      - "9000:9000"
     networks:
       - backend
     depends_on:
       - gaminatorium
       - eureka
+
 networks:
   backend:
+
+volumes:
+  postgres_data:
