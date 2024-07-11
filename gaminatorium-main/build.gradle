@@ -49,6 +49,7 @@ subprojects {
         testImplementation 'org.mockito:mockito-junit-jupiter'
 
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        annotationProcessor 'org.projectlombok:lombok'
     }
 
     bootJar {

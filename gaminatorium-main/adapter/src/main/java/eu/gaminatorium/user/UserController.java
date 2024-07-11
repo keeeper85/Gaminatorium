@@ -4,6 +4,7 @@ import eu.gaminatorium.user.dto.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,37 +26,37 @@ public class UserController {
 
     @GetMapping("/count")
     @Operation(description = "Get number of all users")
-    public ResponseEntity<Integer> getUsersAmount() {
+    public ResponseEntity<Integer> countAllUsers() {
         return ResponseEntity.ok(userFacade.countAllUsers());
     }
 
     @GetMapping("/{id}")
     @Operation(description = "Get user by user id")
-    ResponseEntity<Optional<UserDto>> getUser(@PathVariable long userId) {
-        Optional<UserDto> user = userFacade.getUserById(userId);
+    ResponseEntity<Optional<UserDto>> getUser(@PathVariable long id) {
+        Optional<UserDto> user = userFacade.getUserById(id);
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping()
+    @PostMapping("/add")
     @Operation(description = "Add new user providing user details")
-    public ResponseEntity<UserDto> addUser(UserDto userDto) {
-        return ResponseEntity.ok(userFacade.addUser(userDto));
+    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
+        return new ResponseEntity<>(userFacade.addUser(userDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     @Operation(description = "Delete user by user id")
-    public ResponseEntity<?> deleteUser(@PathVariable long userId) {
-        userFacade.deleteUserById(userId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> deleteUser(@PathVariable long id) {
+        userFacade.deleteUserById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping("/update/{id}")
     @Operation(description = "Update user providing user details")
-    ResponseEntity<Optional<UserDto>> updateUser(long userId, @RequestBody UserDto userDto) {
-        Optional<UserDto> user = userFacade.updateUser(userId, userDto);
+    ResponseEntity<Optional<UserDto>> updateUser(@PathVariable long id, @RequestBody UserDto userDto) {
+        Optional<UserDto> user = userFacade.updateUser(id, userDto);
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

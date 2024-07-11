@@ -1,7 +1,7 @@
 package eu.gaminatorium.user;
 
 import eu.gaminatorium.user.dto.UserDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +10,10 @@ import java.util.Optional;
 
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-
 
     public List<UserDto> findAll(Pageable pageable) {
         return userRepository.findAllBy(pageable).getContent()
@@ -44,6 +43,7 @@ public class UserService {
             if (userDto.getUserName() != null) user.setUserName(userDto.getUserName());
             if (userDto.getEmail() != null) user.setEmail(userDto.getEmail());
             if (userDto.getPassword() != null) user.setPassword(userDto.getPassword());
+            return Optional.ofNullable(mapToDto(userRepository.save(user)));
         }
         return Optional.empty();
     }
