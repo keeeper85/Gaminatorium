@@ -2,17 +2,6 @@ spring:
   application:
     name: MAIN-SERVICE
   datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
     url: jdbc:postgresql://localhost:5432/gaminatoriumdb
     driver-class-name: org.postgresql.Driver
     username: gaminatorium
@@ -23,6 +12,8 @@ spring:
       properties:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQLDialect
+server:
+  port: 0
 
 eureka:
   client:
@@ -40,5 +31,3 @@ gaminatorium:
   openapi:
     local-url: http://localhost:8080
     prod-url: https://gaminatorium.eu
-
-

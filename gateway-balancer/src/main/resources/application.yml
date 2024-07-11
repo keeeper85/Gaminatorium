@@ -12,8 +12,8 @@ spring:
 #          uri: lb://MAIN-SERVICE
 #          predicates:
 #            - Path=/lb/**
-#        - id: urlTest
-#          uri: http://MAIN-SERVICE:8080
+#        - id: MAIN-SERVICE
+#          uri: http:/MAIN-SERVICE/**
 #          predicates:
 #            - Path=/url/**
 #        - id: bingTest
@@ -27,14 +27,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-
-      instance:
-        preferIpAddress: true
-        logging:
-          level:
-            org.springframework.cloud.gateway: DEBUG
-            org.springframework.web: DEBUG
-
   instance:
     preferIpAddress: true
 
@@ -42,4 +34,3 @@ logging:
   level:
     org.springframework.cloud.gateway: DEBUG
     org.springframework.web: DEBUG
-
