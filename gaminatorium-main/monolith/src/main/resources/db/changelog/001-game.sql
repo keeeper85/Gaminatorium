@@ -50,7 +50,7 @@ insert into game (title, description,
                   max_players, release_date, times_played_total)
 VALUES ('Makao', 'A fun multiplayer card game.',
         'card multi turn-based', 'https://www.gaminatorium.eu/games/makao.png',
-        4, '01-06-2024', 0);
+        4, '2024-06-01', 0);
 
 --changeSet Slawek84PL:001_5
 insert into game (title, description, game_service_link,
