@@ -22,16 +22,13 @@ services:
       - gaminatorium-postgres
     environment:
       EUREKA_URI: http://eureka:8761/eureka
-      SPRING_DATASOURCE_URL: jdbc:postgresql://gaminatorium-postgres:5432/gaminatoriumdb
-      SPRING_DATASOURCE_USERNAME: gaminatorium
-      SPRING_DATASOURCE_PASSWORD: gaminatoriumpass
 
   gaminatorium-postgres:
     image: postgres:16.3
     environment:
       POSTGRES_DB: gaminatoriumdb
       POSTGRES_USER: gaminatorium
-      POSTGRES_PASSWORD: gaminatoriumpass
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
     ports:
       - "5432:5432"
     networks:
