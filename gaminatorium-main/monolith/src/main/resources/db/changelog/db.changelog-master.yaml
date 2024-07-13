@@ -1,2 +1,5 @@
 databaseChangeLog:
-  - 
+  - include:
+      file: /db/changelog/001-game.sql
+  - include:
+      file: /db/changelog/002-user.sql

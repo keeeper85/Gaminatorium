@@ -56,3 +56,5 @@ ehthumbs_vista.db
 *.msm
 *.msp
 bootstrap.yml
+.env
+.idea/

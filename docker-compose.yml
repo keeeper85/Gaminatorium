@@ -2,31 +2,55 @@ name: keeeper85
 
 services:
   eureka:
-#    build: ./eureka-discovery
-    image: keeeper85/eureka
+    build: ./eureka-discovery
+#    image: keeeper85/eureka
     ports:
-      - '8761:8761'
+      - "8761:8761"
     networks:
       - backend
+
   gaminatorium:
-#    build: ./gaminatorium-main
-    image: keeeper85/gaminatorium
+    build: ./gaminatorium-main
+#    image: keeeper85/gaminatorium
     ports:
-      - '8080:8080'
-      - '[::]:80:8080'
+      - "8080:8080"
+      - "[::]:80:8080"
     networks:
       - backend
     depends_on:
       - eureka
-  gateway:
-#    build: ./gateway-balancer
-    image: keeeper85/gateway
+      - gaminatorium-postgres
+    environment:
+      EUREKA_URI: http://eureka:8761/eureka
+
+  gaminatorium-postgres:
+    image: postgres:16.3
+    environment:
+      POSTGRES_DB: gaminatoriumdb
+      POSTGRES_USER: gaminatorium
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
     ports:
-      - '9000:9000'
+      - "5432:5432"
+    networks:
+      - backend
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  gateway:
+    build: ./gateway-balancer
+#    image: keeeper85/gateway
+    ports:
+      - "9000:9000"
     networks:
       - backend
     depends_on:
       - gaminatorium
       - eureka
+    environment:
+      EUREKA_URI: http://eureka:8761/eureka
+
 networks:
   backend:
+
+volumes:
+  postgres_data:
