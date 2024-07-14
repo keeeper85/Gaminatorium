@@ -39,13 +39,13 @@ class GameRatingService {
     }
 
     public Optional<NewGameRatingDto> addRating(NewGameRatingDto rating) {
-        if (gameRepository.existsById(rating.getGameid())) {
-            var game = gameRepository.findById(rating.getGameid());
-            game.addRating(rating.getScore(), rating.getComment());
-            gameRepository.save(game);
-            return Optional.of(rating);
-            //todo???
-        }
+//        if (gameRepository.existsById(rating.getGameid())) {
+//            var game = gameRepository.findById(rating.getGameid());
+//            game.addRating(rating.getScore(), rating.getComment());
+//            gameRepository.save(game);
+//            return Optional.of(rating);
+//            //todo???
+//        }
         return Optional.empty();
     }
 

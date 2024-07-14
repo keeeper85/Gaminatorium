@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,7 +85,7 @@ public class UserService {
         Optional<User> existingUserOptional = userRepository.findById(id);
         if (existingUserOptional.isPresent()) {
             User user = existingUserOptional.get();
-            return  user.getMyFavoriteGames().stream().map(UserService::mapToDto).toList();
+            return  user.getFavoriteGames().stream().map(UserService::mapToDto).toList();
         }
         return List.of();
     }

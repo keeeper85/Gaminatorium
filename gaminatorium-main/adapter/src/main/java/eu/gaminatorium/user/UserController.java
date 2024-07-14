@@ -64,21 +64,21 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/{id}/favorites")
+    @GetMapping("/{id}/favorites") //todo: mapping usera: {id} tymczasowy, tylko do czasu kiedy będzie możliwa jego autentykacja
     @Operation(description = "Get the list of the user's favorite games")
     ResponseEntity<List<GameDto>> getFavorites(@PathVariable long id) {
         //todo
         return ResponseEntity.ok(userFacade.getFavoriteGames(id));
     }
 
-    @GetMapping("/{id}/last")
+    @GetMapping("/{id}/last") //todo: mapping usera: {id} tymczasowy, tylko do czasu kiedy będzie możliwa jego autentykacja
     @Operation(description = "Get the last game selected user has played")
     ResponseEntity<Optional<GameDto>> getLastGamePlayed(@PathVariable long id) {
         //todo
         return ResponseEntity.ok(userFacade.getLastGamePlayed(id));
     }
 
-    @PatchMapping("/{id}/favorites/{gameid}")
+    @PatchMapping("/{id}/favorites/{gameid}") //todo: mapping usera: {id} tymczasowy, tylko do czasu kiedy będzie możliwa jego autentykacja
     @Operation(description = "Toggle favorite game for the selected user")
     ResponseEntity<Void> toggleGameFavoriteStatus(@PathVariable long id, @PathVariable long gameid) {
         boolean result = userFacade.toggleFavoriteStatus(id, gameid);

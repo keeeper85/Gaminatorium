@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeSet Slawek84PL:006
+--changeSet Slawek84PL:007
 
 INSERT INTO game_rating (score, comment, posting_date, game_id)
 VALUES (4, 'spoko', '2024-06-01', 1),

@@ -20,12 +20,12 @@ class ActiveGameService {
     }
 
     public Optional<ActiveGameDto> startNewGame(long gameid) {
-        if (gameRepository.existsById(gameid)) {
-            var game = gameRepository.findById(gameid);
-            var activeGame = game.startNewGame();
-            gameRepository.save(game);
-            return Optional.of(toDto(activeGame));
-        }
+//        if (gameRepository.existsById(gameid)) {
+//            var game = gameRepository.findById(gameid);
+//            var activeGame = game.startNewGame();
+//            gameRepository.save(game);
+//            return Optional.of(toDto(activeGame));
+//        }
         return Optional.empty();
     }
 
@@ -41,13 +41,13 @@ class ActiveGameService {
     }
 
     public Optional<ActiveGameDto> joinGame(long activegameid) {
-        if (gameRepository.existsActiveGameById(activegameid)){
-            Game.Active activeGame = gameRepository.findActiveGameById(activegameid);
-            Game game = activeGame.getGame();
-            game.joinExistingActiveGame(activeGame);
-            gameRepository.save(game);
-            return Optional.of(toDto(activeGame));
-        }
+//        if (gameRepository.existsActiveGameById(activegameid)){
+//            Game.Active activeGame = gameRepository.findActiveGameById(activegameid);
+//            Game game = activeGame.getGame();
+//            game.joinExistingActiveGame(activeGame);
+//            gameRepository.save(game);
+//            return Optional.of(toDto(activeGame));
+//        }
         return Optional.empty();
     }
 

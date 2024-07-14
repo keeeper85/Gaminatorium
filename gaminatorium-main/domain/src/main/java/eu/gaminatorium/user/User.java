@@ -1,7 +1,6 @@
 package eu.gaminatorium.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import eu.gaminatorium.game.Game;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -23,7 +22,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private Long id;
 
     @Column(name = "user_name", unique = true)
     @Size(min = 4, message = "Username must be at least 4 characters long")
@@ -42,21 +41,35 @@ public class User {
     @JsonBackReference
     private Game lastGamePlayed;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_favorite_games",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_id")
+    )
     @JsonBackReference
-    private Set<Game> myFavoriteGames = new HashSet<>();
+    private Set<Game> favoriteGames = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="author", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<Game> gamesAddedByUser = new HashSet<>();
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Game.Rating> ratings = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "host", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Game.Active> hostedGames = new HashSet<>();
+
+    @ManyToMany(mappedBy = "players")
+    private Set<Game.Active> currentlyPlayedGames = new HashSet<>();
+
     void toggleFavoriteGame(Game game) {
-        if (myFavoriteGames.contains(game)) {
-            myFavoriteGames.remove(game);
+        if (favoriteGames.contains(game)) {
+            favoriteGames.remove(game);
         }
-        else myFavoriteGames.add(game);
+        else favoriteGames.add(game);
     }
 
     void addNewGame(String title, String description, String tags, String gameUrl, String sourceCodeUrl){
@@ -66,6 +79,7 @@ public class User {
         newGame.setGameTags(tags);
         newGame.setGameServiceLink(gameUrl);
         newGame.setSourceCodeLink(sourceCodeUrl);
+        newGame.setAuthor(this);
         gamesAddedByUser.add(newGame);
     }
 }
