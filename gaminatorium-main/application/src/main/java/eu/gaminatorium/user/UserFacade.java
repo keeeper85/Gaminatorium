@@ -1,5 +1,6 @@
 package eu.gaminatorium.user;
 
+import eu.gaminatorium.game.dto.GameDto;
 import eu.gaminatorium.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -38,5 +39,17 @@ public class UserFacade {
 
     public Integer countAllUsers() {
         return userService.countAllUsers();
+    }
+
+    public List<GameDto> getFavoriteGames(long id) {
+        return userService.getFavoriteGames(id);
+    }
+
+    public boolean toggleFavoriteStatus(long id, long gameid) {
+        return userService.toggleFavoriteStatus(id, gameid);
+    }
+
+    public Optional<GameDto> getLastGamePlayed(long id) {
+        return userService.getLastGamePlayed(id);
     }
 }

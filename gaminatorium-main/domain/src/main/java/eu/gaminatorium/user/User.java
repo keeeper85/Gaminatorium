@@ -1,9 +1,15 @@
 package eu.gaminatorium.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import eu.gaminatorium.game.Game;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -31,4 +37,35 @@ public class User {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id")
+    @JsonBackReference
+    private Game lastGamePlayed;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id")
+    @JsonBackReference
+    private Set<Game> myFavoriteGames = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id")
+    @JsonBackReference
+    private Set<Game> gamesAddedByUser = new HashSet<>();
+
+    void toggleFavoriteGame(Game game) {
+        if (myFavoriteGames.contains(game)) {
+            myFavoriteGames.remove(game);
+        }
+        else myFavoriteGames.add(game);
+    }
+
+    void addNewGame(String title, String description, String tags, String gameUrl, String sourceCodeUrl){
+        Game newGame = new Game();
+        newGame.setTitle(title);
+        newGame.setDescription(description);
+        newGame.setGameTags(tags);
+        newGame.setGameServiceLink(gameUrl);
+        newGame.setSourceCodeLink(sourceCodeUrl);
+        gamesAddedByUser.add(newGame);
+    }
 }

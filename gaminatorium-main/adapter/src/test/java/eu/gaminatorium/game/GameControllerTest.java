@@ -3,7 +3,6 @@ package eu.gaminatorium.game;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.gaminatorium.game.dto.GameDto;
 import eu.gaminatorium.game.dto.NewGameDto;
-import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,11 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -279,8 +276,8 @@ class GameControllerTest {
                     .title("foo")
                     .description("Lorem ipsum dolor sit amet")
                     .tags("bar")
-                    .gamelink("https://newgame.gamelink.com")
-                    .sourceCodelink("https://newgame.gamelink.com")
+                    .gameUrl("https://newgame.gamelink.com")
+                    .sourceCodeUrl("https://newgame.gamelink.com")
                     .maxPlayers(5)
                     .build();
 
@@ -306,8 +303,8 @@ class GameControllerTest {
                     .title("")  // Size is required min length 3 and max 30
                     .description("Lorem ipsum dolor sit amet")
                     .tags("bar")
-                    .gamelink("https://newgame.gamelink.com")
-                    .sourceCodelink("https://newgame.gamelink.com")
+                    .gameUrl("https://newgame.gamelink.com")
+                    .sourceCodeUrl("https://newgame.gamelink.com")
                     .maxPlayers(5)
                     .build();
 
@@ -330,8 +327,8 @@ class GameControllerTest {
                     .title("foo")
                     .description("Lorem ipsum dolor sit amet")
                     .tags("bar")
-                    .gamelink("https://newgame.gamelink.com")
-                    .sourceCodelink("https://newgame.gamelink.com")
+                    .gameUrl("https://newgame.gamelink.com")
+                    .sourceCodeUrl("https://newgame.gamelink.com")
                     .maxPlayers(5)
                     .build();
 
@@ -379,8 +376,8 @@ class GameControllerTest {
                     .title("foo")
                     .description("Lorem ipsum dolor sit amet")
                     .tags("bar")
-                    .gamelink("https://newgame.gamelink.com")
-                    .sourceCodelink("https://newgame.gamelink.com")
+                    .gameUrl("https://newgame.gamelink.com")
+                    .sourceCodeUrl("https://newgame.gamelink.com")
                     .maxPlayers(5)
                     .build();
 
@@ -407,8 +404,8 @@ class GameControllerTest {
                     .title("foo")
                     .description("Lorem ipsum dolor sit amet")
                     .tags("bar")
-                    .gamelink("https://newgame.gamelink.com")
-                    .sourceCodelink("https://newgame.gamelink.com")
+                    .gameUrl("https://newgame.gamelink.com")
+                    .sourceCodeUrl("https://newgame.gamelink.com")
                     .maxPlayers(5)
                     .build();
 
@@ -442,8 +439,8 @@ class GameControllerTest {
                     .title("")  // Size is required min length 3 and max 30
                     .description("Lorem ipsum dolor sit amet")
                     .tags("bar")
-                    .gamelink("https://newgame.gamelink.com")
-                    .sourceCodelink("https://newgame.gamelink.com")
+                    .gameUrl("https://newgame.gamelink.com")
+                    .sourceCodeUrl("https://newgame.gamelink.com")
                     .maxPlayers(5)
                     .build();
 

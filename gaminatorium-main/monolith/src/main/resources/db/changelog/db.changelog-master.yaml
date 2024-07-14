@@ -1,5 +1,16 @@
 databaseChangeLog:
   - include:
-      file: /db/changelog/001-game.sql
+      file: /db/changelog/2024/07/001-create-user.sql
   - include:
-      file: /db/changelog/002-user.sql
+      file: /db/changelog/2024/07/002-create-game.sql
+  - include:
+      file: /db/changelog/2024/07/003-create-game-rating.sql
+  - include:
+      file: /db/changelog/2024/07/004-create-game-active.sql
+  - include:
+      file: /db/changelog/2024/07/005-add-test-users.sql
+  - include:
+      file: /db/changelog/2024/07/006-add-test-games.sql
+  - include:
+      file: /db/changelog/2024/07/007-add-test-ratings.sql
+

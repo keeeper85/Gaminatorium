@@ -21,4 +21,6 @@ public interface SqlUserRepository extends UserRepository, JpaRepository<User, I
 
     User save(User user);
 
+    boolean existsById(long userId);
+
 }

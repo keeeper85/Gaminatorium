@@ -38,8 +38,8 @@ class GameService {
             return Optional.of(new NewGameDto("Error! Chosen title already exists!",
                     newGameDto.getDescription(),
                     newGameDto.getTags(),
-                    newGameDto.getGamelink(),
-                    newGameDto.getSourceCodelink(),
+                    newGameDto.getGameUrl(),
+                    newGameDto.getSourceCodeUrl(),
                     newGameDto.getMaxPlayers()));
         }
         gameRepository.save(Factory.from(newGameDto));
@@ -52,8 +52,8 @@ class GameService {
             if (newGameDto.getTitle() != null) game.setTitle(newGameDto.getTitle());
             if (newGameDto.getDescription() != null) game.setDescription(newGameDto.getDescription());
             if (newGameDto.getTags() != null) game.setGameTags(newGameDto.getTags());
-            if (newGameDto.getGamelink() != null) game.setGameServiceLink(newGameDto.getGamelink());
-            if (newGameDto.getSourceCodelink()!= null) game.setSourceCodeLink(newGameDto.getSourceCodelink());
+            if (newGameDto.getGameUrl() != null) game.setGameServiceLink(newGameDto.getGameUrl());
+            if (newGameDto.getSourceCodeUrl()!= null) game.setSourceCodeLink(newGameDto.getSourceCodeUrl());
             if (newGameDto.getMaxPlayers() > 0) game.setMaxPlayers(newGameDto.getMaxPlayers());
             gameRepository.save(game);
             return Optional.of(GameService.toDto(game));

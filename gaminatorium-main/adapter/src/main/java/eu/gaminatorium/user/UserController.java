@@ -1,5 +1,6 @@
 package eu.gaminatorium.user;
 
+import eu.gaminatorium.game.dto.GameDto;
 import eu.gaminatorium.user.dto.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
@@ -62,4 +63,31 @@ public class UserController {
         }
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/{id}/favorites")
+    @Operation(description = "Get the list of the user's favorite games")
+    ResponseEntity<List<GameDto>> getFavorites(@PathVariable long id) {
+        //todo
+        return ResponseEntity.ok(userFacade.getFavoriteGames(id));
+    }
+
+    @GetMapping("/{id}/last")
+    @Operation(description = "Get the last game selected user has played")
+    ResponseEntity<Optional<GameDto>> getLastGamePlayed(@PathVariable long id) {
+        //todo
+        return ResponseEntity.ok(userFacade.getLastGamePlayed(id));
+    }
+
+    @PatchMapping("/{id}/favorites/{gameid}")
+    @Operation(description = "Toggle favorite game for the selected user")
+    ResponseEntity<Void> toggleGameFavoriteStatus(@PathVariable long id, @PathVariable long gameid) {
+        boolean result = userFacade.toggleFavoriteStatus(id, gameid);
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }

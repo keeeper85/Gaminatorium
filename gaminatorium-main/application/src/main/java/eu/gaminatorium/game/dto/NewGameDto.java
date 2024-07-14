@@ -21,9 +21,9 @@ public class NewGameDto {
     @Size(min=3, max = 200, message = "Add at least one tag, e.g. 'card-game' or 'action'. Separate multiple tags with space.")
     private String tags;
     @URL(message = "Url must begin with 'http://' or 'https://' ")
-    private String gamelink;
+    private String gameUrl;
     @URL(message = "Url must begin with 'http://' or 'https://' ")
-    private String sourceCodelink;
+    private String sourceCodeUrl;
     @Min(value = 1, message = "Number must be a positive integer type")
     private int maxPlayers;
 }
