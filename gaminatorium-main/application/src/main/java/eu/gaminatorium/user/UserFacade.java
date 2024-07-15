@@ -1,6 +1,7 @@
 package eu.gaminatorium.user;
 
 import eu.gaminatorium.game.dto.GameDto;
+import eu.gaminatorium.user.dto.NewUserDto;
 import eu.gaminatorium.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -29,12 +30,12 @@ public class UserFacade {
         userService.deleteUserById(userid);
     }
 
-    public Optional<UserDto> updateUser(long userid, UserDto userDto) {
-        return userService.updateUser(userid, userDto);
+    public Optional<NewUserDto> updateUser(long userid, NewUserDto newUserDto) {
+        return userService.updateUser(userid, newUserDto);
     }
 
-    public UserDto addUser(UserDto userDto) {
-        return userService.addUser(userDto);
+    public NewUserDto addUser(NewUserDto newUserDto) {
+        return userService.addUser(newUserDto);
     }
 
     public Integer countAllUsers() {

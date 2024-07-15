@@ -2,7 +2,6 @@ package eu.gaminatorium.game;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +13,7 @@ public interface GameRepository {
     Optional<Game> findById(long id);
     void deleteById(long id);
     int countAllByModerationStatus(Game.ModerationStatus moderationStatus);
+    void reassignGamesToFirstUser(Long userId);
 
     Page<Game> findAllByTitleIsContainingIgnoreCase(String title, Pageable pageable);
     Page<Game> findAllByModerationStatusIs(Game.ModerationStatus moderationStatus, Pageable pageable);

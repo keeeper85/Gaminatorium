@@ -3,6 +3,7 @@ package eu.gaminatorium.game;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -19,6 +20,10 @@ interface SqlGameRepository extends GameRepository, JpaRepository<Game, Integer>
 
     Page<Game> findAllByTitleIsContainingIgnoreCase(String title, Pageable pageable);
     Page<Game> findAllByModerationStatusIs(Game.ModerationStatus moderationStatus, Pageable pageable);
+
+    @Modifying
+    @Query("UPDATE Game g SET g.author.id = 1 WHERE g.author.id = :userId")
+    void reassignGamesToFirstUser(@Param("userId") Long userId);
 
     @Query("SELECT g FROM Game g ORDER BY g.lastTimePlayed DESC")
     List<Game> findGamesOrderedByLastTimePlayedDesc(Pageable pageable);

@@ -229,4 +229,12 @@ public class Game {
             currentPlayers = players.size();
         }
     }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

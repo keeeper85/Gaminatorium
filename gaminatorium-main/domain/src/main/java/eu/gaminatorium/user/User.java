@@ -41,7 +41,7 @@ public class User {
     @JsonBackReference
     private Game lastGamePlayed;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_favorite_games",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -82,4 +82,5 @@ public class User {
         newGame.setAuthor(this);
         gamesAddedByUser.add(newGame);
     }
+
 }
