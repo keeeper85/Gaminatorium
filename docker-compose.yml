@@ -26,7 +26,7 @@ services:
   gaminatorium-postgres:
     image: postgres:16.3
     environment:
-      POSTGRES_DB: gaminatoriumdb
+      POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASS}
     ports:
@@ -40,11 +40,11 @@ services:
     build: ./keycloak-config
     environment:
         EUREKA_URI: http://eureka:8761/eureka
-        KC_DB_URL: jdbc:postgresql://gaminatorium-postgres:5432/gaminatoriumdb
+        KC_DB_URL: jdbc:postgresql://gaminatorium-postgres:5432/${POSTGRES_DB}
         KC_DB_USERNAME: ${POSTGRES_USER}
         KC_DB_PASSWORD: ${POSTGRES_PASS}
-        KEYCLOAK_ADMIN: admin
-        KEYCLOAK_ADMIN_PASSWORD: admin
+        KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+        KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_PASSWORD}
     command:
       - start-dev
     depends_on:

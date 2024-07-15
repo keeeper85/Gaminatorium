@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:21.0.0
+FROM quay.io/keycloak/keycloak:latest
 
 ENV KC_DB=postgres
 ENV KC_HOSTNAME=localhost

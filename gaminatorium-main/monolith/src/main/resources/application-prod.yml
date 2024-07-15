@@ -1,10 +1,10 @@
 #production properties
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/gaminatoriumdb
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
     driver-class-name: org.postgresql.Driver
     username: gaminatorium
-    password: gampass # podać hasło z pliku .env
+    password: ${POSTGRES_PASS} # podać hasło z pliku .env
   jpa:
     hibernate:
       ddl-auto: update
