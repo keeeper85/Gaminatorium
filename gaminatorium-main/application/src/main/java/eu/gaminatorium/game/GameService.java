@@ -52,8 +52,8 @@ class GameService {
             if (newGameDto.getTitle() != null) game.setTitle(newGameDto.getTitle());
             if (newGameDto.getDescription() != null) game.setDescription(newGameDto.getDescription());
             if (newGameDto.getTags() != null) game.setGameTags(newGameDto.getTags());
-            if (newGameDto.getGameUrl() != null) game.setGameServiceLink(newGameDto.getGameUrl());
-            if (newGameDto.getSourceCodeUrl()!= null) game.setSourceCodeLink(newGameDto.getSourceCodeUrl());
+            if (newGameDto.getGameUrl() != null) game.setGameServiceUrl(newGameDto.getGameUrl());
+            if (newGameDto.getSourceCodeUrl()!= null) game.setSourceCodeUrl(newGameDto.getSourceCodeUrl());
             if (newGameDto.getMaxPlayers() > 0) game.setMaxPlayers(newGameDto.getMaxPlayers());
             gameRepository.save(game);
             return Optional.of(GameService.toDto(game));
@@ -108,8 +108,8 @@ class GameService {
                 .title(game.getTitle())
                 .description(game.getDescription())
                 .tags(game.getGameTags())
-                .gamelink(game.getGameServiceLink())
-                .sourceCodelink(game.getSourceCodeLink())
+                .gameUrl(game.getGameServiceUrl())
+                .sourceCodeUrl(game.getSourceCodeUrl())
                 .maxPlayers(game.getMaxPlayers())
                 .timesPlayedTotal(game.getTimesPlayedTotal())
                 .releaseDate(game.getReleaseDate())

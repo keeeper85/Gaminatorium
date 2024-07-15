@@ -77,8 +77,8 @@ public class User {
         newGame.setTitle(title);
         newGame.setDescription(description);
         newGame.setGameTags(tags);
-        newGame.setGameServiceLink(gameUrl);
-        newGame.setSourceCodeLink(sourceCodeUrl);
+        newGame.setGameServiceUrl(gameUrl);
+        newGame.setSourceCodeUrl(sourceCodeUrl);
         newGame.setAuthor(this);
         gamesAddedByUser.add(newGame);
     }

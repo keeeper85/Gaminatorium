@@ -4,13 +4,17 @@ databaseChangeLog:
   - include:
       file: /db/changelog/2024/07/002-create-game.sql
   - include:
-      file: /db/changelog/2024/07/003-create-game-rating.sql
+      file: /db/changelog/2024/07/003-create-users-favorite-games.sql
   - include:
-      file: /db/changelog/2024/07/004-create-game-active.sql
+      file: /db/changelog/2024/07/004-create-game-rating.sql
   - include:
-      file: /db/changelog/2024/07/005-add-test-users.sql
+      file: /db/changelog/2024/07/005-create-game-active.sql
   - include:
-      file: /db/changelog/2024/07/006-add-test-games.sql
+      file: /db/changelog/2024/07/006-create-active-games-players.sql
   - include:
-      file: /db/changelog/2024/07/007-add-test-ratings.sql
+      file: /db/changelog/2024/07/007-insert-test-users.sql
+  - include:
+      file: /db/changelog/2024/07/008-insert-test-games.sql
+  - include:
+      file: /db/changelog/2024/07/009-insert-test-ratings.sql
 

@@ -21,12 +21,14 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name="games")
 public class Game {
 
     public enum ModerationStatus { PENDING, ACCEPTED }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Size(min=3, max=30, message="Game title must be 3-30 characters long.")
@@ -38,11 +40,13 @@ public class Game {
     private String gameTags = "";
 
     @URL(message="Invalid URL format")
-    private String gameServiceLink;
+    private String gameServiceUrl;
 
     @URL(message="Invalid URL format")
-    private String sourceCodeLink;
+    private String sourceCodeUrl;
 
+    @Column(name = "moderation_status")
+    @Enumerated(EnumType.STRING)
     private ModerationStatus moderationStatus = ModerationStatus.PENDING;
 
     @Min(value=1, message="Number must be a positive integer type")

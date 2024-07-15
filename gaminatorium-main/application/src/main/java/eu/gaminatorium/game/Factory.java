@@ -12,8 +12,8 @@ class Factory {
         game.setTitle(source.getTitle());
         game.setDescription(source.getDescription());
         game.setGameTags(source.getTags());
-        game.setGameServiceLink(source.getGameUrl());
-        game.setSourceCodeLink(source.getSourceCodeUrl());
+        game.setGameServiceUrl(source.getGameUrl());
+        game.setSourceCodeUrl(source.getSourceCodeUrl());
         game.setMaxPlayers(source.getMaxPlayers());
         game.setReleaseDate(LocalDate.now());
 
