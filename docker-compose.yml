@@ -27,7 +27,7 @@ services:
     image: postgres:16.3
     environment:
       POSTGRES_DB: gaminatoriumdb
-      POSTGRES_USER: gaminatorium
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASS}
     ports:
       - "5432:5432"
@@ -36,9 +36,28 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  keycloak-gaminatorium:
+    build: ./keycloak-config
+    environment:
+        EUREKA_URI: http://eureka:8761/eureka
+        KC_DB_URL: jdbc:postgresql://gaminatorium-postgres:5432/gaminatoriumdb
+        KC_DB_USERNAME: ${POSTGRES_USER}
+        KC_DB_PASSWORD: ${POSTGRES_PASS}
+        KEYCLOAK_ADMIN: admin
+        KEYCLOAK_ADMIN_PASSWORD: admin
+    command:
+      - start-dev
+    depends_on:
+      - eureka
+      - gaminatorium-postgres
+    ports:
+      - "9090:8080"
+    networks:
+      - backend
+
   gateway:
     build: ./gateway-balancer
-#    image: keeeper85/gateway
+    #    image: keeeper85/gateway
     ports:
       - "9000:9000"
     networks:
@@ -51,6 +70,7 @@ services:
 
 networks:
   backend:
+    driver: bridge
 
 volumes:
   postgres_data:
