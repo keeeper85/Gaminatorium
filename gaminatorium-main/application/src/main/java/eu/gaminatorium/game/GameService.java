@@ -26,9 +26,10 @@ class GameService {
                 .toList();
     }
 
-    Optional<GameDto> getGameById(long id) {
-        if (gameRepository.existsById(id)){
-            return Optional.of(GameService.toDto(gameRepository.findById(id)));
+    Optional<GameDto> getGameById(long gameid) {
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()){
+            return Optional.of(GameService.toDto(gameOptional.get()));
         }
         return Optional.empty();
     }
@@ -47,8 +48,9 @@ class GameService {
     }
 
     Optional<GameDto> updateGame(long gameid, NewGameDto newGameDto){
-        if (gameRepository.existsById(gameid)){
-            var game = gameRepository.findById(gameid);
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()){
+            Game game = gameOptional.get();
             if (newGameDto.getTitle() != null) game.setTitle(newGameDto.getTitle());
             if (newGameDto.getDescription() != null) game.setDescription(newGameDto.getDescription());
             if (newGameDto.getTags() != null) game.setGameTags(newGameDto.getTags());
@@ -61,16 +63,14 @@ class GameService {
         return Optional.empty();
     }
 
-    Optional<Void> deleteGame(long id){
-        if (gameRepository.existsById(id)) {
-            gameRepository.deleteById(id);
-        }
-        return Optional.empty();
+    void deleteGame(long gameid){
+        gameRepository.deleteById(gameid);
     }
 
-    boolean toggleGameStatus(long gameId) {
-        if (gameRepository.existsById(gameId)) {
-            var game = gameRepository.findById(gameId);
+    boolean toggleGameStatus(long gameid) {
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()){
+            Game game = gameOptional.get();
             game.toggleModerationStatus();
             gameRepository.save(game);
             return true;
@@ -85,8 +85,9 @@ class GameService {
     }
 
     String[] getGameTags(long gameid) {
-        if (gameRepository.existsById(gameid)) {
-            var game = gameRepository.findById(gameid);
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()){
+            Game game = gameOptional.get();
             String[] tags = game.getGameTags().split(" ");
             return tags;
         }
@@ -103,7 +104,7 @@ class GameService {
 
     private static GameDto toDto(Game game) {
         GameDto gameDto = GameDto.builder()
-                .id(game.getId())
+                .gameid(game.getId())
                 .moderationStatus(game.getModerationStatus())
                 .title(game.getTitle())
                 .description(game.getDescription())

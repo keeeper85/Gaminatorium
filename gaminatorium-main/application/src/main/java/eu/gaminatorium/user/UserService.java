@@ -28,20 +28,20 @@ public class UserService {
         return userRepository.countAllBy();
     }
 
-    public Optional<UserDto> getUserById(long userId) {
-        Optional<User> user = userRepository.findById(userId);
+    public Optional<UserDto> getUserById(long userid) {
+        Optional<User> user = userRepository.findById(userid);
         if (user.isEmpty()) {
             return Optional.empty();
         }
         return user.map(this::mapToDto);
     }
 
-    public void deleteUserById(long userId) {
-        userRepository.deleteById(userId);
+    public void deleteUserById(long userid) {
+        userRepository.deleteById(userid);
     }
 
-    public Optional<UserDto> updateUser(long userId, UserDto userDto) {
-        Optional<User> existingUserOptional = userRepository.findById(userId);
+    public Optional<UserDto> updateUser(long userid, UserDto userDto) {
+        Optional<User> existingUserOptional = userRepository.findById(userid);
         if (existingUserOptional.isPresent()) {
             User user = existingUserOptional.get();
             if (userDto.getUserName() != null) user.setUserName(userDto.getUserName());
@@ -67,7 +67,7 @@ public class UserService {
 
     private static GameDto mapToDto(Game game) {
         return GameDto.builder()
-                .id(game.getId())
+                .gameid(game.getId())
                 .title(game.getTitle())
                 .description(game.getDescription())
                 .build();
@@ -81,8 +81,8 @@ public class UserService {
                 .build();
     }
 
-    public List<GameDto> getFavoriteGames(long id) {
-        Optional<User> existingUserOptional = userRepository.findById(id);
+    public List<GameDto> getFavoriteGames(long userid) {
+        Optional<User> existingUserOptional = userRepository.findById(userid);
         if (existingUserOptional.isPresent()) {
             User user = existingUserOptional.get();
             return  user.getFavoriteGames().stream().map(UserService::mapToDto).toList();
@@ -90,11 +90,12 @@ public class UserService {
         return List.of();
     }
 
-    public boolean toggleFavoriteStatus(long id, long gameid) {
-        Optional<User> existingUserOptional = userRepository.findById(id);
-        if (existingUserOptional.isPresent() && gameRepository.existsById(gameid)) {
+    public boolean toggleFavoriteStatus(long userid, long gameid) {
+        Optional<User> existingUserOptional = userRepository.findById(userid);
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (existingUserOptional.isPresent() && gameOptional.isPresent()) {
             User user = existingUserOptional.get();
-            Game game = gameRepository.findById(gameid);
+            Game game = gameOptional.get();
             user.toggleFavoriteGame(game);
             userRepository.save(user);
             return true;
@@ -102,8 +103,13 @@ public class UserService {
         return false;
     }
 
-    public Optional<GameDto> getLastGamePlayed(long id) {
-        return null;
-        //todo
+    public Optional<GameDto> getLastGamePlayed(long userid) {
+        Optional<User> existingUserOptional = userRepository.findById(userid);
+        if (existingUserOptional.isPresent()) {
+            User user = existingUserOptional.get();
+            Game lastGamePlayed = user.getLastGamePlayed();
+            return Optional.ofNullable(mapToDto(lastGamePlayed));
+        }
+        return Optional.empty();
     }
 }

@@ -1,7 +1,7 @@
 package eu.gaminatorium.game.dto;
 
 import eu.gaminatorium.game.Game;
-import eu.gaminatorium.user.User;
+import eu.gaminatorium.user.dto.UserDto;
 import lombok.Builder;
 
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Builder
 public record GameDto(
-        Long id,
+        Long gameid,
         Game.ModerationStatus moderationStatus,
         String title,
         String description,
@@ -19,7 +19,7 @@ public record GameDto(
         String sourceCodeUrl,
         int maxPlayers,
         long timesPlayedTotal,
-        User author,
+        UserDto author,
         LocalDate releaseDate,
         LocalDateTime lastTimePlayed,
         Set<Game.Rating> ratings,

@@ -20,17 +20,17 @@ public class UserFacade {
         return userService.findAll(pageable);
     }
 
-    public Optional<UserDto> getUserById(long userId) {
-        return userService.getUserById(userId);
+    public Optional<UserDto> getUserById(long userid) {
+        return userService.getUserById(userid);
 
     }
 
-    public void deleteUserById(long userId) {
-        userService.deleteUserById(userId);
+    public void deleteUserById(long userid) {
+        userService.deleteUserById(userid);
     }
 
-    public Optional<UserDto> updateUser(long userId, UserDto userDto) {
-        return userService.updateUser(userId, userDto);
+    public Optional<UserDto> updateUser(long userid, UserDto userDto) {
+        return userService.updateUser(userid, userDto);
     }
 
     public UserDto addUser(UserDto userDto) {
@@ -41,15 +41,15 @@ public class UserFacade {
         return userService.countAllUsers();
     }
 
-    public List<GameDto> getFavoriteGames(long id) {
-        return userService.getFavoriteGames(id);
+    public List<GameDto> getFavoriteGames(long userid) {
+        return userService.getFavoriteGames(userid);
     }
 
-    public boolean toggleFavoriteStatus(long id, long gameid) {
-        return userService.toggleFavoriteStatus(id, gameid);
+    public boolean toggleFavoriteStatus(long userid, long gameid) {
+        return userService.toggleFavoriteStatus(userid, gameid);
     }
 
-    public Optional<GameDto> getLastGamePlayed(long id) {
-        return userService.getLastGamePlayed(id);
+    public Optional<GameDto> getLastGamePlayed(long userid) {
+        return userService.getLastGamePlayed(userid);
     }
 }

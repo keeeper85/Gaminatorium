@@ -31,10 +31,10 @@ public class UserController {
         return ResponseEntity.ok(userFacade.countAllUsers());
     }
 
-    @GetMapping("/{id}")
-    @Operation(description = "Get user by user id")
-    ResponseEntity<Optional<UserDto>> getUser(@PathVariable long id) {
-        Optional<UserDto> user = userFacade.getUserById(id);
+    @GetMapping("/{userid}")
+    @Operation(description = "Get user by user gameid")
+    ResponseEntity<Optional<UserDto>> getUser(@PathVariable long userid) {
+        Optional<UserDto> user = userFacade.getUserById(userid);
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -47,41 +47,41 @@ public class UserController {
         return new ResponseEntity<>(userFacade.addUser(userDto), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(description = "Delete user by user id")
-    public ResponseEntity<?> deleteUser(@PathVariable long id) {
-        userFacade.deleteUserById(id);
+    @DeleteMapping("/{userid}")
+    @Operation(description = "Delete user by user gameid")
+    public ResponseEntity<?> deleteUser(@PathVariable long userid) {
+        userFacade.deleteUserById(userid);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/update/{userid}")
     @Operation(description = "Update user providing user details")
-    ResponseEntity<Optional<UserDto>> updateUser(@PathVariable long id, @RequestBody UserDto userDto) {
-        Optional<UserDto> user = userFacade.updateUser(id, userDto);
+    ResponseEntity<Optional<UserDto>> updateUser(@PathVariable long userid, @RequestBody UserDto userDto) {
+        Optional<UserDto> user = userFacade.updateUser(userid, userDto);
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/{id}/favorites") //todo: mapping usera: {id} tymczasowy, tylko do czasu kiedy będzie możliwa jego autentykacja
+    @GetMapping("/{userid}/favorites") //todo: mapping usera: {gameid} tymczasowy, tylko do czasu kiedy będzie możliwa jego autentykacja
     @Operation(description = "Get the list of the user's favorite games")
-    ResponseEntity<List<GameDto>> getFavorites(@PathVariable long id) {
+    ResponseEntity<List<GameDto>> getFavorites(@PathVariable long userid) {
         //todo
-        return ResponseEntity.ok(userFacade.getFavoriteGames(id));
+        return ResponseEntity.ok(userFacade.getFavoriteGames(userid));
     }
 
-    @GetMapping("/{id}/last") //todo: mapping usera: {id} tymczasowy, tylko do czasu kiedy będzie możliwa jego autentykacja
+    @GetMapping("/{userid}/last") //todo: mapping usera: {gameid} tymczasowy, tylko do czasu kiedy będzie możliwa jego autentykacja
     @Operation(description = "Get the last game selected user has played")
-    ResponseEntity<Optional<GameDto>> getLastGamePlayed(@PathVariable long id) {
+    ResponseEntity<Optional<GameDto>> getLastGamePlayed(@PathVariable long userid) {
         //todo
-        return ResponseEntity.ok(userFacade.getLastGamePlayed(id));
+        return ResponseEntity.ok(userFacade.getLastGamePlayed(userid));
     }
 
-    @PatchMapping("/{id}/favorites/{gameid}") //todo: mapping usera: {id} tymczasowy, tylko do czasu kiedy będzie możliwa jego autentykacja
+    @PatchMapping("/{userid}/favorites/{gameid}") //todo: mapping usera: {gameid} tymczasowy, tylko do czasu kiedy będzie możliwa jego autentykacja
     @Operation(description = "Toggle favorite game for the selected user")
-    ResponseEntity<Void> toggleGameFavoriteStatus(@PathVariable long id, @PathVariable long gameid) {
-        boolean result = userFacade.toggleFavoriteStatus(id, gameid);
+    ResponseEntity<Void> toggleGameFavoriteStatus(@PathVariable long userid, @PathVariable long gameid) {
+        boolean result = userFacade.toggleFavoriteStatus(userid, gameid);
         if (result) {
             return ResponseEntity.ok().build();
         } else {

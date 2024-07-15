@@ -20,28 +20,28 @@ public class Facade {
         return gameService.countAllAvailableGames();
     }
 
-    boolean toggleGameStatus(long gameId) {
-        return gameService.toggleGameStatus(gameId);
+    boolean toggleGameStatus(long gameid) {
+        return gameService.toggleGameStatus(gameid);
     }
 
     List<GameDto> getAllAvailableGamesPaged(Game.ModerationStatus moderationStatus, Pageable pageable){
         return gameService.getGamesPaged(moderationStatus, pageable);
     }
 
-    Optional<GameDto> getGameById(long id) {
-        return gameService.getGameById(id);
+    Optional<GameDto> getGameById(long gameid) {
+        return gameService.getGameById(gameid);
     }
 
     Optional<NewGameDto> addNewGame(NewGameDto gameDto){
         return gameService.addNewGame(gameDto);
     }
 
-    Optional<GameDto> updateGame(long id, NewGameDto newGameDto){
-        return gameService.updateGame(id, newGameDto);
+    Optional<GameDto> updateGame(long gameid, NewGameDto newGameDto){
+        return gameService.updateGame(gameid, newGameDto);
     }
 
-    Optional<Void> deleteGame(long id){
-        return gameService.deleteGame(id);
+    void deleteGame(long gameid){
+        gameService.deleteGame(gameid);
     }
 
     List<ActiveGameDto> getMatchingActiveGamesPaged(String title, Pageable pageable) {
@@ -92,8 +92,8 @@ public class Facade {
         return activeGameService.joinGame(activegameid);
     }
 
-    public void deleteRating(long ratingId) {
-        gameRatingService.deleteRating(ratingId);
+    public void deleteRating(long ratingid) {
+        gameRatingService.deleteRating(ratingid);
     }
 
     public List<GameDto> getRecentlyPlayedGames(Pageable pageable) {

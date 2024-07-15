@@ -1,6 +1,7 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.NewGameDto;
+import eu.gaminatorium.user.TestUser;
 
 import java.time.LocalDate;
 
@@ -16,6 +17,7 @@ class Factory {
         game.setSourceCodeUrl(source.getSourceCodeUrl());
         game.setMaxPlayers(source.getMaxPlayers());
         game.setReleaseDate(LocalDate.now());
+        game.setAuthor(TestUser.TEST_USER); //todo
 
         return game;
     }

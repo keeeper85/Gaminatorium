@@ -74,11 +74,11 @@ public class Game {
     @JsonIgnore
     private Set<Active> activeGames = new HashSet<>();
 
-    public void addRating(User user, String comment, int score, LocalDate postingDate) {
+    public void addRating(User user, String comment, int score) {
         Rating rating = new Rating();
         rating.setComment(comment);
         rating.setScore(score);
-        rating.setPostingDate(postingDate);
+        rating.setPostingDate(LocalDate.now());
         rating.setGame(this);
         rating.setAuthor(user);
         ratings.add(rating);

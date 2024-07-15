@@ -50,7 +50,7 @@ class GameController {
     }
 
     @GetMapping("/{gameid}")
-    @Operation(description = "Get a JSON game object using game id")
+    @Operation(description = "Get a JSON game object using game gameid")
     ResponseEntity<GameDto> get(@PathVariable long gameid){
         return facade.getGameById(gameid)
                 .map(ResponseEntity::ok)
@@ -58,7 +58,7 @@ class GameController {
     }
 
     @GetMapping("/tags/{gameid}")
-    @Operation(description = "Get a list of tags for the game of the given id")
+    @Operation(description = "Get a list of tags for the game of the given gameid")
     ResponseEntity<String[]> getGameTags(@PathVariable long gameid){
         return ResponseEntity.ok(facade.getGameTags(gameid));
     }
@@ -113,7 +113,7 @@ class GameController {
     }
 
     @DeleteMapping("/{gameid}")
-    @Operation(description = "Delete an existing game by its id.")
+    @Operation(description = "Delete an existing game by its gameid.")
     @Transactional
     ResponseEntity<Void> deleteGame(@PathVariable long gameid){
         facade.deleteGame(gameid);

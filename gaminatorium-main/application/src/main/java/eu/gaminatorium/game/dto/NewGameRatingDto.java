@@ -17,6 +17,6 @@ public class NewGameRatingDto {
     @Min(value = 1, message = "The score must be at least 1")
     @Max(value = 10, message = "The score must be at most 10")
     int score;
-    @Min(value = 0, message = "The game id is a positive integer number.")
+    @Min(value = 0, message = "The game gameid is a positive integer number.")
     long gameid;
 }
