@@ -3,8 +3,8 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
     driver-class-name: org.postgresql.Driver
-    username: gaminatorium
-    password: ${POSTGRES_PASS} # podać hasło z pliku .env
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASS}
   jpa:
     hibernate:
       ddl-auto: update
