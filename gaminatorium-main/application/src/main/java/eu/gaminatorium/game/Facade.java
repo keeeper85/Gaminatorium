@@ -32,8 +32,8 @@ public class Facade {
         return gameService.getGameById(gameid);
     }
 
-    Optional<NewGameDto> addNewGame(NewGameDto gameDto){
-        return gameService.addNewGame(gameDto);
+    Optional<NewGameDto> addNewGame(NewGameDto newGameDto){
+        return gameService.addNewGame(newGameDto);
     }
 
     Optional<GameDto> updateGame(long gameid, NewGameDto newGameDto){
