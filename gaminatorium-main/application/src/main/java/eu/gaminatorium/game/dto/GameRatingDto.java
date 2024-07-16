@@ -12,5 +12,5 @@ public record GameRatingDto(
         int score,
         LocalDate postDate,
         long gameid,
-        UserDto author) {
+        long authorid) {
 }

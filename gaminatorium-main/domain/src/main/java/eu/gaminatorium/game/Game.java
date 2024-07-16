@@ -74,7 +74,10 @@ public class Game {
     @JsonIgnore
     private Set<Active> activeGames = new HashSet<>();
 
-    public void addRating(User user, String comment, int score) {
+    public boolean addRating(User user, String comment, int score) {
+        //todo: test this method with adding comments from different users
+        if (ratings.stream().filter(rating -> rating.author != user).toList().size() > 1) return false;
+
         Rating rating = new Rating();
         rating.setComment(comment);
         rating.setScore(score);
@@ -83,6 +86,9 @@ public class Game {
         rating.setAuthor(user);
         ratings.add(rating);
         user.getRatings().add(rating);
+
+        System.err.println("TRUE");
+        return true;
     }
 
     public void toggleModerationStatus() {

@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class ActiveGameService {
 
-    GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
     public List<ActiveGameDto> getMatchingActiveGamesPaged(String title, Pageable pageable) {
         return gameRepository.findAllActiveGamesByTitleContaining(title, pageable).map(ActiveGameService::toDto).toList();

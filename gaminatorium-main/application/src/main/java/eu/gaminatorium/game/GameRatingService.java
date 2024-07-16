@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class GameRatingService {
 
-    GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
     public Optional<String> getCurrentGameScore(long gameid) {
         Optional<Game> gameOptional = gameRepository.findById(gameid);
@@ -48,9 +48,11 @@ class GameRatingService {
         Optional<Game> gameOptional = gameRepository.findById(rating.getGameid());
         if (gameOptional.isPresent()) {
             Game game = gameOptional.get();
-            game.addRating(TestUser.TEST_USER, rating.getComment(), rating.getScore());
-            gameRepository.save(game);
-            return Optional.of(rating);
+            if (game.addRating(TestUser.TEST_USER, rating.getComment(), rating.getScore())){
+                gameRepository.save(game);
+                return Optional.of(rating);
+            }
+            return Optional.empty();
         }
         return Optional.empty();
     }
@@ -75,6 +77,7 @@ class GameRatingService {
                 .comment(gameRating.getComment())
                 .postDate(gameRating.getPostingDate())
                 .gameid(gameRating.getGame().getId())
+                .authorid(gameRating.getAuthor().getId())
                 .build();
 
         return gameRatingDto;
