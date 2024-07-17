@@ -1,4 +1,4 @@
-package eu.gaminatorium.security;
+package eu.gaminatorium.security.credentials;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

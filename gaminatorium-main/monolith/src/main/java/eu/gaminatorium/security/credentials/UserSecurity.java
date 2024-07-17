@@ -1,4 +1,4 @@
-package eu.gaminatorium.security;
+package eu.gaminatorium.security.credentials;
 
 import eu.gaminatorium.user.User;
 import lombok.AllArgsConstructor;
