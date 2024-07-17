@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface UserRepository {
 
     Page<User> findAllBy(Pageable pageable);
+    Optional<User> findByUserName(String userName); // TODO w tym przypadku wielkość liter każdego słowa metody ma znaczenie, sprawdzić czy wielkość liter argumentu też
 
     Integer countAllBy();
 
