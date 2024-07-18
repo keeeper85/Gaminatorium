@@ -28,8 +28,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChainDefault(HttpSecurity http) throws Exception {
         return http
                 .httpBasic(Customizer.withDefaults())
-                .authorizeRequests().anyRequest().permitAll()
-                .and()
+                .authorizeHttpRequests(authorize ->
+                        authorize
+                                .anyRequest().permitAll()
+                )
                 .build();
     }
 
@@ -39,11 +41,12 @@ public class SecurityConfiguration {
         return http
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(gaminatoriumAuthenticationProvider, BasicAuthenticationFilter.class)
-                .authorizeRequests()
-                .requestMatchers("/swagger-ui/**").permitAll()
-                .requestMatchers("/login.html").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .authorizeHttpRequests(authorize ->
+                        authorize
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/login.html").permitAll()
+                                .anyRequest().authenticated()
+                )
                 .formLogin(Customizer.withDefaults())
                 .build();
     }
@@ -67,8 +70,4 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public Customizer customizer() {
-        return Customizer.withDefaults();
-    }
 }
