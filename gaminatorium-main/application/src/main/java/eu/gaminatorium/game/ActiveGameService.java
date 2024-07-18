@@ -23,7 +23,7 @@ class ActiveGameService {
         Optional<Game> gameOptional = gameRepository.findById(gameid);
         if (gameOptional.isPresent()) {
             Game game = gameOptional.get();
-            var activeGame = game.startNewGame(TestUser.TEST_USER); //todo
+            var activeGame = game.startNewGame(TestUser.TEST_USER);
             gameRepository.save(game);
             return Optional.of(toDto(activeGame));
         }
@@ -47,7 +47,7 @@ class ActiveGameService {
         if (activeOptional.isPresent()){
             Game.Active activeGame = activeOptional.get();
             Game game = activeGame.getGame();
-            game.joinExistingActiveGame(activeGame, TestUser.TEST_USER);
+            game.joinExistingActiveGame(activeGame, TestUser.TEST_USER2);
             gameRepository.save(game);
             return Optional.of(toDto(activeGame));
         }
@@ -60,6 +60,7 @@ class ActiveGameService {
         activeGameDto.setCurrentPlayers(activeGame.getCurrentPlayers());
         activeGameDto.setMaxPlayers(activeGameDto.getMaxPlayers());
         activeGameDto.setStartedAt(activeGame.getStartedAt());
+        activeGameDto.setHostid(activeGame.getHost().getId());
 
         return activeGameDto;
     }

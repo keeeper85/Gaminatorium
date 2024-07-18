@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -132,26 +133,46 @@ public class Game {
         activeGame.setGame(this);
         activeGame.setHost(host);
         activeGame.addPlayer(host);
-        activeGames.add(activeGame);
         lastTimePlayed = LocalDateTime.now();
+
+        if (this.maxPlayers > 1) activeGames.add(activeGame);
+
+        removeExpiredActiveGames();
         return activeGame;
     }
 
     public void joinExistingActiveGame(Active activeGame, User player) {
-        if (activeGame.getCurrentPlayers() < this.maxPlayers) {
+        if (activeGame.players.contains(player)) throw new IllegalStateException("You're already playing this game");
+
+        if (activeGame.getCurrentPlayers() == (this.maxPlayers - 1)) {
+            this.activeGames.remove(activeGame);
+            player.getCurrentlyPlayedGames().remove(activeGame);
+        }
+        else if (activeGame.getCurrentPlayers() < this.maxPlayers) {
             activeGame.addPlayer(player);
             player.getCurrentlyPlayedGames().add(activeGame);
-        } else {
+        }
+        else {
+            activeGames.removeIf(Active::isExpired);
             throw new IllegalStateException("This game is already full");
         }
     }
 
     public void leaveExistingActiveGame(Active activeGame, User player) {
-        activeGame.removePlayer(player);
+        try{
+            activeGame.removePlayer(player);
+        } catch (Exception e){
+            throw new IllegalStateException("This user is not playing that game");
+        }
+
         player.getCurrentlyPlayedGames().remove(activeGame);
         if (activeGame.getPlayers().isEmpty()) {
             activeGames.remove(activeGame);
         }
+    }
+
+    private void removeExpiredActiveGames(){
+        activeGames.removeIf(Active::isExpired);
     }
 
     @Entity
@@ -197,12 +218,15 @@ public class Game {
     @AllArgsConstructor
     public static class Active {
 
+        @Transient
+        int EXPIRATION_TIME_MINUTES = 20;
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @Min(value=1, message="Number of current players must be positive.")
-        private int currentPlayers = 1;
+        @Min(value=1, message="Number of current players must 0 or higher.")
+        private int currentPlayers = 0;
 
         @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm")
         private LocalDateTime startedAt = LocalDateTime.now();
@@ -233,6 +257,12 @@ public class Game {
         public void removePlayer(User user) {
             players.remove(user);
             currentPlayers = players.size();
+        }
+
+        public boolean isExpired() {
+            LocalDateTime now = LocalDateTime.now();
+            Duration duration = Duration.between(startedAt, now);
+            return duration.toMinutes() > EXPIRATION_TIME_MINUTES;
         }
     }
 

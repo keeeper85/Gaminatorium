@@ -14,12 +14,15 @@ public class TestUser implements ApplicationListener<ContextRefreshedEvent> {
      */
 
     public static User TEST_USER;
+    public static User TEST_USER2;
     private final UserRepository userRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         TEST_USER = initTestUser();
         userRepository.save(TEST_USER);
+        TEST_USER2 = initSecondTestUser();
+        userRepository.save(TEST_USER2);
     }
 
     private static User initTestUser() {
@@ -31,5 +34,16 @@ public class TestUser implements ApplicationListener<ContextRefreshedEvent> {
             return user;
         }
         else return TEST_USER;
+    }
+
+    private static User initSecondTestUser() {
+        if (TEST_USER2 == null) {
+            User user = new User();
+            user.setUserName("Second Test User");
+            user.setPassword("secondpassword");
+            user.setEmail("second@email.usr");
+            return user;
+        }
+        else return TEST_USER2;
     }
 }

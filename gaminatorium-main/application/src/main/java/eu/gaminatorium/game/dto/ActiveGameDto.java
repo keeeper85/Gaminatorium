@@ -16,13 +16,13 @@ public class ActiveGameDto {
 
     private Long activegameid;
     private Long gameid;
-    @Min(value = 1, message = "Number of current players must be positive.")
+    @Min(value = 0, message = "Number of current players must be 0 or higher.")
     private int currentPlayers;
     private int maxPlayers;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime startedAt;
     private int timerStartedMinutesAgo;
-    private UserDto host;
+    private long hostid;
 
     public ActiveGameDto(Game game) {
         this.gameid = game.getId();
