@@ -53,11 +53,11 @@ class RatingController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{ratingId}")
+    @DeleteMapping("/{ratingid}")
     @Operation(description = "Delete an existing rating by its gameid.")
     @Transactional
-    ResponseEntity<Void> deleteRating(@PathVariable long ratingId){
-        facade.deleteRating(ratingId);
+    ResponseEntity<Void> deleteRating(@PathVariable long ratingid){
+        facade.deleteRating(ratingid);
         return ResponseEntity.ok().build();
     }
 
