@@ -52,4 +52,10 @@ class ActiveGameController {
         return facade.joinGame(activegameid).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/leave/{activegameid}")
+    @Operation(description = "Use this endpoint to leave the instance of the chosen game.")
+    ResponseEntity<ActiveGameDto> leaveGame(@PathVariable long activegameid){
+        return facade.leaveGame(activegameid).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

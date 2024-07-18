@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -101,15 +102,6 @@ public class Game {
         }
     }
 
-    public void addTag(String tag, String... tags) {
-        StringBuilder builder = new StringBuilder(gameTags);
-        builder.append(tag).append(" ");
-        for (String s : tags) {
-            builder.append(s).append(" ");
-        }
-        gameTags = builder.toString().trim();
-    }
-
     public String getAverageRating() {
         if (ratings.isEmpty()) return "N/A";
         double averageRating = ratings.stream().mapToInt(Rating::getScore).average().orElse(0.0);
@@ -134,6 +126,8 @@ public class Game {
         activeGame.setHost(host);
         activeGame.addPlayer(host);
         lastTimePlayed = LocalDateTime.now();
+        host.setLastGamePlayed(this);
+        host.addCurrentlyPlayedGame(activeGame);
 
         if (this.maxPlayers > 1) activeGames.add(activeGame);
 
@@ -146,11 +140,11 @@ public class Game {
 
         if (activeGame.getCurrentPlayers() == (this.maxPlayers - 1)) {
             this.activeGames.remove(activeGame);
-            player.getCurrentlyPlayedGames().remove(activeGame);
+            player.removeCurrentlyPlayedGame(activeGame);
         }
         else if (activeGame.getCurrentPlayers() < this.maxPlayers) {
             activeGame.addPlayer(player);
-            player.getCurrentlyPlayedGames().add(activeGame);
+            player.addCurrentlyPlayedGame(activeGame);
         }
         else {
             activeGames.removeIf(Active::isExpired);
@@ -161,11 +155,11 @@ public class Game {
     public void leaveExistingActiveGame(Active activeGame, User player) {
         try{
             activeGame.removePlayer(player);
-        } catch (Exception e){
+        } catch (IllegalArgumentException e){
             throw new IllegalStateException("This user is not playing that game");
         }
 
-        player.getCurrentlyPlayedGames().remove(activeGame);
+        player.removeCurrentlyPlayedGame(activeGame);
         if (activeGame.getPlayers().isEmpty()) {
             activeGames.remove(activeGame);
         }
@@ -254,8 +248,9 @@ public class Game {
             currentPlayers = players.size();
         }
 
-        public void removePlayer(User user) {
-            players.remove(user);
+        public void removePlayer(User user) throws IllegalArgumentException {
+            if (!players.remove(user)) throw new IllegalArgumentException();
+
             currentPlayers = players.size();
         }
 
@@ -264,6 +259,19 @@ public class Game {
             Duration duration = Duration.between(startedAt, now);
             return duration.toMinutes() > EXPIRATION_TIME_MINUTES;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return Objects.equals(id, game.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     @Override

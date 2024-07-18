@@ -54,6 +54,18 @@ class ActiveGameService {
         return Optional.empty();
     }
 
+    public Optional<ActiveGameDto> leaveGame(long activegameid) {
+        Optional<Game.Active> activeOptional = gameRepository.findActiveGameById(activegameid);
+        if (activeOptional.isPresent()){
+            Game.Active activeGame = activeOptional.get();
+            Game game = activeGame.getGame();
+            game.leaveExistingActiveGame(activeGame, TestUser.TEST_USER2);
+            gameRepository.save(game);
+            return Optional.of(toDto(activeGame));
+        }
+        return Optional.empty();
+    }
+
     private static ActiveGameDto toDto(Game.Active activeGame) {
         ActiveGameDto activeGameDto = new ActiveGameDto(activeGame.getGame());
         activeGameDto.setActivegameid(activeGame.getId());

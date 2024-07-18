@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -83,4 +84,24 @@ public class User {
         gamesAddedByUser.add(newGame);
     }
 
+    public void addCurrentlyPlayedGame(Game.Active activegame){
+        currentlyPlayedGames.add(activegame);
+    }
+
+    public void removeCurrentlyPlayedGame(Game.Active activegame){
+        currentlyPlayedGames.remove(activegame);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

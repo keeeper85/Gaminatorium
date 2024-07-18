@@ -1,5 +1,6 @@
 package eu.gaminatorium.game;
 
+import com.netflix.appinfo.ApplicationInfoManager;
 import eu.gaminatorium.game.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -98,5 +99,9 @@ public class Facade {
 
     public List<GameDto> getRecentlyPlayedGames(Pageable pageable) {
         return gameService.getRecentlyPlayedGames(pageable);
+    }
+
+    public Optional<ActiveGameDto> leaveGame(long activegameid) {
+        return activeGameService.leaveGame(activegameid);
     }
 }
