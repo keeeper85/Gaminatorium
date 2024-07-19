@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,14 +26,18 @@ public class DevSecurityConfiguration {
     public SecurityFilterChain securityFilterChainDefault(HttpSecurity http) throws Exception {
         return http
                 .httpBasic(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
 //                .authorizeHttpRequests(authorize ->             // zakomentować/odkomentować jedną z dwóch opcji
 //                        authorize
+//                                .requestMatchers("/h2-console/**").permitAll()
 //                                .anyRequest().permitAll()
 //                )
                 .authorizeHttpRequests(authorize ->             // zakomentować/odkomentować jedną z dwóch opcji
                         authorize
+                                .requestMatchers("/h2-console/**").permitAll()
                                 .anyRequest().authenticated()   // w tym wypadku wymagane jest uwierzytelnienie, a testowy uzytkownik został utworzony poniżej
                 )
+                .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
                 .build();
     }
 

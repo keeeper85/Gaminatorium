@@ -1,7 +1,8 @@
 spring:
   application:
     name: MAIN-SERVICE
-
+  profiles:
+    include: local
 eureka:
   client:
     serviceUrl:
