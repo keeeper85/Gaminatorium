@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Profile(value = {"default", "local"})
 @EnableWebSecurity
 @AllArgsConstructor
-public class DevSecurityConfiguration {
+public class LocalSecurityConfiguration {
 
     @Bean
     @Profile(value = {"default", "local"})
