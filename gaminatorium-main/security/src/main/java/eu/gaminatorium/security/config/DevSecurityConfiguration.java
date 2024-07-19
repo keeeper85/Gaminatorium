@@ -25,14 +25,14 @@ public class DevSecurityConfiguration {
     public SecurityFilterChain securityFilterChainDefault(HttpSecurity http) throws Exception {
         return http
                 .httpBasic(Customizer.withDefaults())
-                .authorizeHttpRequests(authorize ->             // zakomentować/odkomentować jedną z dwóch opcji
-                        authorize
-                                .anyRequest().permitAll()
-                )
 //                .authorizeHttpRequests(authorize ->             // zakomentować/odkomentować jedną z dwóch opcji
 //                        authorize
-//                                .anyRequest().authenticated()   // w tym wypadku wymagane jest uwierzytelnienie, a testowy uzytkownik został utworzony poniżej
+//                                .anyRequest().permitAll()
 //                )
+                .authorizeHttpRequests(authorize ->             // zakomentować/odkomentować jedną z dwóch opcji
+                        authorize
+                                .anyRequest().authenticated()   // w tym wypadku wymagane jest uwierzytelnienie, a testowy uzytkownik został utworzony poniżej
+                )
                 .build();
     }
 
