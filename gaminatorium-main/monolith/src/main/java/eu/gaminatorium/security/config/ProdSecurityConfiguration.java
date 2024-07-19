@@ -17,23 +17,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
+@Profile(value = "prod")
 @EnableWebSecurity
 @AllArgsConstructor
-public class SecurityConfiguration {
+public class ProdSecurityConfiguration {
 
     private final GaminatoriumAuthenticationFilter gaminatoriumAuthenticationProvider;
-
-    @Bean
-    @Profile(value = {"default", "local"})
-    public SecurityFilterChain securityFilterChainDefault(HttpSecurity http) throws Exception {
-        return http
-                .httpBasic(Customizer.withDefaults())
-                .authorizeHttpRequests(authorize ->
-                        authorize
-                                .anyRequest().permitAll()
-                )
-                .build();
-    }
 
     @Bean
     @Profile(value = "prod")
@@ -51,23 +40,23 @@ public class SecurityConfiguration {
                 .build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        var userDetailsService = new InMemoryUserDetailsManager();
-
-        var u1 = User.withUsername("gaminatorium")
-                .password(passwordEncoder().encode("gampass"))
-                .authorities("USER")
-                .build();
-
-        userDetailsService.createUser(u1);
-
-        return userDetailsService;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        var userDetailsService = new InMemoryUserDetailsManager();
+//
+//        var u1 = User.withUsername("gaminatorium")
+//                .password(passwordEncoder().encode("gampass"))
+//                .authorities("USER")
+//                .build();
+//
+//        userDetailsService.createUser(u1);
+//
+//        return userDetailsService;
+//    }
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
 }

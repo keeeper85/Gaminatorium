@@ -4,6 +4,7 @@ import eu.gaminatorium.security.authentication.GaminatoriumAuthentication;
 import eu.gaminatorium.user.User;
 import eu.gaminatorium.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile(value = "prod")
 @RequiredArgsConstructor
 public class GaminatoriumAuthenticationProvider implements AuthenticationProvider {
 
