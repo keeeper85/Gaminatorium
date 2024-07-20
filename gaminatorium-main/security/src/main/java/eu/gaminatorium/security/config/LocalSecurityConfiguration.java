@@ -38,6 +38,7 @@ public class LocalSecurityConfiguration {
                                 .anyRequest().authenticated()   // w tym wypadku wymagane jest uwierzytelnienie, a testowy uzytkownik został utworzony poniżej
                 )
                 .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
+                .formLogin(Customizer.withDefaults())
                 .build();
     }
 
