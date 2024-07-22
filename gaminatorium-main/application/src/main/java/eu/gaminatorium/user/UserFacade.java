@@ -1,5 +1,7 @@
 package eu.gaminatorium.user;
 
+import eu.gaminatorium.game.dto.GameDto;
+import eu.gaminatorium.user.dto.NewUserDto;
 import eu.gaminatorium.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,24 +21,36 @@ public class UserFacade {
         return userService.findAll(pageable);
     }
 
-    public Optional<UserDto> getUserById(long userId) {
-        return userService.getUserById(userId);
+    public Optional<UserDto> getUserById(long userid) {
+        return userService.getUserById(userid);
 
     }
 
-    public void deleteUserById(long userId) {
-        userService.deleteUserById(userId);
+    public void deleteUserById(long userid) {
+        userService.deleteUserById(userid);
     }
 
-    public Optional<UserDto> updateUser(long userId, UserDto userDto) {
-        return userService.updateUser(userId, userDto);
+    public Optional<NewUserDto> updateUser(long userid, NewUserDto newUserDto) {
+        return userService.updateUser(userid, newUserDto);
     }
 
-    public UserDto addUser(UserDto userDto) {
-        return userService.addUser(userDto);
+    public NewUserDto addUser(NewUserDto newUserDto) {
+        return userService.addUser(newUserDto);
     }
 
     public Integer countAllUsers() {
         return userService.countAllUsers();
+    }
+
+    public List<GameDto> getFavoriteGames(long userid) {
+        return userService.getFavoriteGames(userid);
+    }
+
+    public boolean toggleFavoriteStatus(long userid, long gameid) {
+        return userService.toggleFavoriteStatus(userid, gameid);
+    }
+
+    public Optional<GameDto> getLastGamePlayed(long userid) {
+        return userService.getLastGamePlayed(userid);
     }
 }

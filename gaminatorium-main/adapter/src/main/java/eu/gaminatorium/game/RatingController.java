@@ -45,15 +45,19 @@ class RatingController {
     @PostMapping()
     @Operation(description = "Post method for creating new ratings. Content and score are mandatory, date, game and user are added" +
             "automatically. Ratings can not be edited or deleted (by regular users) so add a popup 'Are you sure?' while posting them.")
-    ResponseEntity<Optional<NewGameRatingDto>> addRatingForThisGame(@RequestBody @Valid NewGameRatingDto rating){
-        return new ResponseEntity(facade.addRating(rating), HttpStatus.CREATED);
+    ResponseEntity<NewGameRatingDto> addRatingForThisGame(@RequestBody @Valid NewGameRatingDto rating){
+        Optional<NewGameRatingDto> ratingOptional = facade.addRating(rating);
+        if(ratingOptional.isPresent()){
+            return new ResponseEntity(ratingOptional.get(), HttpStatus.CREATED);
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{ratingId}")
-    @Operation(description = "Delete an existing rating by its id.")
+    @DeleteMapping("/{ratingid}")
+    @Operation(description = "Delete an existing rating by its gameid.")
     @Transactional
-    ResponseEntity<Void> deleteRating(@PathVariable long ratingId){
-        facade.deleteRating(ratingId);
+    ResponseEntity<Void> deleteRating(@PathVariable long ratingid){
+        facade.deleteRating(ratingid);
         return ResponseEntity.ok().build();
     }
 

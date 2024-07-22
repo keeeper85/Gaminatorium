@@ -1,7 +1,7 @@
 package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.ActiveGameDto;
-import lombok.AllArgsConstructor;
+import eu.gaminatorium.user.TestUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,16 +13,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class ActiveGameService {
 
-    GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
     public List<ActiveGameDto> getMatchingActiveGamesPaged(String title, Pageable pageable) {
-        return null;
+        return gameRepository.findAllActiveGamesByTitleContaining(title, pageable).map(ActiveGameService::toDto).toList();
     }
 
     public Optional<ActiveGameDto> startNewGame(long gameid) {
-        if (gameRepository.existsById(gameid)) {
-            var game = gameRepository.findById(gameid);
-            var activeGame = game.startNewGame();
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()) {
+            Game game = gameOptional.get();
+            var activeGame = game.startNewGame(TestUser.TEST_USER);
             gameRepository.save(game);
             return Optional.of(toDto(activeGame));
         }
@@ -30,7 +31,8 @@ class ActiveGameService {
     }
 
     public Optional<List<ActiveGameDto>> getAllActiveGamesForThisGame(long gameid, Pageable pageable) {
-        if (gameRepository.existsById(gameid)) {
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()) {
             return Optional.of(gameRepository.findAllActiveGamesByGameId(gameid, pageable).map(ActiveGameService::toDto).toList());
         }
         return Optional.empty();
@@ -41,10 +43,23 @@ class ActiveGameService {
     }
 
     public Optional<ActiveGameDto> joinGame(long activegameid) {
-        if (gameRepository.existsActiveGameById(activegameid)){
-            Game.Active activeGame = gameRepository.findActiveGameById(activegameid);
+        Optional<Game.Active> activeOptional = gameRepository.findActiveGameById(activegameid);
+        if (activeOptional.isPresent()){
+            Game.Active activeGame = activeOptional.get();
             Game game = activeGame.getGame();
-            game.joinExistingActiveGame(activeGame);
+            game.joinExistingActiveGame(activeGame, TestUser.TEST_USER2);
+            gameRepository.save(game);
+            return Optional.of(toDto(activeGame));
+        }
+        return Optional.empty();
+    }
+
+    public Optional<ActiveGameDto> leaveGame(long activegameid) {
+        Optional<Game.Active> activeOptional = gameRepository.findActiveGameById(activegameid);
+        if (activeOptional.isPresent()){
+            Game.Active activeGame = activeOptional.get();
+            Game game = activeGame.getGame();
+            game.leaveExistingActiveGame(activeGame, TestUser.TEST_USER2);
             gameRepository.save(game);
             return Optional.of(toDto(activeGame));
         }
@@ -53,10 +68,11 @@ class ActiveGameService {
 
     private static ActiveGameDto toDto(Game.Active activeGame) {
         ActiveGameDto activeGameDto = new ActiveGameDto(activeGame.getGame());
-        activeGameDto.setId(activeGame.getId());
+        activeGameDto.setActivegameid(activeGame.getId());
         activeGameDto.setCurrentPlayers(activeGame.getCurrentPlayers());
         activeGameDto.setMaxPlayers(activeGameDto.getMaxPlayers());
         activeGameDto.setStartedAt(activeGame.getStartedAt());
+        activeGameDto.setHostid(activeGame.getHost().getId());
 
         return activeGameDto;
     }

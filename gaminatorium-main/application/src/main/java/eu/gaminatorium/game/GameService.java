@@ -2,6 +2,8 @@ package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.GameDto;
 import eu.gaminatorium.game.dto.NewGameDto;
+import eu.gaminatorium.user.TestUser;
+import eu.gaminatorium.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,9 +28,10 @@ class GameService {
                 .toList();
     }
 
-    Optional<GameDto> getGameById(long id) {
-        if (gameRepository.existsById(id)){
-            return Optional.of(GameService.toDto(gameRepository.findById(id)));
+    Optional<GameDto> getGameById(long gameid) {
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()){
+            return Optional.of(GameService.toDto(gameOptional.get()));
         }
         return Optional.empty();
     }
@@ -38,8 +41,8 @@ class GameService {
             return Optional.of(new NewGameDto("Error! Chosen title already exists!",
                     newGameDto.getDescription(),
                     newGameDto.getTags(),
-                    newGameDto.getGamelink(),
-                    newGameDto.getSourceCodelink(),
+                    newGameDto.getGameUrl(),
+                    newGameDto.getSourceCodeUrl(),
                     newGameDto.getMaxPlayers()));
         }
         gameRepository.save(Factory.from(newGameDto));
@@ -47,13 +50,14 @@ class GameService {
     }
 
     Optional<GameDto> updateGame(long gameid, NewGameDto newGameDto){
-        if (gameRepository.existsById(gameid)){
-            var game = gameRepository.findById(gameid);
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()){
+            Game game = gameOptional.get();
             if (newGameDto.getTitle() != null) game.setTitle(newGameDto.getTitle());
             if (newGameDto.getDescription() != null) game.setDescription(newGameDto.getDescription());
             if (newGameDto.getTags() != null) game.setGameTags(newGameDto.getTags());
-            if (newGameDto.getGamelink() != null) game.setGameServiceLink(newGameDto.getGamelink());
-            if (newGameDto.getSourceCodelink()!= null) game.setSourceCodeLink(newGameDto.getSourceCodelink());
+            if (newGameDto.getGameUrl() != null) game.setGameServiceUrl(newGameDto.getGameUrl());
+            if (newGameDto.getSourceCodeUrl()!= null) game.setSourceCodeUrl(newGameDto.getSourceCodeUrl());
             if (newGameDto.getMaxPlayers() > 0) game.setMaxPlayers(newGameDto.getMaxPlayers());
             gameRepository.save(game);
             return Optional.of(GameService.toDto(game));
@@ -61,15 +65,14 @@ class GameService {
         return Optional.empty();
     }
 
-    void deleteGame(long id){
-        if (gameRepository.existsById(id)) {
-            gameRepository.deleteById(id);
-        }
+    void deleteGame(long gameid){
+        gameRepository.deleteById(gameid);
     }
 
-    boolean toggleGameStatus(long gameId) {
-        if (gameRepository.existsById(gameId)) {
-            var game = gameRepository.findById(gameId);
+    boolean toggleGameStatus(long gameid) {
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()){
+            Game game = gameOptional.get();
             game.toggleModerationStatus();
             gameRepository.save(game);
             return true;
@@ -84,8 +87,9 @@ class GameService {
     }
 
     String[] getGameTags(long gameid) {
-        if (gameRepository.existsById(gameid)) {
-            var game = gameRepository.findById(gameid);
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()){
+            Game game = gameOptional.get();
             String[] tags = game.getGameTags().split(" ");
             return tags;
         }
@@ -102,13 +106,13 @@ class GameService {
 
     private static GameDto toDto(Game game) {
         GameDto gameDto = GameDto.builder()
-                .id(game.getId())
+                .gameid(game.getId())
                 .moderationStatus(game.getModerationStatus())
                 .title(game.getTitle())
                 .description(game.getDescription())
                 .tags(game.getGameTags())
-                .gamelink(game.getGameServiceLink())
-                .sourceCodelink(game.getSourceCodeLink())
+                .gameUrl(game.getGameServiceUrl())
+                .sourceCodeUrl(game.getSourceCodeUrl())
                 .maxPlayers(game.getMaxPlayers())
                 .timesPlayedTotal(game.getTimesPlayedTotal())
                 .releaseDate(game.getReleaseDate())

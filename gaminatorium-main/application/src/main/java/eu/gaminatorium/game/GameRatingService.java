@@ -2,6 +2,7 @@ package eu.gaminatorium.game;
 
 import eu.gaminatorium.game.dto.GameRatingDto;
 import eu.gaminatorium.game.dto.NewGameRatingDto;
+import eu.gaminatorium.user.TestUser;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -14,44 +15,52 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class GameRatingService {
 
-    GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
     public Optional<String> getCurrentGameScore(long gameid) {
-        if (gameRepository.existsById(gameid)) {
-            return Optional.of(gameRepository.findById(gameid).getAverageRating());
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()) {
+            Game game = gameOptional.get();
+            return Optional.of(game.getAverageRating());
         }
         return Optional.empty();
     }
 
     public Optional<GameRatingDto> getRandomRating(long gameid) {
-        if (gameRepository.existsById(gameid)) {
-            Game.Rating gameRating = gameRepository.findById(gameid).getRandomRating();
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()) {
+            Game game = gameOptional.get();
+            Game.Rating gameRating = game.getRandomRating();
             return Optional.of(toDto(gameRating));
         }
         return Optional.empty();
     }
 
     public List<GameRatingDto> getAllRatingsPaged(long gameid, Pageable pageable) {
-        if (gameRepository.existsById(gameid)) {
+        Optional<Game> gameOptional = gameRepository.findById(gameid);
+        if (gameOptional.isPresent()) {
             return gameRepository.findAllRatingsByGameId(gameid, pageable).map(GameRatingService::toDto).toList();
         }
         return List.of();
     }
 
     public Optional<NewGameRatingDto> addRating(NewGameRatingDto rating) {
-        if (gameRepository.existsById(rating.getGameid())) {
-            var game = gameRepository.findById(rating.getGameid());
-            game.addRating(rating.getScore(), rating.getComment());
-            gameRepository.save(game);
-            return Optional.of(rating);
-            //todo???
+        Optional<Game> gameOptional = gameRepository.findById(rating.getGameid());
+        if (gameOptional.isPresent()) {
+            Game game = gameOptional.get();
+            if (game.addRating(TestUser.TEST_USER, rating.getComment(), rating.getScore())){
+                gameRepository.save(game);
+                return Optional.of(rating);
+            }
+            return Optional.empty();
         }
         return Optional.empty();
     }
 
-    public boolean deleteRating(long ratingId) {
-        if (gameRepository.existsGameRatingById(ratingId)){
-            Game.Rating gameRating = gameRepository.findGameRatingById(ratingId);
+    public boolean deleteRating(long ratingid) {
+        Optional<Game.Rating> ratingOptional = gameRepository.findGameRatingById(ratingid);
+        if (ratingOptional.isPresent()){
+            Game.Rating gameRating = ratingOptional.get();
             Game game = gameRating.getGame();
             if (game.deleteGameRating(gameRating)) {
                 gameRepository.save(game);
@@ -63,11 +72,12 @@ class GameRatingService {
 
     private static GameRatingDto toDto(Game.Rating gameRating) {
         GameRatingDto gameRatingDto = GameRatingDto.builder()
-                .ratingId(gameRating.getId())
+                .ratingid(gameRating.getId())
                 .score(gameRating.getScore())
                 .comment(gameRating.getComment())
                 .postDate(gameRating.getPostingDate())
                 .gameid(gameRating.getGame().getId())
+                .authorid(gameRating.getAuthor().getId())
                 .build();
 
         return gameRatingDto;
