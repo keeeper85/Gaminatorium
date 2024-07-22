@@ -43,6 +43,7 @@ public class Facade {
 
     void deleteGame(long gameid){
         gameService.deleteGame(gameid);
+
     }
 
     List<ActiveGameDto> getMatchingActiveGamesPaged(String title, Pageable pageable) {
