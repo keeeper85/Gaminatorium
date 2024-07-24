@@ -39,24 +39,4 @@ public class ProdSecurityConfiguration {
                 .formLogin(Customizer.withDefaults())
                 .build();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        var userDetailsService = new InMemoryUserDetailsManager();
-//
-//        var u1 = User.withUsername("gaminatorium")
-//                .password(passwordEncoder().encode("gampass"))
-//                .authorities("USER")
-//                .build();
-//
-//        userDetailsService.createUser(u1);
-//
-//        return userDetailsService;
-//    }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
 }

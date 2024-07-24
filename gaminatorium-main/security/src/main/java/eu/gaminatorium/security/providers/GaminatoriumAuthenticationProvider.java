@@ -1,6 +1,7 @@
 package eu.gaminatorium.security.providers;
 
 import eu.gaminatorium.security.authentication.GaminatoriumAuthentication;
+import eu.gaminatorium.security.credentials.UserSecurity;
 import eu.gaminatorium.user.User;
 import eu.gaminatorium.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,8 @@ public class GaminatoriumAuthenticationProvider implements AuthenticationProvide
         String userName = currentAuthentication.getUsername();
         String password = currentAuthentication.getPassword();
 
-        User user = userRepository.findByUserName(userName).orElseThrow(() -> new UsernameNotFoundException("User " +
-                userName + " not found."));
+        UserSecurity user = new UserSecurity(userRepository.findByUserName(userName)
+                .orElseThrow(() -> new UsernameNotFoundException("User " + userName + " not found.")));
 
         if (user.getPassword().equals(password)) {
             currentAuthentication.setAuthenticated(true);
@@ -37,7 +38,6 @@ public class GaminatoriumAuthenticationProvider implements AuthenticationProvide
 
     @Override
     public boolean supports(Class<?> authentication) {
-//        return GaminatoriumAuthentication.class.isAssignableFrom(authentication);
         return GaminatoriumAuthentication.class.equals(authentication);
     }
 }
