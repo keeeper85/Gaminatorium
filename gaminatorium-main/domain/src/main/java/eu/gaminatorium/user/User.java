@@ -73,17 +73,6 @@ public class User {
         else favoriteGames.add(game);
     }
 
-    void addNewGame(String title, String description, String tags, String gameUrl, String sourceCodeUrl){
-        Game newGame = new Game();
-        newGame.setTitle(title);
-        newGame.setDescription(description);
-        newGame.setGameTags(tags);
-        newGame.setGameServiceUrl(gameUrl);
-        newGame.setSourceCodeUrl(sourceCodeUrl);
-        newGame.setAuthor(this);
-        gamesAddedByUser.add(newGame);
-    }
-
     public void addCurrentlyPlayedGame(Game.Active activegame){
         currentlyPlayedGames.add(activegame);
     }

@@ -89,7 +89,6 @@ public class Game {
         ratings.add(rating);
         user.getRatings().add(rating);
 
-        System.err.println("TRUE");
         return true;
     }
 
