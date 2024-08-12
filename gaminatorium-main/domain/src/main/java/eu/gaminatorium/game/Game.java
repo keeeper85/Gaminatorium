@@ -14,9 +14,7 @@ import org.hibernate.validator.constraints.URL;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -77,8 +75,7 @@ public class Game {
     private Set<Active> activeGames = new HashSet<>();
 
     public boolean addRating(User user, String comment, int score) {
-        //todo: test this method with adding comments from different users
-        if (ratings.stream().filter(rating -> rating.author != user).toList().size() > 1) return false;
+        if (!ratings.stream().filter(rating -> rating.author == user).toList().isEmpty()) return false;
 
         Rating rating = new Rating();
         rating.setComment(comment);
@@ -108,7 +105,14 @@ public class Game {
     }
 
     public Rating getRandomRating() {
-        return ratings.stream().findAny().orElse(null);
+        if (ratings.isEmpty()) {
+            return null;
+        }
+
+        List<Rating> ratingList = new ArrayList<>(ratings);
+        Random random = new Random();
+        int randomIndex = random.nextInt(ratingList.size());
+        return ratingList.get(randomIndex);
     }
 
     public boolean deleteGameRating(Rating rating) {
