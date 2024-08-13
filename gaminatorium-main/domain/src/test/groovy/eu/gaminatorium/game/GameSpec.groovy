@@ -4,6 +4,8 @@ import eu.gaminatorium.user.User
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import java.time.LocalDateTime
+
 class GameSpec extends Specification {
 
     @Unroll
@@ -126,4 +128,92 @@ class GameSpec extends Specification {
         game.ratings.size() == 1000
         randomRatings.size() > 1
     }
+
+    def "startNewGame should not add new activeGame if it is a single player game"(){
+        given:
+        def game = new Game(maxPlayers: 1)
+        def user = new User(id: 1L)
+
+        when:
+        game.startNewGame(user)
+
+        then:
+        game.activeGames.size() == 0
+    }
+
+    def "joinExistingActiveGame should throw IllegalStateException when user wants to join it twice"(){
+        given:
+        def game = new Game()
+        def user = new User()
+        Game.Active activeGame = game.startNewGame(user)
+
+        when:
+        game.joinExistingActiveGame(activeGame, user)
+
+        then:
+        def e = thrown(IllegalStateException)
+        e.message == "You're already playing this game"
+    }
+
+    def "joinExistingActiveGame should throw IllegalStateException when user wants to join a game that is already full"(){
+        given:
+        def game = new Game(maxPlayers: 1)
+        def user1 = new User(id: 1L)
+        def user2 = new User(id: 2L)
+        Game.Active activeGame = game.startNewGame(user1)
+
+        when:
+        game.joinExistingActiveGame(activeGame, user2)
+
+        then:
+        def e = thrown(IllegalStateException)
+        e.message == "This game is already full"
+    }
+
+    def "leaveExistingActiveGame should throw IllegalStateException when user wants to leave a game they are not playing"(){
+        given:
+        def game = new Game()
+        def user1 = new User(id: 1L)
+        def user2 = new User(id: 2L)
+        Game.Active activeGame = game.startNewGame(user1)
+
+        when:
+        game.leaveExistingActiveGame(activeGame, user2)
+
+        then:
+        def e = thrown(IllegalStateException)
+        e.message == "This user is not playing that game"
+    }
+
+    def "leaveExistingActiveGame should remove the activeGame if the last user leaves it"(){
+        given:
+        def game = new Game()
+        def user1 = new User(id: 1L)
+        Game.Active activeGame = game.startNewGame(user1)
+
+        when:
+        game.leaveExistingActiveGame(activeGame, user1)
+
+        then:
+        !game.activeGames.contains(activeGame)
+    }
+
+    def "removeExpiredActiveGames should remove all activeGames after their expiration time"() {
+        given:
+        def game = new Game(id: 1L, title: "TestGame", maxPlayers: 2)
+        def user = new User(id: 1L, userName: "TestUser")
+        Game.Active activeGame1 = new Game.Active(EXPIRATION_TIME_MINUTES: -1, host: user)
+        Game.Active activeGame2 = new Game.Active(EXPIRATION_TIME_MINUTES: 1, host: user)
+        game.activeGames.add(activeGame1)
+        game.activeGames.add(activeGame2)
+
+        when:
+        game.removeExpiredActiveGames()
+
+        then:
+        game.activeGames.size() == 1
+        game.activeGames.contains(activeGame2)
+    }
 }
+
+
