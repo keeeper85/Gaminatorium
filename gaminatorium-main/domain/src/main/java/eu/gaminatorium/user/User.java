@@ -73,17 +73,6 @@ public class User {
         else favoriteGames.add(game);
     }
 
-    void addNewGame(String title, String description, String tags, String gameUrl, String sourceCodeUrl){
-        Game newGame = new Game();
-        newGame.setTitle(title);
-        newGame.setDescription(description);
-        newGame.setGameTags(tags);
-        newGame.setGameServiceUrl(gameUrl);
-        newGame.setSourceCodeUrl(sourceCodeUrl);
-        newGame.setAuthor(this);
-        gamesAddedByUser.add(newGame);
-    }
-
     public void addCurrentlyPlayedGame(Game.Active activegame){
         currentlyPlayedGames.add(activegame);
     }
@@ -97,11 +86,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id);
+        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(id, userName);
     }
 }
