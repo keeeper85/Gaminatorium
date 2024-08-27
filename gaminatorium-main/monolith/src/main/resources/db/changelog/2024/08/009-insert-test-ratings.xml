@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="9" author="Michal">
+        <insert tableName="game_rating">
+            <column name="score" valueNumeric="4"/>
+            <column name="comment" value="spoko"/>
+            <column name="posting_date" valueDate="2024-06-01"/>
+            <column name="game_id" valueNumeric="1"/>
+            <column name="user_id" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="game_rating">
+            <column name="score" valueNumeric="1"/>
+            <column name="comment" value="shitty"/>
+            <column name="posting_date" valueDate="2024-06-05"/>
+            <column name="game_id" valueNumeric="2"/>
+            <column name="user_id" valueNumeric="2"/>
+        </insert>
+
+        <insert tableName="game_rating">
+            <column name="score" valueNumeric="2"/>
+            <column name="comment" value="boring"/>
+            <column name="posting_date" valueDate="2024-06-06"/>
+            <column name="game_id" valueNumeric="3"/>
+            <column name="user_id" valueNumeric="3"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

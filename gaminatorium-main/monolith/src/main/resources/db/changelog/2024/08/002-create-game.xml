@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="2" author="Michal">
+        <createTable tableName="games">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="game_tags" type="VARCHAR(255)" defaultValue=""/>
+            <column name="game_service_url" type="VARCHAR(255)"/>
+            <column name="source_code_url" type="VARCHAR(255)"/>
+            <column name="moderation_status" type="VARCHAR(255)" defaultValue="PENDING"/>
+            <column name="max_players" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="times_played_total" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="release_date" type="DATE"/>
+            <column name="last_time_played" type="TIMESTAMP"/>
+            <column name="author_id" type="BIGINT"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                constraintName="fk_game_author"
+                baseTableName="games"
+                baseColumnNames="author_id"
+                referencedTableName="users"
+                referencedColumnNames="user_id"/>
+    </changeSet>
+</databaseChangeLog>
