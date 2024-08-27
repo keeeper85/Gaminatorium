@@ -1,40 +1,47 @@
-<changeSet id="4" author="Michal">
-    <createTable tableName="game_rating">
-        <column name="id" type="BIGINT">
-            <constraints primaryKey="true" nullable="false"/>
-            <autoIncrement/>
-        </column>
-        <column name="score" type="INT">
-            <constraints nullable="false"/>
-        </column>
-        <column name="comment" type="VARCHAR(255)">
-            <constraints nullable="false"/>
-        </column>
-        <column name="posting_date" type="DATE"/>
-        <column name="game_id" type="BIGINT">
-            <constraints nullable="false"/>
-        </column>
-        <column name="user_id" type="BIGINT">
-            <constraints nullable="false"/>
-        </column>
-    </createTable>
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <addForeignKeyConstraint
-            constraintName="fk_rating_game"
-            baseTableName="game_rating"
-            baseColumnNames="game_id"
-            referencedTableName="games"
-            referencedColumnNames="id"/>
+    <changeSet id="4" author="Michal">
+        <createTable tableName="game_rating">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="score" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="posting_date" type="DATE"/>
+            <column name="game_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
 
-    <addForeignKeyConstraint
-            constraintName="fk_rating_user"
-            baseTableName="game_rating"
-            baseColumnNames="user_id"
-            referencedTableName="users"
-            referencedColumnNames="user_id"/>
+        <addForeignKeyConstraint
+                constraintName="fk_rating_game"
+                baseTableName="game_rating"
+                baseColumnNames="game_id"
+                referencedTableName="games"
+                referencedColumnNames="id"/>
 
-    <addUniqueConstraint
-            constraintName="unique_game_user_rating"
-            tableName="game_rating"
-            columnNames="game_id, user_id"/>
-</changeSet>
+        <addForeignKeyConstraint
+                constraintName="fk_rating_user"
+                baseTableName="game_rating"
+                baseColumnNames="user_id"
+                referencedTableName="users"
+                referencedColumnNames="user_id"/>
+
+        <addUniqueConstraint
+                constraintName="unique_game_user_rating"
+                tableName="game_rating"
+                columnNames="game_id, user_id"/>
+    </changeSet>
+</databaseChangeLog>

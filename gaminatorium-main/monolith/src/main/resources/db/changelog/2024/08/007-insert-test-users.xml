@@ -1,19 +1,26 @@
-<changeSet id="7" author="Michal">
-    <insert tableName="users">
-        <column name="user_name" value="user" />
-        <column name="email" value="user@gaminatorium.eu" />
-        <column name="password" value="pass" />
-    </insert>
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="7" author="Michal">
+        <insert tableName="users">
+            <column name="user_name" value="user"/>
+            <column name="email" value="user@gaminatorium.eu"/>
+            <column name="password" value="pass"/>
+        </insert>
 
-    <insert tableName="users">
-        <column name="user_name" value="admin" />
-        <column name="email" value="admin@gaminatorium.eu" />
-        <column name="password" value="pass" />
-    </insert>
+        <insert tableName="users">
+            <column name="user_name" value="admin"/>
+            <column name="email" value="admin@gaminatorium.eu"/>
+            <column name="password" value="pass"/>
+        </insert>
 
-    <insert tableName="users">
-        <column name="user_name" value="Rick" />
-        <column name="email" value="rick@gaminatorium.eu" />
-        <column name="password" value="pass" />
-    </insert>
-</changeSet>
+        <insert tableName="users">
+            <column name="user_name" value="Rick"/>
+            <column name="email" value="rick@gaminatorium.eu"/>
+            <column name="password" value="pass"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
