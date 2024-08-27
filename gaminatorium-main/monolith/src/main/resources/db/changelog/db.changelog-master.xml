@@ -1,0 +1,17 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <include file="/db/changelog/2024/08/001-create-user.xml"/>
+    <include file="/db/changelog/2024/08/002-create-game.xml"/>
+    <include file="/db/changelog/2024/08/003-create-users-favorite-games.xml"/>
+    <include file="/db/changelog/2024/08/004-create-game-rating.xml"/>
+    <include file="/db/changelog/2024/08/005-create-game-active.xml"/>
+    <include file="/db/changelog/2024/08/006-create-active-games-players.xml"/>
+    <include file="/db/changelog/2024/08/007-insert-test-users.xml"/>
+    <include file="/db/changelog/2024/08/008-insert-test-games.xml"/>
+    <include file="/db/changelog/2024/08/009-insert-test-ratings.xml"/>
+
+</databaseChangeLog>

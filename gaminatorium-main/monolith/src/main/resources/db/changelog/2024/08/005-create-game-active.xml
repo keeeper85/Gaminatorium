@@ -1,0 +1,30 @@
+<changeSet id="5" author="Michal">
+    <createTable tableName="game_active">
+        <column name="id" type="BIGINT">
+            <constraints primaryKey="true" nullable="false" />
+            <autoIncrement />
+        </column>
+        <column name="current_players" type="INT" defaultValueNumeric="1" />
+        <column name="started_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+        <column name="game_id" type="BIGINT">
+            <constraints nullable="false" />
+        </column>
+        <column name="user_id" type="BIGINT">
+            <constraints nullable="false" />
+        </column>
+    </createTable>
+
+    <addForeignKeyConstraint
+            constraintName="fk_active_game"
+            baseTableName="game_active"
+            baseColumnNames="game_id"
+            referencedTableName="games"
+            referencedColumnNames="id" />
+
+    <addForeignKeyConstraint
+            constraintName="fk_active_user"
+            baseTableName="game_active"
+            baseColumnNames="user_id"
+            referencedTableName="users"
+            referencedColumnNames="user_id" />
+</changeSet>

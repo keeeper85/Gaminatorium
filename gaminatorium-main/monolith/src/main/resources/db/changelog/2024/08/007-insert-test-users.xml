@@ -1,0 +1,19 @@
+<changeSet id="7" author="Michal">
+    <insert tableName="users">
+        <column name="user_name" value="user" />
+        <column name="email" value="user@gaminatorium.eu" />
+        <column name="password" value="pass" />
+    </insert>
+
+    <insert tableName="users">
+        <column name="user_name" value="admin" />
+        <column name="email" value="admin@gaminatorium.eu" />
+        <column name="password" value="pass" />
+    </insert>
+
+    <insert tableName="users">
+        <column name="user_name" value="Rick" />
+        <column name="email" value="rick@gaminatorium.eu" />
+        <column name="password" value="pass" />
+    </insert>
+</changeSet>

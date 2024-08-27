@@ -1,0 +1,37 @@
+<changeSet id="8" author="Michal">
+    <insert tableName="games">
+        <column name="title" value="Makao" />
+        <column name="description" value="A fun multiplayer card game." />
+        <column name="game_tags" value="card multi turn-based" />
+        <column name="game_service_url" value="https://www.gaminatorium.eu/games/makao.png" />
+        <column name="max_players" valueNumeric="4" />
+        <column name="release_date" valueDate="2024-06-01" />
+        <column name="times_played_total" valueNumeric="0" />
+        <column name="author_id" valueNumeric="1" />
+    </insert>
+
+    <insert tableName="games">
+        <column name="title" value="Mahjong" />
+        <column name="description" value="An addictive solo puzzle game." />
+        <column name="game_tags" value="puzzle solo" />
+        <column name="game_service_url" value="https://www.gaminatorium.eu/games/mahjong.png" />
+        <column name="source_code_url" value="https://github.com/keeeper85/Gaminatorium" />
+        <column name="moderation_status" value="ACCEPTED" />
+        <column name="max_players" valueNumeric="1" />
+        <column name="release_date" valueDate="2024-06-11" />
+        <column name="times_played_total" valueNumeric="0" />
+        <column name="author_id" valueNumeric="2" />
+    </insert>
+
+    <insert tableName="games">
+        <column name="title" value="Tic Tac Toe" />
+        <column name="description" value="Play this classic game with a friend or against a computer." />
+        <column name="game_tags" value="solo multi classic" />
+        <column name="game_service_url" value="https://www.gaminatorium.eu/games/tictactoe.png" />
+        <column name="moderation_status" value="ACCEPTED" />
+        <column name="max_players" valueNumeric="2" />
+        <column name="release_date" valueDate="2024-06-07" />
+        <column name="times_played_total" valueNumeric="0" />
+        <column name="author_id" valueNumeric="3" />
+    </insert>
+</changeSet>
